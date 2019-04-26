@@ -99,6 +99,6 @@ class BaseController extends Controller {
       url: app.config.host+uploadDir.slice(3).replace(/\\/g,'/')
     }
   }
-
+ 
 }
 module.exports = BaseController;

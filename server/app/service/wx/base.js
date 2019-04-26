@@ -40,5 +40,7 @@ class BaseService extends Service {
     })
     return result
   }
+ 
+
 }
 module.exports = BaseService;

@@ -8,26 +8,55 @@ class RegisterService extends Service {
         let { ctx } = this
         let id = await ctx.service.tools.uuid();
         let createTime = await ctx.service.tools.getTime()
-        let result = await model.SysSchoolUser.findOne({
+        let result = await model.SysSchoolUser.findOrCreate({
             where: {
-                username
-            }
+                $or: [{ phone }, { schoolId }]
+            },
+            defaults: {
+                name, phone, username, password, schoolId, id, createTime
+            },
+            raw: true
         })
-        if (!result) {
-            try {
-                await model.SysSchoolUser.create({
-                    name, phone, username, password, schoolId, id, createTime
-                })
+        let content = result[0];
+        if (result[1]) {
+            return 0
+        } else {
+            if(content['phone'] == phone){
                 return 1
-            } catch (e) {
-                console.log(e)
-                return 0
+            }else{
+                return 2
             }
         }
-        return 2
+
     }
+
+
+
+    // async create(name, phone, username, password, schoolId) {
+    //     let { model } = this.app;
+    //     let { ctx } = this
+    //     let id = await ctx.service.tools.uuid();
+    //     let createTime = await ctx.service.tools.getTime()
+    //     let result = await model.SysSchoolUser.findOne({
+    //         where: {
+    //             username
+    //         }
+    //     })
+    //     if (!result) {
+    //         try {
+    //             await model.SysSchoolUser.create({
+    //                 name, phone, username, password, schoolId, id, createTime
+    //             })
+    //             return 1
+    //         } catch (e) {
+    //             console.log(e)
+    //             return 0
+    //         }
+    //     }
+    //     return 2
+    // }
     // 工人登录
-    async loginWorker(username, password) {
+    async loginWorker(phone, password) {
         let { model } = this.app;
         return await model.SysUser.findOne({
             include: {
@@ -35,7 +64,7 @@ class RegisterService extends Service {
                 attributes: []
             },
             where: {
-                $or: [{ username }, { jobNumber: username }],
+                phone,
                 password
             },
             attributes: ['id', 'jobNumber', [

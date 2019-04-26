@@ -15,6 +15,7 @@ module.exports = app => {
    * 微信小程序端
    * 
    */
+
   // 用户头像上传
   router.post('/api/wx/uploadHeader',controller.wx.base.uploadOne)
 

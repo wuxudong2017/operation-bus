@@ -32,7 +32,8 @@ module.exports = app => {
     },
     username: {
       type: DataTypes.STRING(255),
-      allowNull: false,
+      defaultValue:'',
+      allowNull: true,
       field: 'username'
     },
     schoolId: {
