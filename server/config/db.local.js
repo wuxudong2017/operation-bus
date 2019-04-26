@@ -1,10 +1,10 @@
 const Op = require('sequelize').Op
 const Sequelize = {
-    host:'192.168.18.106',
+    host:'localhost',
     port:'3306',
     database:'operation',
     username:'root',
-    password:'root',
+    password:'123456',
     dialect:'mysql',
     pool:{
         max:5,

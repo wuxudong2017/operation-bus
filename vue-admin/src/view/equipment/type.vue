@@ -76,10 +76,13 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
+            <template v-if="add">
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <i v-if="!imageUrl" class="el-icon-plus avatar-uploader-icon"></i>
+            </template> 
+           <img v-else :src="formData.awatar" class="avatar"> 
             
-            <img v-if="imageUrl&&add" :src="imageUrl" class="avatar">
-            <img v-else-if="formData.awatar" :src="formData.awatar" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+           
           </el-upload>
         </el-form-item>
         <el-form-item>
@@ -210,6 +213,7 @@ export default {
     handleClosed() {
       this.dialogVisible = false;
       this.add = true;
+      this.imageUrl = null
       this.resetForm("ruleForm");
     },
     // 获取设备列表
