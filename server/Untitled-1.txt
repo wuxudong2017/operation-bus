@@ -1,0 +1,79 @@
+登录接口
+    http://localhost:7001/api/wx/loging
+        post 
+        password:"123456"
+        username:"101004"
+  {"code":1,"message":"操作成功","data":{"token":"b9e8e258db704079d9869198339bca18","result":{"id":"0e5230b9afe3ccb5f310edca34b9d74a","jobNumber":"101004","avatar":"","address":"河南省漯河市","name":"楚梦真"}}}
+
+
+
+
+
+
+
+获取工单接口
+    get
+   http://localhost:7001/api/wx/workerOrder?workerId=101004&status=0
+   status:工单状态
+    workerId:工人工号
+     {
+                "id": 4657209540918,
+                "equipmentId": "1a1d494859cc4f4ef29fc8bd2fa83396",
+                "schoolId": "00244a2d366140799f0d194b1b37047c",
+                "remark": null,
+                "faultDesc": "测试故障",
+                "tagId": "2",
+                "userId": "bbaf3cdc2f6909ccd5aab7863c35ab97",
+                "status": "1",
+                "createTime": 1552403180306,
+                "workerId": "101004",
+                "type": "笔记本",
+                "xxmc": "叶县辛店镇南房庄村小学"
+            }
+
+// 查看工单详情
+get
+http://localhost:7001/api/wx/workerOrder/4657209540918/edit
+
+
+        "id": 4657209540918,
+        "equipmentId": "1a1d494859cc4f4ef29fc8bd2fa83396",
+        "schoolId": "00244a2d366140799f0d194b1b37047c",
+        "remark": null,
+        "faultDesc": "测试故障",
+        "tagId": "2",
+        "userId": "bbaf3cdc2f6909ccd5aab7863c35ab97",
+        "status": "1",
+        "createTime": 1552403180306,
+        "picture": "[\"http://192.168.20.195:7001/public/20190312/b7c19d8f3a5432b533a51ed9667b4ba6.jpg200x200.jpg\"]",
+        "updateTime": 1552403207613,
+        "workerId": "101004",
+        "awatar": null,
+        "name": "联想笔记本",
+        "type": "笔记本",
+        "xxmc": "叶县辛店镇南房庄村小学",
+        "userName": "张三",
+        "phone": 12345678978
+// 修改工单状态
+put
+http://localhost:7001/api/wx/workerOrder/4657209540918?status=2&workerId=101004
+status:0 取消
+status:2 接单
+status:3 完成
+
+// 查询工人工单总数
+http://localhost:7001/api/wx/workerOrder/4657229647419
+{
+    "code": 1,
+    "message": "操作成功",
+    "data": {
+        "sure": 0, //待确认接单
+        "start": 0, // 开始维修,确认接单
+        "end": 1 // 完成
+    }
+}
+
+
+end:0,
+start:0,,
+sure:0

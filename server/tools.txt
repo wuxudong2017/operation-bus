@@ -1,0 +1,84 @@
+sequelize-auto -o model -d operation -h localhost -p 3306 -u root -x 123456 -e mysql -C -S 
+
+
+async index() {
+    const { ctx } = this;
+    ctx.body = '列表';
+  }
+
+async create() {
+    const { ctx } = this;
+    ctx.body = '创建';
+  }
+  async destroy() {
+    const { ctx } = this;
+    let id = ctx.params.id
+    ctx.body = '删除'+id;
+  }
+  async update() {
+    const { ctx } = this;
+    let id = ctx.params.id
+    ctx.body = '修改'+id;
+  }
+  async show() {
+    const { ctx } = this;
+    let id = ctx.params.id
+    ctx.body = '查询'+id;
+  }
+
+  async new() {
+    const { ctx } = this;
+    ctx.body = '创建页面';
+  }
+  async edit() {
+    const { ctx } = this;
+    let id = ctx.params.id
+    ctx.body = '修改页面'+id;
+  }
+
+
+
+
+
+
+service
+
+
+
+
+ async index() {
+        const { model } = this.app;
+        return '列表';
+      }
+    
+    async create() {
+        const { model } = this.app;
+        return '创建';
+      }
+      async destroy() {
+        const { model } = this.app;
+      
+        return '删除';
+      }
+      async update() {
+        const { model } = this.app;
+      
+        return '修改';
+      }
+      async show() {
+        const { model } = this.app;
+      
+        return '查询';
+      }
+    
+      async new() {
+        const { model } = this.app;
+        return '创建页面';
+      }
+      async edit() {
+        const { model } = this.app;
+      
+        return '修改页面';
+      }
+
+
