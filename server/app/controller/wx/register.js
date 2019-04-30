@@ -37,35 +37,36 @@ class RegisterController extends BaseController {
 
   }
   // 维修工人登录
-  async loginWorker() {
-    let { ctx } = this;
-    let formData = ctx.request.body;
-    let phone = formData.phone;
-    let password = formData.password;
-    let result = await ctx.service.wx.register.loginWorker(phone, password);
-    if (result) {
-      let token = await ctx.service.tools.uuid();
-      ctx.body = {
-        token,
-        result
+      async loginWorker(){
+        let {ctx} = this;
+        let formData = ctx.request.body;
+        let username = formData.username;
+        let password = formData.password;
+        let result = await ctx.service.wx.register.loginWorker(username,password);
+        if(result){
+          let token =  await ctx.service.tools.uuid();
+            ctx.body = {
+              token,
+              result
+            }
+            ctx.locals = token
+        }else{
+            ctx.body ={
+                code:0,
+                message:"用户名密码错误"
+            }
+        }
       }
-      ctx.locals = token
-    } else {
-      ctx.body = {
-        code: 0,
-        message: "用户名密码错误"
-      }
-    }
-  }
+
 
 
   // 学校用户登录
   async login() {
     let { ctx } = this;
     let formData = ctx.request.body;
-    let username = formData.username;
+    let phone = formData.phone;
     let password = formData.password;
-    let result = await ctx.service.wx.register.login(username, password);
+    let result = await ctx.service.wx.register.login(phone, password);
     if (result) {
       let token = await ctx.service.tools.uuid();
       ctx.body = {

@@ -30,33 +30,8 @@ class RegisterService extends Service {
 
     }
 
-
-
-    // async create(name, phone, username, password, schoolId) {
-    //     let { model } = this.app;
-    //     let { ctx } = this
-    //     let id = await ctx.service.tools.uuid();
-    //     let createTime = await ctx.service.tools.getTime()
-    //     let result = await model.SysSchoolUser.findOne({
-    //         where: {
-    //             username
-    //         }
-    //     })
-    //     if (!result) {
-    //         try {
-    //             await model.SysSchoolUser.create({
-    //                 name, phone, username, password, schoolId, id, createTime
-    //             })
-    //             return 1
-    //         } catch (e) {
-    //             console.log(e)
-    //             return 0
-    //         }
-    //     }
-    //     return 2
-    // }
-    // 工人登录
-    async loginWorker(phone, password) {
+  // 工人登录
+    async loginWorker(username, password) {
         let { model } = this.app;
         return await model.SysUser.findOne({
             include: {
@@ -64,7 +39,7 @@ class RegisterService extends Service {
                 attributes: []
             },
             where: {
-                phone,
+                $or: [{ username }, { jobNumber: username }],
                 password
             },
             attributes: ['id', 'jobNumber', [
@@ -77,11 +52,11 @@ class RegisterService extends Service {
             raw: true
         })
     }
-    async login(username, password) {
+    async login(phone, password) {
         let { model } = this.app;
         return await model.SysSchoolUser.findOne({
             where: {
-                username,
+                phone,
                 password
             },
             include: {

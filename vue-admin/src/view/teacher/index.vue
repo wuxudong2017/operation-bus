@@ -41,8 +41,8 @@
     >
 
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="80px">
-         <el-form-item label="用户名" prop="username">
-          <el-input type="text" disabled v-model="formData.username" placeholder="请输入密码"></el-input>
+         <el-form-item label="用户名" prop="name">
+          <el-input type="text" disabled v-model="formData.name" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item label="原始密码" prop="password">
           <el-input type="text" disabled v-model="formData.password" placeholder="请输入密码"></el-input>
@@ -80,7 +80,7 @@ export default {
       offset: 1,
       roleList: [], //角色列表
       formData: {
-        username:'',
+        name:'',
         password: "",
         passwordN:"",
         
