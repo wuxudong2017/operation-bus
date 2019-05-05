@@ -3,7 +3,7 @@
 const sequelize = require('./db.local')
 module.exports = appInfo => {
   const config = {};
-  config.host ='http://192.168.17.190:7001'
+  config.host ='http://192.168.17.146:7001'
   config.sequelize = sequelize
   return config;
 };

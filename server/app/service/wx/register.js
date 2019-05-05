@@ -101,9 +101,10 @@ class RegisterService extends Service {
         const { model } = this.app;
         let result;
         if (!formData.password) {
-            result = await model.SysSchoolUser.update(formData, {
+             await model.SysSchoolUser.update(formData, {
                 where: { id }
             })
+            return [1]
         } else {
             let has = await model.SysSchoolUser.findOne({
                 where: {
@@ -112,18 +113,18 @@ class RegisterService extends Service {
                 }
             })
             if (!has) {
-                result = [0]
+                return  result = [0]
             } else {
                 formData.password = formData.newPassword
                  await model.SysSchoolUser.update(formData, {
                     where: { id }
                 })
-                result = [1]
+                return result = [1]
 
             }
 
         }
-        return result
+      
 
 
     }

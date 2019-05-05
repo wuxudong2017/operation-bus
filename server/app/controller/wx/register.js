@@ -98,8 +98,9 @@ class RegisterController extends BaseController {
     let { ctx } = this;
     let id = ctx.params.id
     let formData = ctx.request.body;
+    console.log(formData)
     let result = await ctx.service.wx.register.updateTeacher(id, formData);
-    ctx.body = result
+    // ctx.body = result
     if (result[0] == 0) {
       ctx.body = {
         code: 0,
