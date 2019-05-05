@@ -1,7 +1,19 @@
 <template>
   <div class="data-table">
     <div class="nav">
-      <el-button type="primary" v-if="hasPer('teacher:add')"  icon="el-icon-plus" @click="dialogVisible = true" size="mini">新加用户</el-button>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-button type="primary" v-if="hasPer('teacher:add')"  icon="el-icon-plus" @click="dialogVisible = true" size="mini">新加用户</el-button>
+        </el-col>
+        <el-col :span="8">
+          <el-select v-model="schoolId" filterable placeholder="查询学校">
+            <el-option v-for="(item,index) in schoolList" :key="index" :label="item.xxmc" :value="item.xxJbxxId"></el-option>
+          </el-select>
+          <el-button type="primary" @click="serach">查询</el-button>
+          <el-button type="success" @click="resetSearch">重置</el-button>
+        </el-col>
+      </el-row>
+
     </div>
     <el-table  v-loading="tabLoading" :data="tableData" stripe style="width: 100%;min-height:520px;">
       <el-table-column prop="name" label="姓名"></el-table-column>
@@ -66,7 +78,8 @@ import {
   createTeacher,
   editTeacher,
   getTeacher,
-  deleteTeacher
+  deleteTeacher,
+  getSchoolList
 } from "@/api/userRole";
 export default {
   name: "v-user",
@@ -79,6 +92,8 @@ export default {
       limit: 10,
       offset: 1,
       roleList: [], //角色列表
+      schoolId:'',
+      schoolList:[],
       formData: {
         name:'',
         password: "",
@@ -95,12 +110,29 @@ export default {
     };
   },
   created() {
+    this.getSchoolList()
     this.getList({ limit: this.limit, offset: this.offset });
+
   },
     computed:{
     ...mapGetters(['tabLoading'])
   },
   methods: {
+    resetSearch(){
+      this.schoolId = ''
+      this.getList({ limit: 10, offset: 1 });
+    },
+    // 根据学校id 查询信息
+    serach(){
+      this.getList({xxJbxxId:this.schoolId,limit: 10, offset:1})
+      // console.log(this.schoolId)
+    },
+    // 获取学校信息
+    getSchoolList(){
+      getSchoolList().then(res=>{
+        this.schoolList = res.data?res.data:[]
+      })
+    },
     // 性别转换
     sexFun(row, column) {
       let sex = row[column.prototype] || 1;
@@ -210,10 +242,10 @@ export default {
   },
   watch: {
     limit(res) {
-      this.getList({ limit: res, offset: this.offset });
+      this.getList({ limit: res, offset: this.offset,xxJbxxId:this.xxJbxxId||null });
     },
     offset(res) {
-      this.getList({ limit: this.limit, offset: res });
+      this.getList({ limit: this.limit, offset: res,xxJbxxId:this.xxJbxxId||null });
     }
   }
 };

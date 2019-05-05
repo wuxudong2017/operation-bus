@@ -100,13 +100,11 @@ class RegisterService extends Service {
     async updateTeacher(id, formData) {
         const { model } = this.app;
         let result;
-        console.log(`result--->${JSON.stringify(formData)}`)
         if (!formData.password) {
             result = await model.SysSchoolUser.update(formData, {
                 where: { id }
             })
         } else {
-
             let has = await model.SysSchoolUser.findOne({
                 where: {
                     id,
@@ -117,9 +115,10 @@ class RegisterService extends Service {
                 result = [0]
             } else {
                 formData.password = formData.newPassword
-                result = await model.SysSchoolUser.update(formData, {
+                 await model.SysSchoolUser.update(formData, {
                     where: { id }
                 })
+                result = [1]
 
             }
 

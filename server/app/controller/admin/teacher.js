@@ -7,7 +7,8 @@ class TeacherController extends Controller {
         const { ctx } = this;
         let limit = Number(ctx.request.query.limit)
         let offset= Number(ctx.request.query.offset)
-        let result = await ctx.service.admin.teacher.index(limit,offset);
+        let xxJbxxId = ctx.request.query.xxJbxxId
+        let result = await ctx.service.admin.teacher.index(limit,offset,xxJbxxId);
         this.ctx.body = result;
       }
     

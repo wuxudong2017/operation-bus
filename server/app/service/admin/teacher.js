@@ -4,12 +4,15 @@ const Service = require('egg').Service;
 const sequelize = require('sequelize')
 class TeacherService extends Service {
     // 查询用户列表
-    async index(limit,offset){
+    async index(limit,offset,xxJbxxId){
         let {model} =this.app;
        let result = model.SysSchoolUser.findAndCountAll({
         include:{
             model:model.XxJbxx,
             attributes:[],
+            where:{
+                $and:[xxJbxxId?{xxJbxxId}:'']
+            },
             raw:true
         },
         attributes:{
@@ -17,9 +20,11 @@ class TeacherService extends Service {
                 [sequelize.col('xxJbxx.xxmc'),'xxmc']
             ]
         },
+       
         raw:true,
         limit: limit,
         offset: (offset - 1) * 10,
+        order:[['create_time','DESC']]
        })
        return result
     }

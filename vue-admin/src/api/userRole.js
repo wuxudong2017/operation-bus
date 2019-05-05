@@ -253,4 +253,12 @@ export function deleteTag(data){
         method:'delete',
     })
 }
-
+/**
+ *  获取学校列表
+ *  */
+export function getSchoolList(){
+    return request({
+        type:'get',
+        url:'/api/admin/schoolList'
+    })
+}

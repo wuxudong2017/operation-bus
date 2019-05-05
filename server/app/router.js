@@ -11,6 +11,7 @@ module.exports = app => {
   // 获取用户信息
   router.post('/api/admin/userInfo', controller.admin.login.userInfo);
   router.post('/api/admin/upload', controller.admin.base.upload)
+  router.get('/api/admin/schoolList', controller.admin.base.schoolList)
   /**
    * 微信小程序端
    * 

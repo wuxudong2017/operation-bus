@@ -83,8 +83,14 @@
         <el-form-item label="派送学校">{{formData.xxmc}}</el-form-item>
         <el-form-item label="报修人">{{formData.name}}</el-form-item>
         <el-form-item label="设备类型">{{formData.equipmentType}}</el-form-item>
+         <el-form-item label="故障描述">{{formData.faultDesc}}</el-form-item>
+           <el-form-item label="故障图片">
+             <template v-for="(item,index) in  picture">
+                <img :src="item" :key="index" alt="No Image">
+               </template> 
+           </el-form-item>
+
         <el-form-item label="接单人员 " prop="workerId">
-          <!-- <el-input v-model="formData.workerId" placeholder="请输入操作"></el-input> -->
           <el-select v-model="formData.workerId">
             <el-option
               v-for="(item,index) in userList"
@@ -137,6 +143,7 @@ export default {
         workerId: "", // 状态
         keywords: ""
       },
+      picture:[],
       rules: {
         menuName: [
           { required: true, message: "不能为空", trigger: "blur" },
@@ -239,7 +246,14 @@ export default {
     editOne(row) {
       this.dialogVisible = true;
       this.add = false;
-      this.formData = row;
+      let data = {id: row.id}
+      getOrder(data).then(res=>{
+        let data = res.data?res.data:"";
+        this.picture = res
+        this.formData = data;
+        console.log(res)
+        this.picture = data.picture!=""||data.picture?JSON.parse(data.picture):[]
+      })
     },
     //分页
     handleSizeChange(val) {
