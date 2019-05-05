@@ -1,0 +1,42 @@
+/* pages/index/index.wxss */
+
+.home{
+  padding-top:240rpx;
+}
+.header{
+  width:100%;
+  height: 240rpx;
+  background: linear-gradient(to bottom, #ff8610, #F7BD34);
+  padding-top: 40rpx;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+/* .header .title{
+  line-height: 100rpx;
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+} */
+.header .title{
+  text-align: center;
+}
+.header .title image{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.header .title .small{
+  font-size: 16px
+}
+.header .desc{
+  color: #fff;
+  padding-top: 20rpx;
+  text-align: center;
+  font-size: 14px;
+}
+.header .desc .name{
+  font-size: 16px;
+  padding-right: 20rpx;
+}
