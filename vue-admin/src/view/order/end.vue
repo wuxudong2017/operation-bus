@@ -76,8 +76,7 @@
             <el-form-item label="联系电话">{{listData.phone}}</el-form-item>
             <el-form-item label="报修图片">
               <template v-for="(item,index) in bxPicture">
-               
-                <img :src="item.url" :key="index" alt="No Image" width="200" height="200">
+                <img :src="item" :key="index" alt="No Image" width="100" height="100" style="display:inline-block">
               </template>
             </el-form-item>
           </el-form>
@@ -87,21 +86,21 @@
           <el-form label-width="80px">
             <el-form-item label="维修人">{{listData.workername}}</el-form-item>
             <el-form-item label="工号">{{listData.workerId}}</el-form-item>
-          
-            <el-form-item label="报修图片">
+            
+            <el-form-item label="完成图片">
               <template v-for="(item,index) in filelist">
-                <img :src="item.url" :key="index" alt="No Image" width="200" height="200">
+                <img :src="item" :key="index" alt="No Image" width="100" height="100">
               </template>
             </el-form-item>
           </el-form>
         </el-col>
         <el-col :span="24">
            <el-steps finish-status="success"  :active="activeOrder">
-          <template v-for="(item) in listData.remark">
-            <el-step v-if="item.orderStatus == 0" title="待派单">
+          <template v-for="(item,index) in listData.remark">
+            <el-step v-if="item.orderStatus == 0" title="待派单" :key="index">
                <template slot="icon"><i class="el-icon-edit"></i></template>
             </el-step>
-            <el-step v-else-if="item.orderStatus == 1" title="待维修">
+            <el-step v-else-if="item.orderStatus == 1" title="待维修" :key="index">
               <template slot="icon"><i class="el-icon-edit"></i></template>
               <template slot="description">
                 {{item.workerName}}
@@ -109,7 +108,7 @@
                   {{item.updateTime | formateA}}
               </template>
             </el-step>
-            <el-step v-else-if="item.orderStatus == 2" title="维修中">
+            <el-step v-else-if="item.orderStatus == 2" title="维修中" :key="index">
                <template slot="icon"><i class="el-icon-edit"></i></template>
               <template slot="description">
                 <span>
@@ -119,7 +118,7 @@
                 </span>
               </template>
             </el-step>
-            <el-step v-else="item.orderStatus == 3" title="维修完" >
+            <el-step v-else title="维修完" :key="index">
                <template slot="icon"><i class="el-icon-edit"></i></template>
               <template slot="description">
                    {{item.workerName}}
