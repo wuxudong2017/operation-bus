@@ -17,9 +17,7 @@
         </el-input>
       </el-col>
     </el-row>
-    <el-table :data="tableData" stripe style="width: 100%;min-height:520px;"
-     v-loading="tabLoading"
-     >
+    <el-table :data="tableData" stripe style="width: 100%;min-height:520px;" v-loading="tabLoading">
       <el-table-column type="index"></el-table-column>
       <el-table-column prop="id" label="工单号" width="180"></el-table-column>
       <el-table-column width="200" label="学校名">
@@ -38,10 +36,7 @@
       <el-table-column prop="equipmentType" label="设备类型"></el-table-column>
       <el-table-column label="故障类型">
         <template slot-scope="scope">
-           <el-popover trigger="hover" 
-           placement="top"
-            :content="scope.row.faultDesc"
-           >
+          <el-popover trigger="hover" placement="top" :content="scope.row.faultDesc">
             <el-tag slot="reference" type="danger" size="medium">{{ scope.row.tagName }}</el-tag>
           </el-popover>
         </template>
@@ -85,15 +80,9 @@
     <!-- 添加数据弹窗 -->
     <el-dialog title="开始派单" :visible.sync="dialogVisible" width="40%" @closed="handleClosed">
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="80px">
-        <el-form-item label="派送学校">
-          {{formData.xxmc}}
-        </el-form-item>
-         <el-form-item label="报修人">
-          {{formData.name}}
-        </el-form-item>
-         <el-form-item label="设备类型">
-          {{formData.equipmentType}}
-        </el-form-item>
+        <el-form-item label="派送学校">{{formData.xxmc}}</el-form-item>
+        <el-form-item label="报修人">{{formData.name}}</el-form-item>
+        <el-form-item label="设备类型">{{formData.equipmentType}}</el-form-item>
         <el-form-item label="接单人员 " prop="workerId">
           <!-- <el-input v-model="formData.workerId" placeholder="请输入操作"></el-input> -->
           <el-select v-model="formData.workerId">
@@ -121,12 +110,12 @@ import {
   getOrder,
   deleteOrder
 } from "@/api/order";
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 import { getUserListTrue } from "@/api/userRole";
 export default {
   name: "v-order",
   created() {
-    console.log(this.$data)
+    console.log(this.$data);
     this.getList({
       limit: this.limit,
       offset: this.offset,
@@ -146,7 +135,7 @@ export default {
       formData: {
         xxmc: "",
         workerId: "", // 状态
-        keywords:''
+        keywords: ""
       },
       rules: {
         menuName: [
@@ -161,15 +150,20 @@ export default {
       }
     };
   },
-  computed:{
-    ...mapGetters(['tabLoading'])
+  computed: {
+    ...mapGetters(["tabLoading"])
   },
   methods: {
     // 搜索功能
-    search(){
-      let data = {keywords:this.formData.keywords,status:this.status,limit:this.limit,offset:this.offset}
+    search() {
+      let data = {
+        keywords: this.formData.keywords,
+        status: this.status,
+        limit: this.limit,
+        offset: this.offset
+      };
       //console.log(data);
-      this.getList(data)
+      this.getList(data);
     },
     //获取列表数据
     getUserList() {
@@ -230,10 +224,12 @@ export default {
             deleteOrder(data.id).then(res => {
               this.$message({
                 type: res.code == 1 ? "success" : "error",
-                message: res.message,
-                onClose: () => {
-                  this.getList({ limit: this.limit, offset: this.offset,status:this.status });
-                }
+                message: res.message
+              });
+              this.getList({
+                limit: this.limit,
+                offset: this.offset,
+                status: this.status
               });
             });
           }

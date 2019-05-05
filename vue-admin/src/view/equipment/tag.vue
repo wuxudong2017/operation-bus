@@ -168,10 +168,8 @@ export default {
               this.$message({
                 type: res.code == 1 ? "success" : "error",
                 message: res.message,
-                onClose:()=>{
-                   this.getList({ limit: this.limit, offset: this.offset });
-                }
               });
+                this.getList({ limit: this.limit, offset: this.offset });
             });
           }
         }

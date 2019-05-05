@@ -9,8 +9,8 @@
         size="mini"
       >新加工单</el-button>
     </div>
-  <!-- 搜索 -->
- <el-row>
+    <!-- 搜索 -->
+    <el-row>
       <el-col :span="6">
         <el-input size="small" clearable v-model="formData.keywords">
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
@@ -19,7 +19,7 @@
     </el-row>
     <el-table v-loading="tabLoading" :data="tableData" stripe style="width:100%;min-height:520px;">
       <el-table-column type="index"></el-table-column>
-     <el-table-column prop="id" label="工单号" width="180"></el-table-column>
+      <el-table-column prop="id" label="工单号" width="180"></el-table-column>
       <el-table-column width="200" label="学校名">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -31,18 +31,15 @@
         </template>
       </el-table-column>
       <el-table-column prop="name" label="报修人"></el-table-column>
-       <el-table-column label="故障类型">
+      <el-table-column label="故障类型">
         <template slot-scope="scope">
-           <el-popover trigger="hover" 
-           placement="top"
-            :content="scope.row.faultDesc"
-           >
+          <el-popover trigger="hover" placement="top" :content="scope.row.faultDesc">
             <el-tag slot="reference" type="danger" size="medium">{{ scope.row.tagName }}</el-tag>
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column prop="equipmentType" label="设备类型"></el-table-column>
-    
+
       <el-table-column label="接单工人">
         <template slot-scope="scope">
           <el-tag size="medium">{{ scope.row.workername }}</el-tag>
@@ -73,11 +70,10 @@
         :total="total"
       ></el-pagination>
     </div>
-  
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 import {
   getOrderList,
   createOrder, //新加工单
@@ -94,7 +90,6 @@ export default {
       offset: this.offset,
       status: this.status
     });
-    
   },
   data() {
     return {
@@ -104,7 +99,7 @@ export default {
       limit: 10,
       offset: 1,
       status: "2", //派单状态,0-未派单,1-待接单,2维修中,3派单结束
-     
+
       formData: {
         xxmc: "",
         workerId: "" // 状态
@@ -122,15 +117,20 @@ export default {
       }
     };
   },
-    computed:{
-    ...mapGetters(['tabLoading'])
+  computed: {
+    ...mapGetters(["tabLoading"])
   },
   methods: {
-     // 搜索功能
-    search(){
-      let data = {keywords:this.formData.keywords,status:this.status,limit:this.limit,offset:this.offset}
+    // 搜索功能
+    search() {
+      let data = {
+        keywords: this.formData.keywords,
+        status: this.status,
+        limit: this.limit,
+        offset: this.offset
+      };
       //console.log(data);
-      this.getList(data)
+      this.getList(data);
     },
     // 跟新工单信息
     editForm(formName) {
@@ -184,11 +184,9 @@ export default {
             deleteOrder(data.id).then(res => {
               this.$message({
                 type: res.code == 1 ? "success" : "error",
-                message: res.message,
-                onClose: () => {
-                  this.getList({ limit: this.limit, offset: this.offset });
-                }
+                message: res.message
               });
+              this.getList({ limit: this.limit, offset: this.offset });
             });
           }
         }

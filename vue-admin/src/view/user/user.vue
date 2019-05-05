@@ -81,7 +81,7 @@
           <el-input v-model="formData.username" placeholder="请输入用户名"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input type="password" v-model="formData.password" placeholder="请输入密码"></el-input>
+          <el-input type="text" v-model="formData.password" placeholder="请输入密码"></el-input>
         </el-form-item>
 
         <el-form-item label="姓名" prop="name">
@@ -287,10 +287,8 @@ export default {
               this.$message({
                 type: res.code == 1 ? "success" : "error",
                 message: res.message,
-                onClose:()=>{
-                   this.getList({ limit: this.limit, offset: this.offset });
-                }
               });
+              this.getList({ limit: this.limit, offset: this.offset });
             });
            
           }
