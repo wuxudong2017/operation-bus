@@ -20,7 +20,7 @@ class BaseController extends Controller {
         const stream = await ctx.getFileStream();
       
         // 新建一个文件名 ,使用md5 加密
-        const filename1 = md5(stream.filename + stream.length)
+        const filename1 = md5(stream);
         const filename2 = path.extname(stream.filename).toLocaleLowerCase();
         const filename = filename1 + filename2
         // 生成绝对文件路径,存储
@@ -89,7 +89,9 @@ class BaseController extends Controller {
     let dir =path.join(this.app.config.uploadDir,day)
     await mkDirp(dir)
     // 文件流加密生成文件名
-    let md5S = md5(stream);
+    let md5S = md5(fileName);
+    console.log(stream)
+    console.log(md5S)
     let uploadDir = path.join(dir,md5S+path.extname(fileName));
     // 建立写入流
     let writStream = fs.createWriteStream(uploadDir);
