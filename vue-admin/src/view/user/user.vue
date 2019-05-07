@@ -95,10 +95,10 @@
           <el-radio v-model="formData.sex" label="2">女</el-radio>
         </el-form-item>
         <el-form-item label="联系电话" prop="phone">
-          <el-input v-model="formData.phone" placeholder="年龄"></el-input>
+          <el-input v-model="formData.phone" placeholder="联系电话"></el-input>
         </el-form-item>
         <el-form-item label="联系地址" prop="address">
-          <el-input v-model="formData.address" placeholder="年龄"></el-input>
+          <el-input v-model="formData.address" placeholder="常用联系地址"></el-input>
         </el-form-item>
         <el-form-item label="入职时间" prop="entryTime">
           <el-date-picker

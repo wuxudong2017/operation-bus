@@ -34,7 +34,12 @@ class RoleController extends baseController {
         message: '删除成功'
 
       };
-    } else {
+    } else if(result = 2) {
+      this.ctx.body = {
+        code: 0,
+        message: '当前角色下有用户'
+      }
+    }else{
       this.ctx.body = {
         code: 0,
         message: '删除失败'

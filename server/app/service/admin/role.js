@@ -86,13 +86,23 @@ class RoleService extends Service {
   }
   async delete(id){
     let {model} = this.app;
-    let result = await model.SysRole.destroy({
+    let result;
+
+    let has= await model.SysUser.findAll({
       where:{
-        id
+        roleId: id
       }
     });
-    return result;
-
+    if(has){
+      return result = 2
+    }else{
+      result= await model.SysRole.destroy({
+        where:{
+          id
+        }
+      });
+      return result;
+    }
   }
 
 }

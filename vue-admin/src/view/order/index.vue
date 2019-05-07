@@ -83,13 +83,12 @@
         <el-form-item label="派送学校">{{formData.xxmc}}</el-form-item>
         <el-form-item label="报修人">{{formData.name}}</el-form-item>
         <el-form-item label="设备类型">{{formData.equipmentType}}</el-form-item>
-         <el-form-item label="故障描述">{{formData.faultDesc}}</el-form-item>
-           <el-form-item label="故障图片">
-             <template v-for="(item,index) in  picture">
-                <img :src="item" :key="index" alt="No Image">
-               </template> 
-           </el-form-item>
-
+        <el-form-item label="故障描述">{{formData.faultDesc}}</el-form-item>
+        <el-form-item label="故障图片">
+          <template v-for="(item,index) in  picture">
+            <img :src="item" :key="index" alt="No Image" @click="showCarousel">
+          </template>
+        </el-form-item>
         <el-form-item label="接单人员 " prop="workerId">
           <el-select v-model="formData.workerId">
             <el-option
@@ -105,6 +104,17 @@
           <el-button size="mini" @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
+      <el-dialog
+        :visible.sync="showC"
+        append-to-body
+        title="查看详情"
+      >
+        <el-carousel  :autoplay="false" :interval="4000" type="card" height="600px">
+          <el-carousel-item v-for="(item,index) in pictureS" :key="item">
+            <img width="400" :src="item" :key="index" alt="No Image" @click="showCarousel">
+          </el-carousel-item>
+        </el-carousel>
+      </el-dialog>
     </el-dialog>
   </div>
 </template>
@@ -132,6 +142,7 @@ export default {
   data() {
     return {
       dialogVisible: false, //弹窗
+      showC:false,
       tableData: [],
       total: 0,
       limit: 10,
@@ -143,7 +154,8 @@ export default {
         workerId: "", // 状态
         keywords: ""
       },
-      picture:[],
+      picture: [],
+      pictureS:[],
       rules: {
         menuName: [
           { required: true, message: "不能为空", trigger: "blur" },
@@ -161,6 +173,9 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
+    showCarousel(){
+      this.showC = true
+    },
     // 搜索功能
     search() {
       let data = {
@@ -246,14 +261,17 @@ export default {
     editOne(row) {
       this.dialogVisible = true;
       this.add = false;
-      let data = {id: row.id}
-      getOrder(data).then(res=>{
-        let data = res.data?res.data:"";
-        this.picture = res
-        this.formData = data;
+      let data = { id: row.id };
+      getOrder(data).then(res => {
+        let data = res.data ? res.data : "";
+        this.picture = res;
         console.log(res)
-        this.picture = data.picture!=""||data.picture?JSON.parse(data.picture):[]
-      })
+        this.formData = data;
+        this.picture =data.picture != "" || data.picture ? JSON.parse(data.picture) : [];
+          this.pictureS =  JSON.parse(data.picture).map((item)=>{
+            return item.replace(/200x200.*/,"")
+          })
+      });
     },
     //分页
     handleSizeChange(val) {

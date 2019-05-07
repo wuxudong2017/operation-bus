@@ -20,7 +20,7 @@ class BaseController extends Controller {
         const stream = await ctx.getFileStream();
       
         // 新建一个文件名 ,使用md5 加密
-        const filename1 = md5(stream);
+        const filename1 = md5(stream.filename+new Date().getTime());
         const filename2 = path.extname(stream.filename).toLocaleLowerCase();
         const filename = filename1 + filename2
         // 生成绝对文件路径,存储

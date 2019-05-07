@@ -18,7 +18,7 @@
       </el-col>
     </el-row>
 
-    <el-table v-loading="tabLoading" :data="tableData" stripe style="width: 100%;min-height:520px;">
+    <el-table v-loading="tabLoading" :data="tableData" stripe style="width: 200%;min-height:520px;">
       <el-table-column type="index"></el-table-column>
       <el-table-column prop="id" label="工单号" width="180"></el-table-column>
       <el-table-column width="200" label="学校名">
@@ -76,7 +76,7 @@
             <el-form-item label="联系电话">{{listData.phone}}</el-form-item>
             <el-form-item label="报修图片">
               <template v-for="(item,index) in bxPicture">
-                <img :src="item" :key="index" alt="No Image" width="100" height="100" style="display:inline-block">
+                <img :src="item" :key="index" alt="No Image" width="200" height="200" style="display:inline-block">
               </template>
             </el-form-item>
           </el-form>
@@ -88,9 +88,15 @@
             <el-form-item label="工号">{{listData.workerId}}</el-form-item>
             
             <el-form-item label="完成图片">
-              <template v-for="(item,index) in filelist">
-                <img :src="item" :key="index" alt="No Image" width="100" height="100">
-              </template>
+              <div v-if="filelist.length>0">
+                <template v-for="(item,index) in filelist" >
+                  <img :src="item" :key="index" alt="No Image" width="200" height="200">
+                </template>
+              </div>
+              <p v-else>暂无图片</p>
+            </el-form-item>
+             <el-form-item label="维修备注">
+               {{remarkA}}
             </el-form-item>
           </el-form>
         </el-col>
@@ -163,6 +169,7 @@ export default {
       status: "3", //派单状态,0-未派单,1-待接单,2维修中,3派单结束
       listData: [],
       filelist:[],
+      remarkA:'',
       formData: {
         xxmc: "",
         workerId: "", // 状态
@@ -208,12 +215,12 @@ export default {
   methods: {
     // 维修图片
      filelistFun(){
-       console.log(this.listData)
+      
       let arr =this.listData.remark || [];
       let t = arr.filter(item=>{
           return item.orderStatus == 3
         }); 
-        return JSON.parse(t[0].filelist)
+        return t[0]
     },
     // 搜索功能
     search() {
@@ -265,8 +272,11 @@ export default {
       let data = { id: e.id };
       getOrder(data).then(res => {
         this.listData = res.data ? res.data : {};
-         this.filelist = this.filelistFun()
+      
+        this.filelist = JSON.parse(this.filelistFun().filelist);
+         this.remarkA = this.filelistFun().remark
       });
+      
     },
     //分页
     handleSizeChange(val) {
