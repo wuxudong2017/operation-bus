@@ -21,27 +21,28 @@ Vue.use(Vcharts)
 // 用户权限
 import './permission'
 // 高德地图加载
-// let createMap=()=>{
-//   return new Promise((resolve,reject)=>{
-//     let script = document.createElement('script');
-//     script.type="text/javascript";
-//     script.src="https://webapi.amap.com/maps?v=1.4.13&key=a206b32562c37e92a3171b701695a4e8&plugin=AMap.DistrictSearch";
-//     document.body.appendChild(script);
-//     if (script.nodeName === 'SCRIPT') {
-//       resolve()
-//     } else {
-//       reject(new Error('Could not script image at ' + script.src))
-//     }
-//   })
-// }
-// createMap().then(res=>{
-//   console.log('读取高德地图成功')
-// }).catch(err=>{
-//   console.log(err)
-// })
+let createMap=()=>{
+  return new Promise((resolve,reject)=>{
+    let script = document.createElement('script');
+    script.type="text/javascript";
+    script.src="https://webapi.amap.com/maps?v=1.4.13&key=a206b32562c37e92a3171b701695a4e8&plugin=AMap.DistrictSearch";
+    document.body.appendChild(script);
+    if (script.nodeName === 'SCRIPT') {
+      resolve()
+    } else {
+      reject(new Error('Could not script image at ' + script.src))
+    }
+  })
+}
+createMap().then(res=>{
+  console.log('读取高德地图成功')
+}).catch(err=>{
+  console.log(err)
+})
 import service from './utils/service'
 
 // websocket 
+
 // import VueSocketio from 'vue-socket.io';
 // import socketio from 'socket.io-client';
 
@@ -58,8 +59,6 @@ import './utils/element'
 import {hasPermission} from './utils/element'
 Vue.prototype.hasPer = hasPermission;
 // 全局混入一些方法,有一定的风险,慎重使用
-
-
 
 /* eslint-disable no-new */
 new Vue({

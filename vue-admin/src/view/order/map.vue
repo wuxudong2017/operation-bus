@@ -1,10 +1,5 @@
 <template>
-  <div>
-    地图派单
-
-
-  </div>
-  
+  <div>map</div>
 </template>
 
 <script>

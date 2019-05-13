@@ -21,7 +21,7 @@ class ChatController extends Controller {
         ctx.socket.emit('message', res);
     }
     async online() {
-        // modelMessage.sendOfflineMessage(socket, data.userId);
+        modelMessage.sendOfflineMessage(socket, data.userId);
     }
 }
 

@@ -47,15 +47,17 @@ class BaseController extends Controller {
   async getDayList(){
     const {ctx ,app} = this;
     const {model} = this.app;
-    let result = await model.SysOrder.count({
-        group:['tag_id'],
-        include:[{
-          model:model.SysTag,
-          attributes:[]
-        }],
-        raw:true,
-        attributes:[[sequelize.col('sysTag.name'), 'name']]
-      })
+    let result = await model.query(`SELECT d,count from (SELECT  SUBSTRING( ADDDATE( y.FIRST, x.d - 1 ),6,6) AS d 
+    FROM
+        (SELECT 1 AS d UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL
+        SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL
+        SELECT 15 UNION ALL SELECT 16 UNION ALL SELECT 17 UNION ALL SELECT 18 UNION ALL SELECT 19 UNION ALL SELECT 20 UNION ALL SELECT 21 UNION ALL
+        SELECT 22 UNION ALL SELECT 23 UNION ALL SELECT 24 UNION ALL SELECT 25 UNION ALL SELECT 26 UNION ALL SELECT 27 UNION ALL SELECT 28 UNION ALL
+        SELECT 29 UNION ALL SELECT 30 UNION ALL SELECT 31) x,
+        (SELECT DATE_SUB(NOW(),INTERVAL 30 day) as FIRST, NOW() AS last) y
+    WHERE x.d <= y.last) as lefttable left join (SELECT DATE_FORMAT(from_unixtime(sys_order.create_time/1000),'%m-%d') AS 'time'
+    ,ifnull(count(*),0) as 'count'
+    FROM sys_order GROUP BY 1) as righttable on lefttable.d = righttable.time`,{raw:true,type: sequelize.QueryTypes.SELECT})
     ctx.body = result;
   }
 

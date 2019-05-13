@@ -6,6 +6,7 @@ const Sequelize = {
     username:'root',
     password:'root',
     dialect:'mysql',
+    timezone:'+08:00',
     pool:{
         max:5,
         min:0

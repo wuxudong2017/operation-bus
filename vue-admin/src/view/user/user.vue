@@ -46,7 +46,7 @@
             icon="el-icon-edit-outline"
             size="mini"
             v-if="hasPer('user:edit')"
-            :disabled="scope.row.isSuper==1"
+          
           >编辑</el-button>
           <el-button
             type="danger"
