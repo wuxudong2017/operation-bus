@@ -47,7 +47,7 @@ class BaseController extends Controller {
   async getDayList(){
     const {ctx ,app} = this;
     const {model} = this.app;
-    let result = await model.query(`SELECT d,count from (SELECT  SUBSTRING( ADDDATE( y.FIRST, x.d - 1 ),6,6) AS d 
+    let result = await model.query(`SELECT d,count from (SELECT  DATE_FORMAT( ADDDATE( y.FIRST, x.d - 1 ),'%m-%d') AS d 
     FROM
         (SELECT 1 AS d UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL
         SELECT 8 UNION ALL SELECT 9 UNION ALL SELECT 10 UNION ALL SELECT 11 UNION ALL SELECT 12 UNION ALL SELECT 13 UNION ALL SELECT 14 UNION ALL
