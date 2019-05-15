@@ -37,13 +37,13 @@ export const asyncRouterMap = [
     path: '/dispatch',
     component: Layout,
     redirect: '/dispatch/map',
-    meta: { title: '派单中心', icon: 'icon-deliver' },
+    meta: { title: '派单中心', icon: 'icon-biaodanguanli' },
     children: [
       {
         path: 'map',
         name: '派单地图',
        component:() =>  import('@/view/order/map'),
-        meta: { title: '派单地图', icon: 'icon-mark' },
+        meta: { title: '派单地图', icon: 'icon-map' },
         menu: 'map',
         hidden:false
       },
@@ -51,7 +51,7 @@ export const asyncRouterMap = [
         path: 'index',
         name: '待派单',
         component:() =>import('@/view/order/index'),
-        meta: { title: '待派单', icon: 'icon-information' },
+        meta: { title: '待派单', icon: 'icon-weijiedan' },
         menu: 'dispatch',
         hidden:false
       },
@@ -59,7 +59,7 @@ export const asyncRouterMap = [
         path: 'waiting',
         name: '待接单',
        component: () => import('@/view/order/waiting'),
-        meta: { title: '待接单', icon: 'icon-rotate' },
+        meta: { title: '待接单', icon: 'icon-zaixianjiedan2xian' },
         menu: 'dispatch',
         hidden:false
       },
@@ -67,7 +67,7 @@ export const asyncRouterMap = [
         path: 'start',
         name: '维修中',
        component: () => import('@/view/order/start'),
-        meta: { title: '维修中', icon: 'icon-rotate' },
+        meta: { title: '维修中', icon: 'icon-weixiushenqing' },
         menu: 'dispatch',
         hidden:false
       },
@@ -75,7 +75,7 @@ export const asyncRouterMap = [
         path: 'end',
         name: '已结束',
         component: () => import('@/view/order/end'),
-        meta: { title: '已结束', icon: 'icon-roundcheck' },
+        meta: { title: '已结束', icon: 'icon-icon' },
         menu: 'dispatch',
         hidden:false
       },
@@ -86,13 +86,13 @@ export const asyncRouterMap = [
     path: '/user',
     component: Layout,
     redirect: '/user/',
-    meta: { title: '用户权限', icon: 'icon-my' },
+    meta: { title: '用户权限', icon: 'icon-iconfonticon-yonghu' },
     children: [
       {
         path: '',
         name: '用户列表',
         component:() =>  import('@/view/user/user'),
-        meta: { title: '用户列表', icon: 'icon-person2' },
+        meta: { title: '用户列表', icon: 'icon-yonghuliebiao' },
         menu: 'user',
         hidden:false
       },
@@ -100,7 +100,7 @@ export const asyncRouterMap = [
         path: 'role',
         name: '角色管理',
         component: () => import('@/view/user/role'),
-        meta: { title: '角色管理', icon: 'icon-emoji' },
+        meta: { title: '角色管理', icon: 'icon-jiaoseguanli' },
         menu: 'role',
         hidden:false
       },
@@ -108,7 +108,7 @@ export const asyncRouterMap = [
         path: 'permission',
         name: '权限管理',
         component: () => import('@/view/user/permission'),
-        meta: { title: '权限管理', icon: 'icon-unlock' },
+        meta: { title: '权限管理', icon: 'icon-quanxianguanli' },
         menu: 'permission',
         hidden:false
       },
@@ -124,7 +124,7 @@ export const asyncRouterMap = [
       path:'',
       name:'学校用户',
       component:() =>  import('@/view/teacher/index'),
-      meta: { title: '学校用户', icon: 'icon-person2' },
+      meta: { title: '学校用户', icon: 'icon-xuexiao_jiaoshi' },
       menu: 'teacher',
       hidden:false
     }]
@@ -135,13 +135,13 @@ export const asyncRouterMap = [
     path: '/equipment',
     component: Layout,
     redirect: '/equipment/',
-    meta: { title: '设备管理', icon: 'icon-computer' },
+    meta: { title: '设备管理', icon: 'icon-shebeiguanli' },
     children: [
       {
         path: '',
         name: '设备类型',
         component:() =>  import('@/view/equipment/type'),
-        meta: { title: '设备类型', icon: 'icon-mark' },
+        meta: { title: '设备类型', icon: 'icon-ic_configchecklist' },
         menu: 'equipment',
         hidden:false
       },
@@ -149,7 +149,7 @@ export const asyncRouterMap = [
         path: 'tag',
         name: '故障标签',
         component:() =>  import('@/view/equipment/tag'),
-        meta: { title: '故障标签', icon: 'icon-mark' },
+        meta: { title: '故障标签', icon: 'icon-label_icon' },
         menu: 'tag',
         hidden:false
       },
@@ -157,7 +157,7 @@ export const asyncRouterMap = [
         path: 'list',
         name: '设备列表',
        // component:() =>  import('@/view/equipment/equipment'),
-        meta: { title: '设备列表', icon: 'icon-file' },
+        meta: { title: '设备列表', icon: 'icon-icon1' },
         menu: 'equipmentList',
         hidden:false
       },
@@ -165,7 +165,7 @@ export const asyncRouterMap = [
         path: 'list1',
         name: '故障清单',
        // component:() =>  import('@/view/equipment/equipment'),
-        meta: { title: '故障清单', icon: 'icon-link' },
+        meta: { title: '故障清单', icon: 'icon-guzhangleixing' },
         menu: 'equipmentList',
         hidden:false
       },
@@ -173,7 +173,7 @@ export const asyncRouterMap = [
         path: 'list2',
         name: '数据分析',
        // component:() =>  import('@/view/equipment/equipment'),
-        meta: { title: '数据分析', icon: 'icon-display' },
+        meta: { title: '数据分析', icon: 'icon-icon-' },
         menu: 'equipmentList',
         hidden:false
       },
