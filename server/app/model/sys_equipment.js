@@ -20,31 +20,6 @@ module.exports = app => {
       allowNull: false,
       field: 'name'
     },
-    uid: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      field: 'uid'
-    },
-    pn: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      field: 'pn'
-    },
-    brand: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      field: 'brand'
-    },
-    thirdid: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      field: 'thirdid'
-    },
-    bugDate: {
-      type: DataTypes.BIGINT,
-      allowNull: true,
-      field: 'bug_date'
-    },
     createTime: {
       type: DataTypes.BIGINT,
       allowNull: true,
@@ -56,13 +31,35 @@ module.exports = app => {
       field: 'awatar'
     },
     status: {
-      type: DataTypes.TINYINT(1),
-      defaultValue:1,
+      type: DataTypes.INTEGER(1),
       allowNull: false,
       field: 'status'
     },
-    
-
+    brand: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'brand'
+    },
+    provider: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'provider'
+    },
+    changeModel: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      field: 'change_model'
+    },
+    util: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+      field: 'util'
+    },
+    utilPrice: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      field: 'util_price'
+    }
   }, {
     tableName: 'sys_equipment'
   });

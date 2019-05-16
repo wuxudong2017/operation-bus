@@ -91,6 +91,10 @@ module.exports = app => {
   router.resources('equipment', '/api/admin/equipment', controller.admin.equipment)
   // 故障标签管理
   router.resources('tag', '/api/admin/tag', controller.admin.tag)
+  // 设备管理
+  router.resources('device','/api/admin/device/',controller.admin.device)
+  // 获取所有设备
+  router.get('/api/admin/getAllType',controller.admin.base.getAllType)
 
   // require('./router/swagger')(app)
 };

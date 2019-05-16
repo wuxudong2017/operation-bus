@@ -1,6 +1,7 @@
 <template>
   <div id="index">
     <div class="index">
+      
       <el-row :gutter="20">
         <el-col :span="6">
           <el-card
@@ -42,7 +43,7 @@
               <i class="iconfont icon-jiuye"></i>
             </div>
             <div class="content">
-              <em>12360</em>
+              <em>{{data1.device}}</em>
               <span>设备数量</span>
             </div>
           </el-card>

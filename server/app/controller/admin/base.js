@@ -22,10 +22,12 @@ class BaseController extends Controller {
     let schoolUser = await model.SysSchoolUser.count();
     let worker = await model.SysUser.count();
     let list = await model.SysOrder.count();
+    let device = await model.SysDevice.count()
     ctx.body = {
       schoolUser,
       worker,
-      list
+      list,
+      device
     }
   }
   // 故障饼状图
@@ -61,7 +63,21 @@ class BaseController extends Controller {
     ctx.body = result;
   }
 
-
+  // 获取所有的设备类型
+  async getAllType(){
+    const {ctx,app} = this
+    const {model} = this.app;
+    let result = await model.SysEquipment.findAll({
+      attributes:{
+        exclude:['createTime']
+      },
+      raw:true,
+      where:{
+        status:{$ne:0}
+      }
+    })
+    ctx.body=result
+  }
 
   // 获取学校列表
   async schoolList() {

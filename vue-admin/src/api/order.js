@@ -126,3 +126,65 @@ export function deleteEquipment(data){
 }
 
 
+
+
+/**
+ * 设备管理
+ * 
+ */
+// 获取设备列表
+export function getAllType(){
+    return request({
+        url:'/api/admin/getAllType',
+        method:'get'
+    })
+}
+
+
+export function getDeviceListA(data){
+    return request({
+        url:'/api/admin/device/new',
+        method:'get',
+    })
+}
+export function getDeviceList(data){
+    return request({
+        url:'/api/admin/device',
+        method:'get',
+        params:data
+    })
+}
+// 新加设备
+export function createDevice(data){
+    return request({
+        url:'/api/admin/device',
+        method:'post',
+        data
+    })
+}
+// 根据设备id 获取设备
+export function getDevice(data){
+    return request({
+        url:'/api/admin/device/'+data+'/edit',
+        method:'get',
+    })
+}
+// 根据设备id 获取角色
+export function editDevice(id,data){
+    return request({
+        url:'/api/admin/device/'+id,
+        method:'put',
+        data
+    })
+}
+// 根据id 删除设备
+
+export function deleteDevice(data){
+    console.log(data)
+    return request({
+        url:'/api/admin/device/'+data,
+        method:'delete',
+    })
+}
+
+

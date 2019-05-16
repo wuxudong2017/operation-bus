@@ -13,7 +13,10 @@
       <el-table-column type="index" label="ID"></el-table-column>
       <el-table-column prop="name" label="设备名称"></el-table-column>
       <el-table-column prop="type" label="设备类型"></el-table-column>
-      <el-table-column prop="brand" label="设备品牌"></el-table-column>
+      <el-table-column prop="brand" label="设备品牌"></el-table-column>\
+       <el-table-column prop="utilPrice" label="设备价格"></el-table-column>
+      <el-table-column prop="status" label="设备类型状态"></el-table-column>
+      <el-table-column prop="createTime" :formatter="formatDateA" label="创建时间"></el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
@@ -62,7 +65,7 @@
           <el-input v-model="formData.name" placeholder="设备名称"></el-input>
         </el-form-item>
         <el-form-item label="设备类型" prop="type">
-          <el-input v-model="formData.type" placeholder="请输入设备类型名"></el-input>
+          <el-input v-model="formData.type" placeholder="设备型号"></el-input>
         </el-form-item>
         <el-form-item label="设备品牌" prop="brand">
           <el-input v-model="formData.brand" placeholder="设备品牌"></el-input>
@@ -81,10 +84,23 @@
               <i v-if="!imageUrl" class="el-icon-plus avatar-uploader-icon"></i>
             </template> 
            <img v-else :src="formData.awatar" class="avatar"> 
-            
-           
           </el-upload>
         </el-form-item>
+         <el-form-item label="设备厂商" prop="provider">
+          <el-input v-model="formData.provider" placeholder="设备厂商(华为,联想等)"></el-input>
+        </el-form-item>
+          <el-form-item label="设备单位" prop="util">
+          <el-input v-model="formData.util" placeholder="台,套等"></el-input>
+        </el-form-item> 
+        <el-form-item label="设备单价" prop="utilPrice">
+          <el-input v-model="formData.utilPrice" type="number" placeholder="元"></el-input>
+        </el-form-item>
+         <el-form-item label="设备状态" prop="utilPrice">
+           <el-radio v-model="formData.status" :label="1" checked>正常</el-radio>
+          <el-radio v-model="formData.status" :label="0">禁用</el-radio>
+        </el-form-item>
+
+
         <el-form-item>
           <el-button v-if="add" type="primary" size="mini" @click="submitForm('ruleForm')">提交</el-button>
           <el-button v-else type="primary" size="mini" @click="editForm('ruleForm')">提交</el-button>
@@ -124,13 +140,21 @@ export default {
         name: "", // 设备姓名(中文)
         brand: "", //年龄
         awatar: "",
-        typeId:''
+        typeId:'',
+        provider:"",
+        util:'',
+        utilPrice:"",
+        status:1
+
       },
       rules: {
         type: [{ required: true, message: "不能为空", trigger: "blur" }],
         name: [{ required: true, message: "不能为空", trigger: "blur" }],
         brand: [{ required: true, message: "不能为空", trigger: "blur" }],
         typeId: [{ required: true, message: "不能为空", trigger: "blur" }],
+         provider:[{ required: true, message: "不能为空", trigger: "blur" }],
+        util:[{ required: true, message: "不能为空", trigger: "blur" }],
+        utilPrice:[{ required: true, message: "不能为空", trigger: "blur" }],
       }
     };
   },

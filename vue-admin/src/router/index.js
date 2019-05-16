@@ -156,7 +156,7 @@ export const asyncRouterMap = [
       {
         path: 'list',
         name: '设备列表',
-       // component:() =>  import('@/view/equipment/equipment'),
+       component:() =>  import('@/view/equipment/device'),
         meta: { title: '设备列表', icon: 'icon-icon1' },
         menu: 'equipmentList',
         hidden:false

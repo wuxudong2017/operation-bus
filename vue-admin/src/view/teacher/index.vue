@@ -9,8 +9,8 @@
           <el-select v-model="schoolId" filterable placeholder="查询学校">
             <el-option v-for="(item,index) in schoolList" :key="index" :label="item.xxmc" :value="item.xxJbxxId"></el-option>
           </el-select>
-          <el-button type="primary" @click="serach">查询</el-button>
-          <el-button type="success" @click="resetSearch">重置</el-button>
+          <el-button type="primary" @click="serach" size="small">查询</el-button>
+          <el-button type="success" @click="resetSearch" size="small">重置</el-button>
         </el-col>
       </el-row>
 
