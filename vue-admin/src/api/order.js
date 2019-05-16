@@ -180,11 +180,17 @@ export function editDevice(id,data){
 // 根据id 删除设备
 
 export function deleteDevice(data){
-    console.log(data)
     return request({
         url:'/api/admin/device/'+data,
         method:'delete',
     })
 }
-
+// 批量删除列表
+export function deleteDeviceS(data){
+    return request({
+        url:'/api/admin/device/deletes',
+        method:'post',
+        data
+    })
+}
 

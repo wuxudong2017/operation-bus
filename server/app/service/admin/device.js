@@ -18,14 +18,42 @@ class DeviceService extends Service {
         });
         return result
       }
-    async create() {
-        const { model } = this.app;
-        return '创建';
+    async create(ArrayData) {
+        const {model} = this.app;
+        return await model.SysDevice.bulkCreate(ArrayData,{
+            ignoreDuplicates:false
+        });
+     
       }
-      async destroy() {
+      async deletes(arr){
+        const {model} = this.app;
+        const t = await model.transaction({autocommit:true})
+        try{
+          for(let i=0;i<arr.length;i++){
+            await model.SysDevice.destroy({
+              where:{
+                id:arr[i]
+              }
+            },{transaction:t})
+          }
+          await t.commit();
+          return true
+        }catch(e){
+          console.log(e)
+          await t.rollback();
+          return false;
+        }
+
+       
+
+
+      }
+
+      async destroy(id) {
         const { model } = this.app;
-      
-        return '删除';
+        return await model.SysDevice.destroy({
+          where:{id}
+        })
       }
       async update() {
         const { model } = this.app;

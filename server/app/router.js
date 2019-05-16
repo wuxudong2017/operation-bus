@@ -93,6 +93,7 @@ module.exports = app => {
   router.resources('tag', '/api/admin/tag', controller.admin.tag)
   // 设备管理
   router.resources('device','/api/admin/device/',controller.admin.device)
+  router.post('/api/admin/device/deletes',controller.admin.device.deletes)
   // 获取所有设备
   router.get('/api/admin/getAllType',controller.admin.base.getAllType)
 

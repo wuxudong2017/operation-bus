@@ -30,18 +30,21 @@ class DeviceController extends Controller {
                 ArrayData.push(formData[i])
             }
         };
-        console.log(JSON.stringify(ArrayData))
-        const {model} = this.app;
-        await model.SysDevice.bulkCreate(ArrayData,{
-            ignoreDuplicates:false
-        });
-     
-        ctx.body = ArrayData
+       await ctx.service.admin.device.create(ArrayData)
+        ctx.body = "success"
       }
       async destroy() {
         const { ctx } = this;
         let id = ctx.params.id
-        ctx.body = '删除'+id;
+        try{
+          await ctx.service.admin.device.destroy(id);
+          ctx.body = {
+            code:1,
+            message:"删除成功"
+          }
+        }catch(e){
+
+        }
       }
       async update() {
         const { ctx } = this;
@@ -62,6 +65,31 @@ class DeviceController extends Controller {
         const { ctx } = this;
         let id = ctx.params.id
         ctx.body = '修改页面'+id;
+      }
+      // 批量删除
+      async deletes(){
+        const {ctx} =this;
+        let formData = ctx.request.body;
+        if(formData instanceof Array){
+         let result = await ctx.service.admin.device.deletes(formData);
+         if(result){
+          ctx.body = {
+            code:1,
+            message:"批量删除成功"
+          }
+         }else{
+          ctx.body={
+            code:0,
+            message:'批量删除失败'
+          }
+         }
+        }else{
+          ctx.body={
+            code:0,
+            message:'参数错误'
+          }
+        }
+       
       }
     
     

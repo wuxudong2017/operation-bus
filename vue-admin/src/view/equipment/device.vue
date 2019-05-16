@@ -1,16 +1,7 @@
 <template>
   <div class="data-table">
     <div class="nav">
-      <div>
-        <el-button
-          type="primary"
-          v-if="hasPer('device:add')"
-          icon="el-icon-plus"
-          @click="showCreate"
-          size="mini"
-        >新加设备</el-button>
-      </div>
-      <div style="margin-top:20px;">
+      <div style="margin-bottom:20px;">
         <el-row :gutter="20">
           <el-col :span="4">
             <el-select size="small" v-model="search.schoolId" filterable placeholder="查询学校">
@@ -38,15 +29,38 @@
           <el-col :span="4">
             <el-select v-model="search.deviceStatus" size="small">
               <el-option label="正常" :value="1"></el-option>
-               <el-option label="故障" :value="0"></el-option>
+              <el-option label="故障" :value="0"></el-option>
             </el-select>
           </el-col>
-            <el-button type="primary" @click="searchFn" size="small">查询</el-button>
-            <el-button type="success" @click="resetFn" size="small">重置</el-button>
+          <el-button type="primary" @click="searchFn" size="small">查询</el-button>
+          <el-button type="success" @click="resetFn" size="small">重置</el-button>
         </el-row>
       </div>
+      <div>
+        <el-button
+          type="primary"
+          v-if="hasPer('device:add')"
+          icon="el-icon-plus"
+          @click="showCreate"
+          size="mini"
+        >新加设备</el-button>
+        <el-button
+          type="danger"
+          v-if="hasPer('device:add')"
+          icon="el-icon-delete"
+          @click="deleteMany"
+          size="mini"
+        >批量删除</el-button>
+      </div>
     </div>
-    <el-table v-loading="tabLoading" :data="tableData" stripe style="width: 100%;min-height:520px;">
+    <el-table
+      v-loading="tabLoading"
+      ref="multipleTable"
+      :data="tableData"
+      stripe
+      style="width: 100%;min-height:520px;"
+      @selection-change="handleSelectChange"
+    >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="id" label="设备编号"></el-table-column>
       <el-table-column prop="name" label="设备名称"></el-table-column>
@@ -165,7 +179,8 @@ import {
   editDevice,
   getDevice,
   deleteDevice,
-  getAllType
+  getAllType,
+  deleteDeviceS
 } from "@/api/order";
 import { getSchoolList } from "@/api/userRole";
 
@@ -186,38 +201,43 @@ export default {
         position: "",
         schoolId: ""
       },
+      deletes: [], // 批量删除
       search: {
         schoolId: "",
         timeRange: "",
-        deviceStatus:null
+        deviceStatus: null
       },
-       pickerOptions: {
-          shortcuts: [{
-            text: '最近一周',
+      pickerOptions: {
+        shortcuts: [
+          {
+            text: "最近一周",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近一个月',
+          },
+          {
+            text: "最近一个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }, {
-            text: '最近三个月',
+          },
+          {
+            text: "最近三个月",
             onClick(picker) {
               const end = new Date();
               const start = new Date();
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-              picker.$emit('pick', [start, end]);
+              picker.$emit("pick", [start, end]);
             }
-          }]
-        },
+          }
+        ]
+      },
       schoolList: [],
       allTypes: [],
       rules: {
@@ -227,7 +247,7 @@ export default {
   },
 
   created() {
-    this.getList({ limit: this.limit, offset: this.offset});
+    this.getList({ limit: this.limit, offset: this.offset });
     this.getAllTypeFn();
     this.getSchoolList();
   },
@@ -235,17 +255,55 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
+    handleSelectChange(val) {
+      this.deletes = val.map(item => {
+        return item.id;
+      });
+    },
+    // 批量删除
+    deleteMany() {
+      let data = this.deletes;
+      if (data.length > 0) {
+        this.$msgbox({
+          title: "删除操作",
+          message: "确定要删除吗?",
+          callback: e => {
+            if (e == "confirm") {
+              deleteDeviceS(data).then(res => {
+                this.$message({
+                  type: res.code == 1 ? "success" : "error",
+                  message: res.message
+                });
+                this.getList({ limit: this.limit, offset: this.offset });
+              });
+            }
+          }
+        });
+      } else {
+        this.$notify({
+          type: "warning",
+          title: "提示信息",
+          message: "请选择需要删除的数据"
+        });
+      }
+    },
     // 重置函数
-    resetFn(){
-      this.search.schoolId= "";
-        this.search.timeRange= "";
-        this.search.deviceStatus=null
-         this.getList({ limit: 10, offset: 1});
+    resetFn() {
+      this.search.schoolId = "";
+      this.search.timeRange = "";
+      this.search.deviceStatus = null;
+      this.getList({ limit: 10, offset: 1 });
     },
     // 查询函数
-    searchFn(){
-      this.offset=1
-      this.getList({ limit: this.limit, offset:this.offset,schoolId:this.search.schoolId?this.search.schoolId:"",timeRange:this.search.timeRange?this.search.timeRange.join(','):"", deviceStatus:this.search.deviceStatus?this.search.deviceStatus:""});
+    searchFn() {
+      this.offset = 1;
+      this.getList({
+        limit: this.limit,
+        offset: this.offset,
+        schoolId: this.search.schoolId ? this.search.schoolId : "",
+        timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
+        deviceStatus: this.search.deviceStatus ? this.search.deviceStatus : ""
+      });
     },
     // 获取学校信息
     getSchoolList() {
@@ -383,10 +441,22 @@ export default {
   },
   watch: {
     limit(res) {
-      this.getList({ limit: res, offset: this.offset,schoolId:this.search.schoolId?this.search.schoolId:"",timeRange:this.search.timeRange?this.search.timeRange.join(','):"", deviceStatus:this.search.deviceStatus?this.search.deviceStatus:""});
+      this.getList({
+        limit: res,
+        offset: this.offset,
+        schoolId: this.search.schoolId ? this.search.schoolId : "",
+        timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
+        deviceStatus: this.search.deviceStatus ? this.search.deviceStatus : ""
+      });
     },
     offset(res) {
-      this.getList({ limit: this.limit, offset: res,schoolId:this.search.schoolId?this.search.schoolId:"",timeRange:this.search.timeRange?this.search.timeRange.join(','):"", deviceStatus:this.search.deviceStatus?this.search.deviceStatus:""});
+      this.getList({
+        limit: this.limit,
+        offset: res,
+        schoolId: this.search.schoolId ? this.search.schoolId : "",
+        timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
+        deviceStatus: this.search.deviceStatus ? this.search.deviceStatus : ""
+      });
     }
   }
 };
