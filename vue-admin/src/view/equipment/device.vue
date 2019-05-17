@@ -66,7 +66,14 @@
       <el-table-column prop="name" label="设备名称"></el-table-column>
       <el-table-column prop="type" label="设备类型"></el-table-column>
       <el-table-column prop="brand" label="设备品牌"></el-table-column>
-      <el-table-column prop="deviceStatus" label="设备状态"></el-table-column>
+      <el-table-column label="设备状态">
+        <template slot-scope="scope">
+           <i v-if="scope.row.deviceStatus==0" class="el-icon-warning" style="color:#e6a23c;font-size:24px;" ></i>
+           <i  v-else class="el-icon-success" style="color:#67C23A;font-size:24px;"></i>
+        </template>
+
+
+      </el-table-column>
       <el-table-column prop="position" label="设备安装位置"></el-table-column>
       <el-table-column prop="numG" label="设备故障次数"></el-table-column>
       <el-table-column

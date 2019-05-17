@@ -9,7 +9,7 @@
      <ul class="fl clearfix navbar-toolbar">
        <li>
          <a href="javascript:void(0)" @click="toggleSlide">
-           <i class="iconfont icon-menu"></i></a></li>
+           <i class="el-icon-s-fold"></i></a></li>
      </ul>
      <div class="right-menu fr">
        <!-- <el-dropdown trigger="click">

@@ -6,13 +6,13 @@
       <h3 class="title">后台管理系统</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
-          <i class="iconfont icon-my"></i>
+          <i class="el-icon-user"></i>
         </span>
         <el-input v-model="loginForm.username" autoComplete="on"/>
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container svg-container_login">
-          <i class="iconfont icon-lock"></i>
+          <i class="el-icon-lock"></i>
         </span>
         <el-input type="password" @keyup.enter.native="handleLogin" v-model="loginForm.password"
                   autoComplete="on"></el-input>

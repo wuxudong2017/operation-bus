@@ -13,9 +13,9 @@
       <el-table-column type="index" label="ID"></el-table-column>
       <el-table-column prop="name" label="设备名称"></el-table-column>
       <el-table-column prop="type" label="设备类型"></el-table-column>
-      <el-table-column prop="brand" label="设备品牌"></el-table-column>\
+      <el-table-column prop="brand" label="设备品牌"></el-table-column>
        <el-table-column prop="utilPrice" label="设备价格"></el-table-column>
-      <el-table-column prop="status" label="设备类型状态"></el-table-column>
+       <el-table-column prop="provider" label="设备提供商"></el-table-column>
       <el-table-column prop="createTime" :formatter="formatDateA" label="创建时间"></el-table-column>
       <el-table-column
         fixed="right"

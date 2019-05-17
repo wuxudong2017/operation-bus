@@ -158,7 +158,7 @@ export const asyncRouterMap = [
         name: '设备列表',
        component:() =>  import('@/view/equipment/device'),
         meta: { title: '设备列表', icon: 'icon-icon1' },
-        menu: 'equipmentList',
+        menu: 'device',
         hidden:false
       },
       {
