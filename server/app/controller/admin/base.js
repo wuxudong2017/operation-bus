@@ -59,7 +59,7 @@ class BaseController extends Controller {
         (SELECT DATE_SUB(NOW(),INTERVAL 30 day) as FIRST, NOW() AS last) y
     WHERE x.d <= y.last) as lefttable left join (SELECT DATE_FORMAT(from_unixtime(sys_order.create_time/1000),'%m-%d') AS 'time'
     ,ifnull(count(*),0) as 'count'
-    FROM sys_order GROUP BY 1) as righttable on lefttable.d = righttable.time`,{raw:true,type: sequelize.QueryTypes.SELECT})
+    FROM sys_order GROUP BY 1) as righttable on lefttable.d = righttable.time ORDER BY d`,{raw:true,type: sequelize.QueryTypes.SELECT})
     ctx.body = result;
   }
 

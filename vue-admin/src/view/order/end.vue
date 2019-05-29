@@ -12,7 +12,13 @@
     <!-- 搜索 -->
     <el-row>
       <el-col :span="6">
-        <el-input size="small" clearable v-model="formData.keywords" placeholder="请输工单号">
+        <el-input
+          size="small"
+          type="number"
+          clearable
+          v-model="formData.keywords"
+          placeholder="请输工单号"
+        >
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>
@@ -76,66 +82,79 @@
             <el-form-item label="联系电话">{{listData.phone}}</el-form-item>
             <el-form-item label="报修图片">
               <template v-for="(item,index) in bxPicture">
-                <img :src="item" :key="index" alt="No Image" width="200" height="200" style="display:inline-block">
+                <img
+                  :src="item"
+                  :key="index"
+                  alt="No Image"
+                  width="200"
+                  height="200"
+                  style="display:inline-block"
+                >
               </template>
             </el-form-item>
           </el-form>
         </el-col>
-       
+
         <el-col :span="12">
           <el-form label-width="80px">
             <el-form-item label="维修人">{{listData.workername}}</el-form-item>
             <el-form-item label="工号">{{listData.workerId}}</el-form-item>
-            
+
             <el-form-item label="完成图片">
               <div v-if="filelist.length>0">
-                <template v-for="(item,index) in filelist" >
+                <template v-for="(item,index) in filelist">
                   <img :src="item" :key="index" alt="No Image" width="200" height="200">
                 </template>
               </div>
               <p v-else>暂无图片</p>
             </el-form-item>
-             <el-form-item label="维修备注">
-               {{remarkA}}
-            </el-form-item>
+            <el-form-item label="维修备注">{{remarkA}}</el-form-item>
           </el-form>
         </el-col>
         <el-col :span="24">
-           <el-steps finish-status="success"  :active="activeOrder">
-          <template v-for="(item,index) in listData.remark">
-            <el-step v-if="item.orderStatus == 0" title="待派单" :key="index">
-               <template slot="icon"><i class="el-icon-edit"></i></template>
-            </el-step>
-            <el-step v-else-if="item.orderStatus == 1" title="待维修" :key="index">
-              <template slot="icon"><i class="el-icon-edit"></i></template>
-              <template slot="description">
-                {{item.workerName}}
-                  <i class="el-icon-time"></i>
-                  {{item.updateTime | formateA}}
-              </template>
-            </el-step>
-            <el-step v-else-if="item.orderStatus == 2" title="维修中" :key="index">
-               <template slot="icon"><i class="el-icon-edit"></i></template>
-              <template slot="description">
-                <span>
+          <el-steps finish-status="success" :active="activeOrder">
+            <template v-for="(item,index) in listData.remark">
+              <el-step v-if="item.orderStatus == 0" title="待派单" :key="index">
+                <template slot="icon">
+                  <i class="el-icon-edit"></i>
+                </template>
+              </el-step>
+              <el-step v-else-if="item.orderStatus == 1" title="待维修" :key="index">
+                <template slot="icon">
+                  <i class="el-icon-edit"></i>
+                </template>
+                <template slot="description">
                   {{item.workerName}}
                   <i class="el-icon-time"></i>
                   {{item.updateTime | formateA}}
-                </span>
-              </template>
-            </el-step>
-            <el-step v-else title="维修完" :key="index">
-               <template slot="icon"><i class="el-icon-edit"></i></template>
-              <template slot="description">
-                   {{item.workerName}}
+                </template>
+              </el-step>
+              <el-step v-else-if="item.orderStatus == 2" title="维修中" :key="index">
+                <template slot="icon">
+                  <i class="el-icon-edit"></i>
+                </template>
+                <template slot="description">
+                  <span>
+                    {{item.workerName}}
+                    <i class="el-icon-time"></i>
+                    {{item.updateTime | formateA}}
+                  </span>
+                </template>
+              </el-step>
+              <el-step v-else title="维修完" :key="index">
+                <template slot="icon">
+                  <i class="el-icon-edit"></i>
+                </template>
+                <template slot="description">
+                  {{item.workerName}}
                   <i class="el-icon-time"></i>
                   {{item.updateTime | formateA}}
-                  <br/>
+                  <br>
                   描述: {{item.remark}}
-                  </template>
-            </el-step>
-          </template>
-        </el-steps>
+                </template>
+              </el-step>
+            </template>
+          </el-steps>
         </el-col>
       </el-row>
     </el-dialog>
@@ -168,8 +187,8 @@ export default {
       offset: 1,
       status: "3", //派单状态,0-未派单,1-待接单,2维修中,3派单结束
       listData: [],
-      filelist:[],
-      remarkA:'',
+      filelist: [],
+      remarkA: "",
       formData: {
         xxmc: "",
         workerId: "", // 状态
@@ -209,18 +228,16 @@ export default {
     },
     activeOrder() {
       return this.listData.remark ? this.listData.remark.length : 0;
-    },
-   
+    }
   },
   methods: {
     // 维修图片
-     filelistFun(){
-      
-      let arr =this.listData.remark || [];
-      let t = arr.filter(item=>{
-          return item.orderStatus == 3
-        }); 
-        return t[0]
+    filelistFun() {
+      let arr = this.listData.remark || [];
+      let t = arr.filter(item => {
+        return item.orderStatus == 3;
+      });
+      return t[0];
     },
     // 搜索功能
     search() {
@@ -257,8 +274,7 @@ export default {
             deleteOrder(data.id).then(res => {
               this.$message({
                 type: res.code == 1 ? "success" : "error",
-                message: res.message,
-               
+                message: res.message
               });
               this.getList({ limit: this.limit, offset: this.offset });
             });
@@ -268,15 +284,14 @@ export default {
     },
     editOne(e) {
       this.dialogVisible = true;
-     
+
       let data = { id: e.id };
       getOrder(data).then(res => {
         this.listData = res.data ? res.data : {};
-      
+
         this.filelist = JSON.parse(this.filelistFun().filelist);
-         this.remarkA = this.filelistFun().remark
+        this.remarkA = this.filelistFun().remark;
       });
-      
     },
     //分页
     handleSizeChange(val) {
@@ -292,7 +307,7 @@ export default {
     },
     offset(res) {
       this.getList({ limit: this.limit, offset: res, status: this.status });
-    }
+    },
   }
 };
 </script>

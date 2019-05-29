@@ -9,8 +9,8 @@ class DeviceController extends Controller {
         let limit = Number(query.limit)
         let offset= Number(query.offset);
         let schoolId= query.schoolId
-        let timeRange= query.timeRange
-        let deviceStatus=  query.deviceStatus!=null||query.deviceStatus!=''?query.deviceStatus:null
+        let timeRange= query.timeRange;
+        let deviceStatus=  query.deviceStatus!=null?query.deviceStatus:null
         let result= await ctx.service.admin.device.index(limit,offset,schoolId,timeRange,deviceStatus) 
         ctx.body = result
       }

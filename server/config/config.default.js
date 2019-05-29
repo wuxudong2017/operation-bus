@@ -44,7 +44,7 @@ module.exports = appInfo => {
   }
   // 上传文件地址
   config.uploadDir = 'app/public'
-  config.host ='http://192.168.18.114:7001'
+  config.host ='http://apiwxd.club:7001'
   // mysql config
   config.sequelize = sequelize
   //redis config

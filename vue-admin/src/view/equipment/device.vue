@@ -309,7 +309,7 @@ export default {
         offset: this.offset,
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
-        deviceStatus: this.search.deviceStatus ? this.search.deviceStatus : ""
+        deviceStatus: this.search.deviceStatus!=null ? this.search.deviceStatus :null
       });
     },
     // 获取学校信息
@@ -453,7 +453,7 @@ export default {
         offset: this.offset,
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
-        deviceStatus: this.search.deviceStatus ? this.search.deviceStatus : ""
+        deviceStatus: this.search.deviceStatus!=null ? this.search.deviceStatus  :null
       });
     },
     offset(res) {
@@ -462,7 +462,7 @@ export default {
         offset: res,
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
-        deviceStatus: this.search.deviceStatus ? this.search.deviceStatus : ""
+        deviceStatus: this.search.deviceStatus!=null ? this.search.deviceStatus :null
       });
     }
   }

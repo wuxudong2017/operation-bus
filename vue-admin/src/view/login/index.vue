@@ -3,7 +3,7 @@
     <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left"
              label-width="0px"
              class="card-box login-form">
-      <h3 class="title">后台管理系统</h3>
+      <h3 class="title">欢迎登录</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
           <i class="el-icon-user"></i>
@@ -32,8 +32,8 @@ import {mapGetters} from 'vuex'
     data() {
       return {
         loginForm: {
-          username: '101001',
-          password: '123456'
+          username: '',
+          password: ''
         },
         loginRules: {
           username: [{required: true, trigger: 'blur', message: "请输入用户名"}],

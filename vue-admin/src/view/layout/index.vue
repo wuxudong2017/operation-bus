@@ -48,7 +48,7 @@ export default {
 <style lang="scss">
 @import '../../styles/index';
 .el-header{
-    padding-left: 0;
+    padding-left: 0 !important;
     background-color: #4E97D9;
   }
   .el-aside{

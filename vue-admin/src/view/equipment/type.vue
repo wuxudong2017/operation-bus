@@ -9,13 +9,13 @@
         size="mini"
       >新加设备</el-button>
     </div>
-    <el-table  v-loading="tabLoading"  :data="tableData" stripe style="width: 100%;min-height:520px;">
+    <el-table v-loading="tabLoading" :data="tableData" stripe style="width: 100%;min-height:520px;">
       <el-table-column type="index" label="ID"></el-table-column>
       <el-table-column prop="name" label="设备名称"></el-table-column>
       <el-table-column prop="type" label="设备类型"></el-table-column>
       <el-table-column prop="brand" label="设备品牌"></el-table-column>
-       <el-table-column prop="utilPrice" label="设备价格"></el-table-column>
-       <el-table-column prop="provider" label="设备提供商"></el-table-column>
+      <el-table-column prop="utilPrice" label="设备价格"></el-table-column>
+      <el-table-column prop="provider" label="设备提供商"></el-table-column>
       <el-table-column prop="createTime" :formatter="formatDateA" label="创建时间"></el-table-column>
       <el-table-column
         fixed="right"
@@ -61,7 +61,7 @@
       @closed="handleClosed"
     >
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="100px">
-          <el-form-item label="设备名称" prop="name">
+        <el-form-item label="设备名称" prop="name">
           <el-input v-model="formData.name" placeholder="设备名称"></el-input>
         </el-form-item>
         <el-form-item label="设备类型" prop="type">
@@ -81,25 +81,27 @@
           >
             <template v-if="add">
               <img v-if="imageUrl" :src="imageUrl" class="avatar">
-              <i v-if="!imageUrl" class="el-icon-plus avatar-uploader-icon"></i>
-            </template> 
-           <img v-else :src="formData.awatar" class="avatar"> 
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </template>
+            <template v-else>
+              <img v-if="imageUrl" :src="imageUrl" class="avatar">
+              <img v-else :src="formData.awatar" class="avatar">
+            </template>
           </el-upload>
         </el-form-item>
-         <el-form-item label="设备厂商" prop="provider">
+        <el-form-item label="设备厂商" prop="provider">
           <el-input v-model="formData.provider" placeholder="设备厂商(华为,联想等)"></el-input>
         </el-form-item>
-          <el-form-item label="设备单位" prop="util">
+        <el-form-item label="设备单位" prop="util">
           <el-input v-model="formData.util" placeholder="台,套等"></el-input>
-        </el-form-item> 
+        </el-form-item>
         <el-form-item label="设备单价" prop="utilPrice">
           <el-input v-model="formData.utilPrice" type="number" placeholder="元"></el-input>
         </el-form-item>
-         <el-form-item label="设备状态" prop="utilPrice">
-           <el-radio v-model="formData.status" :label="1" checked>正常</el-radio>
+        <el-form-item label="设备状态" prop="utilPrice">
+          <el-radio v-model="formData.status" :label="1" checked>正常</el-radio>
           <el-radio v-model="formData.status" :label="0">禁用</el-radio>
         </el-form-item>
-
 
         <el-form-item>
           <el-button v-if="add" type="primary" size="mini" @click="submitForm('ruleForm')">提交</el-button>
@@ -111,7 +113,7 @@
   </div>
 </template>
 <script>
-import {mapGetters} from 'vuex'
+import { mapGetters } from "vuex";
 import service from "@/utils/service";
 import {
   getEquipmentList,
@@ -120,7 +122,7 @@ import {
   getEquipment,
   deleteEquipment
 } from "@/api/order";
-import { setTimeout } from 'timers';
+import { setTimeout } from "timers";
 export default {
   name: "v-user",
   data() {
@@ -140,48 +142,48 @@ export default {
         name: "", // 设备姓名(中文)
         brand: "", //年龄
         awatar: "",
-        typeId:'',
-        provider:"",
-        util:'',
-        utilPrice:"",
-        status:1
-
+        typeId: "",
+        provider: "",
+        util: "",
+        utilPrice: "",
+        status: 1
       },
       rules: {
         type: [{ required: true, message: "不能为空", trigger: "blur" }],
         name: [{ required: true, message: "不能为空", trigger: "blur" }],
         brand: [{ required: true, message: "不能为空", trigger: "blur" }],
         typeId: [{ required: true, message: "不能为空", trigger: "blur" }],
-         provider:[{ required: true, message: "不能为空", trigger: "blur" }],
-        util:[{ required: true, message: "不能为空", trigger: "blur" }],
-        utilPrice:[{ required: true, message: "不能为空", trigger: "blur" }],
+        provider: [{ required: true, message: "不能为空", trigger: "blur" }],
+        util: [{ required: true, message: "不能为空", trigger: "blur" }],
+        utilPrice: [{ required: true, message: "不能为空", trigger: "blur" }]
       }
     };
   },
   created() {
     this.getList({ limit: this.limit, offset: this.offset });
   },
-    computed:{
-    ...mapGetters(['tabLoading'])
+  computed: {
+    ...mapGetters(["tabLoading"])
   },
   methods: {
     // 图片上传成功
     handleAvatarSuccess(res, file) {
-        this.formData.awatar = res.data;
-        this.imageUrl =  URL.createObjectURL(file.raw)
+      this.formData.awatar = res.data;
+      this.imageUrl = URL.createObjectURL(file.raw);
     },
     // 上传之前验证
     beforeAvatarUpload(file) {
-      const isImg =/image\/.*/.test(file.type) 
+      const isImg = /image\/.*/.test(file.type);
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isImg) {
-        this.$message.error('必须为图片!');
+        this.$message.error("必须为图片!");
       }
       if (!isLt2M) {
         this.$message.error("上传图片大小不能超过 2MB!");
       }
-      return isLt2M&&isImg;
+
+      return isLt2M && isImg;
     },
     // 新加数据
     submitForm(formName) {
@@ -237,7 +239,8 @@ export default {
     handleClosed() {
       this.dialogVisible = false;
       this.add = true;
-      this.imageUrl = null
+      this.imageUrl = null;
+      this.uploadS = false;
       this.resetForm("ruleForm");
     },
     // 获取设备列表
@@ -259,7 +262,7 @@ export default {
             deleteEquipment(data.id).then(res => {
               this.$message({
                 type: res.code == 1 ? "success" : "error",
-                message: res.message,
+                message: res.message
               });
               this.getList({ limit: this.limit, offset: this.offset });
             });

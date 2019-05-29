@@ -7,7 +7,7 @@ class DeviceService extends Service {
         const {model} = this.app;
         let result =await model.SysDevice.findAndCountAll({
             where:{
-               $and:[schoolId?{schoolId}:null,deviceStatus?{deviceStatus}:null,timeRange?{createTime:{
+               $and:[schoolId?{schoolId}:null,deviceStatus!=null?{deviceStatus}:null,timeRange?{createTime:{
                 $between:timeRange.split(',')
                }}:null] 
             },
