@@ -115,7 +115,14 @@ module.exports = app => {
       allowNull: false,
       field: 'school_id'
 
-    }
+    },
+    remarks:{
+      type:DataTypes.STRING(255),
+      allowNull: true,
+      field: 'remarks'
+
+    },
+    
   }, {
     tableName: 'sys_device',
   });

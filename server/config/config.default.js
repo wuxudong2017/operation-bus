@@ -45,6 +45,9 @@ module.exports = appInfo => {
   // 上传文件地址
   config.uploadDir = 'app/public'
   config.host ='http://apiwxd.club:7001'
+// jwt 过期时间设置
+  config.jwtTime = 1000*60*60*8 // 过期时间,八个小时
+
   // mysql config
   config.sequelize = sequelize
   //redis config

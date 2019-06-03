@@ -5,7 +5,7 @@
         <el-col :span="8">
           <el-button type="primary" v-if="hasPer('teacher:add')"  icon="el-icon-plus" @click="dialogVisible = true" size="mini">新加用户</el-button>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <el-select v-model="schoolId" filterable placeholder="查询学校">
             <el-option v-for="(item,index) in schoolList" :key="index" :label="item.xxmc" :value="item.xxJbxxId"></el-option>
           </el-select>
@@ -203,6 +203,9 @@ export default {
       getTeacherListA(data)
         .then(res => {
           this.tableData = res.data.rows;
+           if(this.tableData.length<1){
+            this.offset = this.offset-1>1?this.offset-1:1
+          }
           this.total = res.data.count;
         })
         .catch(err => {});

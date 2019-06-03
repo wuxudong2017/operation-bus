@@ -18,7 +18,7 @@ async create() {
     let id = await ctx.service.tools.uuid();
     let createTime = await ctx.service.tools.getTime();
     formData.id = id;
-    formData.createTime=createTime
+    formData.createTime=createTime;
     let result = await ctx.service.admin.equipment.create(formData);
     if(result){
       ctx.body = {

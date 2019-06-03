@@ -65,6 +65,7 @@
         @current-change="handleCurrentChange"
         :page-sizes="[10, 20, 30, 50]"
         :page-size="10"
+        :current-page="1"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
@@ -272,6 +273,9 @@ export default {
       getUserList(data)
         .then(res => {
           this.tableData = res.data.rows;
+           if(this.tableData.length<1){
+            this.offset = this.offset-1>1?this.offset-1:1
+          }
           this.total = res.data.count;
         })
         .catch(err => {});

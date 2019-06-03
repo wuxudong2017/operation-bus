@@ -59,7 +59,17 @@ module.exports = app => {
       type: DataTypes.FLOAT,
       allowNull: false,
       field: 'util_price'
-    }
+    },
+    factoryTime: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      field: 'factory_time:'
+    },
+    overTime: {
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      field: 'over_time'
+    },
   }, {
     tableName: 'sys_equipment'
   });

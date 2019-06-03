@@ -60,6 +60,7 @@ class WorkerOrderController extends Controller {
         let result1 = await ctx.service.wx.workerOrder.show(id,1);
         let result2 = await ctx.service.wx.workerOrder.show(id,2);
         let result3 = await ctx.service.wx.workerOrder.show(id,3);
+
         ctx.body={
           sure:result1,
           start:result2,

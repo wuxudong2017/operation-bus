@@ -98,7 +98,26 @@
         <el-form-item label="设备单价" prop="utilPrice">
           <el-input v-model="formData.utilPrice" type="number" placeholder="元"></el-input>
         </el-form-item>
-        <el-form-item label="设备状态" prop="utilPrice">
+        <el-form-item label="出厂时间" prop="factoryTime">
+            <el-date-picker
+                    v-model="formData.factoryTime"
+                    type="date"
+                    format="yyyy-MM-dd"
+                    value-format="timestamp"
+                    size="small"
+                  ></el-date-picker>
+          
+        </el-form-item>
+        <el-form-item label="过保时间" prop="overTime">
+           <el-date-picker
+                    v-model="formData.overTime"
+                    type="date"
+                    format="yyyy-MM-dd"
+                    value-format="timestamp"
+                    size="small"
+                  ></el-date-picker>
+        </el-form-item>
+        <el-form-item label="类型状态" prop="status">
           <el-radio v-model="formData.status" :label="1" checked>正常</el-radio>
           <el-radio v-model="formData.status" :label="0">禁用</el-radio>
         </el-form-item>
@@ -142,20 +161,23 @@ export default {
         name: "", // 设备姓名(中文)
         brand: "", //年龄
         awatar: "",
-        typeId: "",
+     
         provider: "",
         util: "",
         utilPrice: "",
-        status: 1
+        status: 1,
+        overTime:'',
+        factoryTime:''
       },
       rules: {
         type: [{ required: true, message: "不能为空", trigger: "blur" }],
         name: [{ required: true, message: "不能为空", trigger: "blur" }],
         brand: [{ required: true, message: "不能为空", trigger: "blur" }],
-        typeId: [{ required: true, message: "不能为空", trigger: "blur" }],
         provider: [{ required: true, message: "不能为空", trigger: "blur" }],
         util: [{ required: true, message: "不能为空", trigger: "blur" }],
-        utilPrice: [{ required: true, message: "不能为空", trigger: "blur" }]
+        utilPrice: [{ required: true, message: "不能为空", trigger: "blur" }],
+        factoryTime:[{ required: true, message: "不能为空", trigger: "blur" }],
+        overTime:[{ required: true, message: "不能为空", trigger: "blur" }]
       }
     };
   },
@@ -195,9 +217,9 @@ export default {
               type: res.code == 1 ? "success" : "error",
               message: res.message
             });
-            this.dialogVisible = false;
-            this.getList({ limit: this.limit, offset: this.offset });
-            this.resetForm(formName);
+            // this.dialogVisible = false;
+            // this.getList({ limit: this.limit, offset: this.offset });
+            // this.resetForm(formName);
           });
         } else {
           console.log("error submit!!");
@@ -248,6 +270,9 @@ export default {
       getEquipmentList(data)
         .then(res => {
           this.tableData = res.data.rows;
+           if(this.tableData.length<1){
+            this.offset = this.offset-1>1?this.offset-1:1
+          }
           this.total = res.data.count;
         })
         .catch(err => {});

@@ -25,8 +25,8 @@ class LoginController extends baseController {
       // let time = app.config.timeRedis
       // await ctx.service.tools.generateToken(token,result,time);
 
-      const token = ctx.helper.loginToken({ corpid: result.username, userid: result.id }, 7200) // token生成
-      await app.redis.get('foo').set(result.username + result.id, token, 'ex', 7200) // 保存到redis
+      const token = ctx.helper.loginToken({ corpid: result.username, userid: result.id }, app.config.jwtTime) // token生成
+      await app.redis.get('foo').set(result.username + result.id, token, 'ex', app.config.jwtTime) // 保存到redis
       // ctx.body = { data: { token, expires: this.config.login_token_time }, code: 1, msg: '登录成功' } // 返回前端
       ctx.body = {
         code:1,

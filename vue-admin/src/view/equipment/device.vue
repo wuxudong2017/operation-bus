@@ -144,23 +144,8 @@
                     v-model="item.number"
                   ></el-input-number>
                 </el-form-item>
-                <el-form-item label="出厂时间">
-                  <el-date-picker
-                    v-model="item.factoryTime"
-                    type="date"
-                    format="yyyy-MM-dd"
-                    value-format="timestamp"
-                    size="small"
-                  ></el-date-picker>
-                </el-form-item>
-                <el-form-item label="过保日期">
-                  <el-date-picker
-                    v-model="item.overTime"
-                    type="date"
-                    format="yyyy-MM-dd"
-                    value-format="timestamp"
-                    size="small"
-                  ></el-date-picker>
+                   <el-form-item label="备注">
+                    <el-input v-model="item.remarks" type="textarea" resize="none" :autosize="{ minRows: 2, maxRows: 4 }" :minlength="5" clearable :maxlength="50" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="完成安装">
                   <el-radio v-model="item.anStatus" :label="1" checked>是</el-radio>
@@ -190,7 +175,6 @@ import {
   deleteDeviceS
 } from "@/api/order";
 import { getSchoolList } from "@/api/userRole";
-
 export default {
   name: "v-device",
   data() {
@@ -206,7 +190,7 @@ export default {
       imageUrl: "",
       formData: {
         position: "",
-        schoolId: ""
+        schoolId: "",
       },
       deletes: [], // 批量删除
       search: {
@@ -248,7 +232,8 @@ export default {
       schoolList: [],
       allTypes: [],
       rules: {
-        schoolId: [{ required: true, message: "不能为空", trigger: "change" }]
+      schoolId: [{ required: true, message: "不能为空", trigger: "change" }],
+      //  remarks:[{ regexp:/\w{5,50}/, message: "请输入5-50个字符", trigger: "blur" }]
       }
     };
   },
@@ -340,6 +325,7 @@ export default {
             let t = this.schoolList.filter(item => {
               return item.xxJbxxId == this.formData.schoolId;
             });
+           
             item.position = t.length > 0 ? t[0].xxmc : "";
             return item;
           });
@@ -393,8 +379,7 @@ export default {
       this.add = true;
       this.allTypes = this.allTypes.map(item => {
         item.number = 0;
-        item.factoryTime = null;
-        item.overTime = null;
+        item.remarks = "";
         item.anStatus = 1;
         return item;
       });
@@ -405,6 +390,9 @@ export default {
       getDeviceList(data)
         .then(res => {
           this.tableData = res.data.rows;
+           if(this.tableData.length<1){
+            this.offset = this.offset-1>1?this.offset-1:1
+          }
           this.total = res.data.count;
         })
         .catch(err => {});

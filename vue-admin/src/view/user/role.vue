@@ -300,6 +300,9 @@ export default {
       getRoleListA(data)
         .then(res => {
           this.tableData = res.data.rows;
+           if(this.tableData.length<1){
+            this.offset = this.offset-1>1?this.offset-1:1
+          }
           this.total = res.data.count;
         })
         .catch(err => {});

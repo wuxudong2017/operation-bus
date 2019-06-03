@@ -32,7 +32,7 @@
     </div>
     <!-- 添加数据弹窗 -->
     <el-dialog
-      :title="add?'新加用户':'编辑用户'"
+      :title="add?'新加故障标签':'编辑故障标签'"
       :visible.sync="dialogVisible"
       width="40%"
       @closed="handleClosed"
@@ -95,7 +95,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // 新加用户
+          // 新加故障标签
           createTag(this.formData).then(res => {
             this.$message({
               type: res.code == 1 ? "success" : "error",
@@ -111,11 +111,11 @@ export default {
         }
       });
     },
-    // 跟新用户信息
+    // 跟新故障标签信息
     editForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // 新加用户
+          // 新加故障标签
           editTag(this.formData.id, this.formData).then(res => {
             this.$message({
               type: res.code == 1 ? "success" : "error",
@@ -132,7 +132,7 @@ export default {
       });
     },
 
-    // 根据id 获取用户
+    // 根据id 获取故障标签
     getById(data) {
       
       getTag(data).then(res => {
@@ -148,16 +148,19 @@ export default {
        this.add = true;
       this.resetForm("ruleForm");
     },
-    // 获取用户列表
+    // 获取故障标签列表
     getList(data) {
       getTagListA(data)
         .then(res => {
           this.tableData = res.data.rows;
+          if(this.tableData.length<1){
+            this.offset = this.offset-1>1?this.offset-1:1
+          }
           this.total = res.data.count;
         })
         .catch(err => {});
     },
-    // 根据id删除 用户
+    // 根据id删除 故障标签
     deleteOne(data) {
       this.$msgbox({
         title: "删除操作",
