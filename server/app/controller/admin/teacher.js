@@ -7,11 +7,11 @@ class TeacherController extends Controller {
         const { ctx } = this;
         let limit = Number(ctx.request.query.limit)
         let offset= Number(ctx.request.query.offset)
-        let xxJbxxId = ctx.request.query.xxJbxxId
-        let result = await ctx.service.admin.teacher.index(limit,offset,xxJbxxId);
+        let xxJbxxId = ctx.request.query.xxJbxxId;
+        let name =  ctx.request.query.name;
+        let result = await ctx.service.admin.teacher.index(limit,offset,xxJbxxId,name);
         this.ctx.body = result;
       }
-    
     async create() {
         const { ctx } = this;
        let formData = ctx.request.body;
@@ -21,6 +21,7 @@ class TeacherController extends Controller {
        password = formData.password,
        schoolId = formData.school_id;
        let result = await ctx.service.admin.teacher.create(name,phone,username,password,schoolId);
+       await ctx.service.wx.register.teacherId()
         if(result==1){
             ctx.body = {
                 code:1,
@@ -41,7 +42,8 @@ class TeacherController extends Controller {
       async destroy() {
         const { ctx } = this;
         let id = ctx.params.id;
-        let result =await ctx.service.admin.teacher.destroy(id)
+        let result =await ctx.service.admin.teacher.destroy(id);
+        await ctx.service.wx.register.teacherId()
         this.ctx.body = {
           code:result,
           message:result==1?"刪除成功":"刪除失敗"
@@ -51,15 +53,14 @@ class TeacherController extends Controller {
         const { ctx } = this;
         let id = ctx.params.id;
         let formData = ctx.request.body;
-        let sure = formData.passwordN==""?false:true;
-        if(sure){
-          let passwordN = formData.passwordN
-          let result = await ctx.service.admin.teacher.update(id,passwordN)
-          this.ctx.body = "1"
+        if(formData.passwordN){
+          formData.password = formData.passwordN
         }else{
-          this.ctx.body = '修改'+id;
+          formData.password = formData.password
         }
-
+        let result = await ctx.service.admin.teacher.update(id,formData)
+        await ctx.service.wx.register.teacherId()
+        this.ctx.body =result
       }
       async show() {
         const { ctx } = this;

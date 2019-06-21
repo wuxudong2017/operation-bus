@@ -71,7 +71,7 @@
       ></el-pagination>
     </div>
 
-    <el-dialog title="查看维修详情" :visible="dialogVisible" :before-close="handleClosed" width="60%">
+    <el-dialog :close-on-click-modal="false" title="查看维修详情" :visible="dialogVisible" :before-close="handleClosed" width="60%">
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form label-width="80px">

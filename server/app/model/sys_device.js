@@ -5,7 +5,7 @@ module.exports = app => {
 
   const Model = app.model.define('sysDevice', {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER(10),
       allowNull: true,
       autoIncrement:true,
       primaryKey: true,

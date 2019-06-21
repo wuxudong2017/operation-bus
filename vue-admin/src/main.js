@@ -17,6 +17,10 @@ import 'babel-polyfill'
 // v-charts
 import Vcharts from 'v-charts'
 Vue.use(Vcharts)
+import Print from 'vue-print-nb'
+Vue.use(Print); //注册
+
+
 
 // 用户权限
 import './permission'

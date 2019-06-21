@@ -51,6 +51,13 @@
           @click="deleteMany"
           size="mini"
         >批量删除</el-button>
+        <el-button
+          type="success"
+          v-if="hasPer('device:add')"
+          icon="el-icon-s-ticket"
+          @click="createQRcode"
+          size="mini"
+        >生成二维码</el-button>
       </div>
     </div>
     <el-table
@@ -68,11 +75,13 @@
       <el-table-column prop="brand" label="设备品牌"></el-table-column>
       <el-table-column label="设备状态">
         <template slot-scope="scope">
-           <i v-if="scope.row.deviceStatus==0" class="el-icon-warning" style="color:#e6a23c;font-size:24px;" ></i>
-           <i  v-else class="el-icon-success" style="color:#67C23A;font-size:24px;"></i>
+          <i
+            v-if="scope.row.deviceStatus==0"
+            class="el-icon-warning"
+            style="color:#e6a23c;font-size:24px;"
+          ></i>
+          <i v-else class="el-icon-success" style="color:#67C23A;font-size:24px;"></i>
         </template>
-
-
       </el-table-column>
       <el-table-column prop="position" label="设备安装位置"></el-table-column>
       <el-table-column prop="numG" label="设备故障次数"></el-table-column>
@@ -119,6 +128,7 @@
       :visible.sync="dialogVisible"
       width="80%"
       @closed="handleClosed"
+      :close-on-click-modal="false"
     >
       <el-form ref="ruleForm" :rules="rules" :model="formData" label-width="100px">
         <el-form-item label="设备位置" prop="schoolId">
@@ -144,8 +154,17 @@
                     v-model="item.number"
                   ></el-input-number>
                 </el-form-item>
-                   <el-form-item label="备注">
-                    <el-input v-model="item.remarks" type="textarea" resize="none" :autosize="{ minRows: 2, maxRows: 4 }" :minlength="5" clearable :maxlength="50" show-word-limit></el-input>
+                <el-form-item label="备注">
+                  <el-input
+                    v-model="item.remarks"
+                    type="textarea"
+                    resize="none"
+                    :autosize="{ minRows: 2, maxRows: 4 }"
+                    :minlength="5"
+                    clearable
+                    :maxlength="50"
+                    show-word-limit
+                  ></el-input>
                 </el-form-item>
                 <el-form-item label="完成安装">
                   <el-radio v-model="item.anStatus" :label="1" checked>是</el-radio>
@@ -160,11 +179,44 @@
         </el-form-item>
       </el-form>
     </el-dialog>
+    <!-- 生成二维码弹窗 -->
+    <!-- showQRcode -->
+    <el-dialog
+      title="生成二维码"
+      :visible.sync="showQRcode"
+      width="1120px"
+      :close-on-click-modal="false"
+      @closed="handleClosedQR"
+    >
+      <div style="margin-bottom:20px;"> <el-button size="small" v-print="'#QRbox'">打印二维码</el-button></div>
+      <el-row id="QRbox">
+        <template v-for="(item,index) in query">
+          <el-col :span="6" :key="index">
+            <el-card shadow :body-style="{padding:'0'}">
+              <div class="QRcode">
+                <div class="QRcodeIcon">
+                  <div :id="'QR'+item.id" class="QRcodeImg"></div>
+                </div>
+                <div class="text">
+                  <img src="@/assets/tiye_logo.png" alt>
+                  <p>请爱护设备,发生故障请联系学校管理员扫码报修</p>
+                  <span class="sn">
+                    <span style>设备编码:</span>
+                    <strong>{{item.id}}</strong>
+                  </span>
+                </div>
+              </div>
+            </el-card>
+          </el-col>
+        </template>
+      </el-row>
+    </el-dialog>
   </div>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import service from "@/utils/service";
+import QRCode from "qrcodejs2";
 import {
   getDeviceList,
   createDevice,
@@ -182,6 +234,7 @@ export default {
       add: true, //判断是否是添加
       dialogVisible: false, //弹窗
       dialogTag: false,
+      showQRcode: false,
       tableData: [],
       total: 0,
       limit: 10,
@@ -190,7 +243,7 @@ export default {
       imageUrl: "",
       formData: {
         position: "",
-        schoolId: "",
+        schoolId: ""
       },
       deletes: [], // 批量删除
       search: {
@@ -203,8 +256,8 @@ export default {
           {
             text: "最近一周",
             onClick(picker) {
-              const end = new Date(new Date().toLocaleDateString())
-              const start = new Date(new Date().toLocaleDateString())
+              const end = new Date(new Date().toLocaleDateString());
+              const start = new Date(new Date().toLocaleDateString());
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
               picker.$emit("pick", [start, end]);
             }
@@ -212,8 +265,8 @@ export default {
           {
             text: "最近一个月",
             onClick(picker) {
-              const end = new Date(new Date().toLocaleDateString())
-              const start = new Date(new Date().toLocaleDateString())
+              const end = new Date(new Date().toLocaleDateString());
+              const start = new Date(new Date().toLocaleDateString());
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
               picker.$emit("pick", [start, end]);
             }
@@ -221,8 +274,8 @@ export default {
           {
             text: "最近三个月",
             onClick(picker) {
-              const end = new Date(new Date().toLocaleDateString())
-              const start = new Date(new Date().toLocaleDateString())
+              const end = new Date(new Date().toLocaleDateString());
+              const start = new Date(new Date().toLocaleDateString());
               start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
               picker.$emit("pick", [start, end]);
             }
@@ -231,9 +284,10 @@ export default {
       },
       schoolList: [],
       allTypes: [],
+      query: [], // 二维码数据
       rules: {
-      schoolId: [{ required: true, message: "不能为空", trigger: "change" }],
-      //  remarks:[{ regexp:/\w{5,50}/, message: "请输入5-50个字符", trigger: "blur" }]
+        schoolId: [{ required: true, message: "不能为空", trigger: "change" }]
+        //  remarks:[{ regexp:/\w{5,50}/, message: "请输入5-50个字符", trigger: "blur" }]
       }
     };
   },
@@ -247,7 +301,37 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
+    handleClosedQR() {
+      this.$refs.multipleTable.clearSelection();
+      this.query = [];
+      this.showQRcode = false;
+    },
+    // 批量生成二维码
+    createQRcode() {
+      // this.$qrCode();
+      if (this.query.length < 1) {
+        this.$notify.warning({
+          title: "警告",
+          message: "请选择需要批量生成的设备"
+        });
+      } else {
+        this.showQRcode = true;
+        this.$nextTick(() => {
+          this.query.forEach(item => {
+            new QRCode(document.getElementById("QR" + item.id), {
+              text: "" + item.id,
+              width: 60,
+              height: 60,
+              colorDark: "#000000",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.L
+            });
+          });
+        });
+      }
+    },
     handleSelectChange(val) {
+      this.query = val;
       this.deletes = val.map(item => {
         return item.id;
       });
@@ -294,7 +378,8 @@ export default {
         offset: this.offset,
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
-        deviceStatus: this.search.deviceStatus!=null ? this.search.deviceStatus :null
+        deviceStatus:
+          this.search.deviceStatus != null ? this.search.deviceStatus : null
       });
     },
     // 获取学校信息
@@ -325,7 +410,7 @@ export default {
             let t = this.schoolList.filter(item => {
               return item.xxJbxxId == this.formData.schoolId;
             });
-           
+
             item.position = t.length > 0 ? t[0].xxmc : "";
             return item;
           });
@@ -390,8 +475,8 @@ export default {
       getDeviceList(data)
         .then(res => {
           this.tableData = res.data.rows;
-           if(this.tableData.length<1){
-            this.offset = this.offset-1>1?this.offset-1:1
+          if (this.tableData.length < 1) {
+            this.offset = this.offset - 1 > 1 ? this.offset - 1 : 1;
           }
           this.total = res.data.count;
         })
@@ -441,7 +526,8 @@ export default {
         offset: this.offset,
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
-        deviceStatus: this.search.deviceStatus!=null ? this.search.deviceStatus  :null
+        deviceStatus:
+          this.search.deviceStatus != null ? this.search.deviceStatus : null
       });
     },
     offset(res) {
@@ -450,14 +536,15 @@ export default {
         offset: res,
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
-        deviceStatus: this.search.deviceStatus!=null ? this.search.deviceStatus :null
+        deviceStatus:
+          this.search.deviceStatus != null ? this.search.deviceStatus : null
       });
     }
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .avatar-uploader {
   .el-upload {
     border: 1px dashed #d9d9d9;
@@ -481,6 +568,50 @@ export default {
     width: 100px;
     height: 100px;
     display: block;
+  }
+}
+.QRcode {
+  position: relative;
+  overflow: hidden;
+  height: 100px;
+  width: 260px;
+  .QRcodeIcon {
+    width: 100px;
+    height: 100px;
+    float: left;
+    padding: 10px;
+    background-color: #02a0ea;
+    .QRcodeImg {
+      width: 80px;
+      height: 80px;
+      padding: 10px;
+      background-color: #ffffff;
+    }
+  }
+  .text {
+    float: left;
+    width: 160px;
+    text-align: left;
+    padding: 5px 0 5px 10px;
+    font-size: 12px;
+    img {
+      display: block;
+      margin: 0 auto;
+      width: 64px;
+      height: 40px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .sn {
+      text-indent: 0;
+      margin-top: 6px;
+      display: inline-block
+    }
+    p {
+      display: inline-block;
+      text-indent: 2em;
+      line-height: 14px;
+    }
   }
 }
 </style>

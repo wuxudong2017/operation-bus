@@ -1,5 +1,19 @@
 <template>
   <div class="data-table">
+    <!-- 搜索 -->
+    <el-row class="nav">
+      <el-col :span="6">
+        <el-input
+          size="small"
+          type="number"
+          clearable
+          v-model="formData.keywords"
+          placeholder="请输工单号"
+        >
+          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+        </el-input>
+      </el-col>
+    </el-row>
     <div class="nav">
       <el-button
         type="primary"
@@ -9,14 +23,6 @@
         size="mini"
       >新加工单</el-button>
     </div>
-    <!-- 搜索 -->
-    <el-row>
-      <el-col :span="6">
-        <el-input size="small"  type="number" clearable v-model="formData.keywords" placeholder="请输工单号">
-          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
-        </el-input>
-      </el-col>
-    </el-row>
     <el-table :data="tableData" stripe style="width: 100%;min-height:520px;" v-loading="tabLoading">
       <el-table-column type="index"></el-table-column>
       <el-table-column prop="id" label="工单号" width="180"></el-table-column>
@@ -78,7 +84,13 @@
       ></el-pagination>
     </div>
     <!-- 添加数据弹窗 -->
-    <el-dialog title="开始派单" :visible.sync="dialogVisible" width="40%" @closed="handleClosed">
+    <el-dialog
+      title="开始派单"
+      :close-on-click-modal="false"
+      :visible.sync="dialogVisible"
+      width="40%"
+      @closed="handleClosed"
+    >
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="80px">
         <el-form-item label="派送学校">{{formData.xxmc}}</el-form-item>
         <el-form-item label="报修人">{{formData.name}}</el-form-item>
@@ -104,12 +116,8 @@
           <el-button size="mini" @click="resetForm('ruleForm')">重置</el-button>
         </el-form-item>
       </el-form>
-      <el-dialog
-        :visible.sync="showC"
-        append-to-body
-        title="查看详情"
-      >
-        <el-carousel  :autoplay="false" :interval="4000" type="card" height="600px">
+      <el-dialog :visible.sync="showC" append-to-body title="查看详情" :close-on-click-modal="false">
+        <el-carousel :autoplay="false" :interval="4000" type="card" height="600px">
           <el-carousel-item v-for="(item,index) in pictureS" :key="item">
             <img width="400" :src="item" :key="index" alt="No Image" @click="showCarousel">
           </el-carousel-item>
@@ -142,7 +150,7 @@ export default {
   data() {
     return {
       dialogVisible: false, //弹窗
-      showC:false,
+      showC: false,
       tableData: [],
       total: 0,
       limit: 10,
@@ -155,7 +163,7 @@ export default {
         keywords: ""
       },
       picture: [],
-      pictureS:[],
+      pictureS: [],
       rules: {
         menuName: [
           { required: true, message: "不能为空", trigger: "blur" },
@@ -173,8 +181,8 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
-    showCarousel(){
-      this.showC = true
+    showCarousel() {
+      this.showC = true;
     },
     // 搜索功能
     search() {
@@ -231,8 +239,8 @@ export default {
       getOrderList(data)
         .then(res => {
           this.tableData = res.data.rows;
-           if(this.tableData.length<1){
-            this.offset = this.offset-1>1?this.offset-1:1
+          if (this.tableData.length < 1) {
+            this.offset = this.offset - 1 > 1 ? this.offset - 1 : 1;
           }
           this.total = res.data.count;
         })
@@ -268,12 +276,13 @@ export default {
       getOrder(data).then(res => {
         let data = res.data ? res.data : "";
         this.picture = res;
-        console.log(res)
+        console.log(res);
         this.formData = data;
-        this.picture =data.picture != "" || data.picture ? JSON.parse(data.picture) : [];
-          this.pictureS =  JSON.parse(data.picture).map((item)=>{
-            return item.replace(/200x200.*/,"")
-          })
+        this.picture =
+          data.picture != "" || data.picture ? JSON.parse(data.picture) : [];
+        this.pictureS = JSON.parse(data.picture).map(item => {
+          return item.replace(/200x200.*/, "");
+        });
       });
     },
     //分页

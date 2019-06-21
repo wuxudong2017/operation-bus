@@ -60,6 +60,7 @@
       :visible.sync="dialogVisible"
       width="60%"
       @closed="handleClosed"
+      :close-on-click-modal="false"
     >
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="80px">
         <el-form-item label="角色名" prop="roleName">

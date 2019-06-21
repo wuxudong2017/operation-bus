@@ -57,7 +57,7 @@ class RegisterService extends Service {
         return await model.SysSchoolUser.findOne({
             where: {
                 phone,
-                password
+                password,
             },
             include: {
                 model: model.XxJbxx,
@@ -68,7 +68,8 @@ class RegisterService extends Service {
                     [sequelzie.col('xxJbxx.xxmc'), 'xxmc']
                 ],
                 exclude: ['password', 'createTime']
-            }
+            },
+            raw:true,
         })
     }
     // 获取学校工单
@@ -98,24 +99,35 @@ class RegisterService extends Service {
     // }
     async teacherOrder(id) {
         const {model} = this.app;
-        let result = await model.SysOrder.findAll({
-          attributes:[[sequelzie.fn('count')]],
-          plain:false,   
-
+        let result = await model.SysOrder.count({
+            where:{userId:id},
+            group:'status',
         })
         return result;
+    }
+    async teacherId(){
+        const {app} = this;
+        const {model} = this.app;
+        let result = await model.SysSchoolUser.findAll({
+            where:{status:1},
+            attributes:['id'],
+            raw:true,
+        })
+        let arr = result.map(item=>{
+            return item.id
+        })
+        await app.redis.get('foo').set('userarr',arr.join(','))
+        return arr;
 
     }
-
-
-
     // 更新教师信息
     async updateTeacher(id, formData) {
         const { model } = this.app;
         let result;
         if (!formData.password) {
              await model.SysSchoolUser.update(formData, {
-                where: { id }
+                where: { id },
+                raw:true,
             })
             return [1]
         } else {
@@ -123,26 +135,23 @@ class RegisterService extends Service {
                 where: {
                     id,
                     password: formData.password
-                }
+                },
+                raw:true,
+                
             })
             if (!has) {
                 return  result = [0]
             } else {
                 formData.password = formData.newPassword
                  await model.SysSchoolUser.update(formData, {
-                    where: { id }
+                    where: { id },
+                    raw:true,
                 })
                 return result = [1]
 
             }
-
         }
-      
-
-
     }
-
-
 }
 
 module.exports = RegisterService;

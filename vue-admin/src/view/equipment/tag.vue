@@ -36,6 +36,7 @@
       :visible.sync="dialogVisible"
       width="40%"
       @closed="handleClosed"
+      :close-on-click-modal="false"
     >
      
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="80px">

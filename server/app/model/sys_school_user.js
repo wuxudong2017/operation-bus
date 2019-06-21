@@ -51,6 +51,12 @@ module.exports = app => {
       allowNull: false,
       field: 'create_time'
     },
+    status:{
+      type: DataTypes.INTEGER(1),
+      defaultValue:0,    
+      allowNull: false,
+      field: 'status'
+    }
     
   }, {
     tableName: 'sys_school_user'

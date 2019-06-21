@@ -14,11 +14,10 @@ class DeviceController extends Controller {
         let result= await ctx.service.admin.device.index(limit,offset,schoolId,timeRange,deviceStatus) 
         ctx.body = result
       }
-    
-    
     async create() {
         const { ctx } = this;
         const formData = ctx.request.body;
+        console.log(formData)
         let postion = formData.postion;
         let ArrayData = [];
         for(let i =0;i<formData.length;i++){

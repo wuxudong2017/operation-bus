@@ -4,7 +4,7 @@ const Service = require('egg').Service;
 const sequelize = require('sequelize')
 class TeacherService extends Service {
     // 查询用户列表
-    async index(limit,offset,xxJbxxId){
+    async index(limit,offset,xxJbxxId,name){
         let {model} =this.app;
        let result = model.SysSchoolUser.findAndCountAll({
         include:{
@@ -20,7 +20,9 @@ class TeacherService extends Service {
                 [sequelize.col('xxJbxx.xxmc'),'xxmc']
             ]
         },
-       
+        where:{
+          $and:[name?{name:{$like:`%${name}%`}}:'']
+        },
         raw:true,
         limit: limit,
         offset: (offset - 1) * 10,
@@ -67,11 +69,9 @@ class TeacherService extends Service {
       })
       return result 
   }
-  async update(id,passwordN){
+  async update(id,formData){
       let {model} = this.app;
-      let result = await model.SysSchoolUser.update({
-          password:passwordN
-      },{
+      let result = await model.SysSchoolUser.update(formData,{
           where:{
               id
           }

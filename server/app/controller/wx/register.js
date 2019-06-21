@@ -17,7 +17,6 @@ class RegisterController extends BaseController {
       password = formData.password,
       schoolId = formData.schoolId;
     let result = await ctx.service.wx.register.create(name, phone, username, password, schoolId);
-    console.log(result)
     if (result == 0) {
       ctx.body = {
         code: 1,
@@ -37,36 +36,12 @@ class RegisterController extends BaseController {
 
   }
   // 维修工人登录
-      async loginWorker(){
-        let {ctx} = this;
-        let formData = ctx.request.body;
-        let username = formData.username;
-        let password = formData.password;
-        let result = await ctx.service.wx.register.loginWorker(username,password);
-        if(result){
-          let token =  await ctx.service.tools.uuid();
-            ctx.body = {
-              token,
-              result
-            }
-            ctx.locals = token
-        }else{
-            ctx.body ={
-                code:0,
-                message:"用户名密码错误"
-            }
-        }
-      }
-
-
-
-  // 学校用户登录
-  async login() {
+  async loginWorker() {
     let { ctx } = this;
     let formData = ctx.request.body;
-    let phone = formData.phone;
+    let username = formData.username;
     let password = formData.password;
-    let result = await ctx.service.wx.register.login(phone, password);
+    let result = await ctx.service.wx.register.loginWorker(username, password);
     if (result) {
       let token = await ctx.service.tools.uuid();
       ctx.body = {
@@ -78,6 +53,35 @@ class RegisterController extends BaseController {
       ctx.body = {
         code: 0,
         message: "用户名密码错误"
+      }
+    }
+  }
+  // 学校用户登录
+  async login() {
+    let { ctx,app } = this;
+    let formData = ctx.request.body;
+    let phone = formData.phone;
+    let password = formData.password;
+    let result = await ctx.service.wx.register.login(phone, password);
+    if (result) {
+      if (result.status == 1) {
+        let token = result.id;
+        ctx.body = {
+          token,
+          result
+        }
+        ctx.locals = token
+      } else {
+        ctx.body = {
+          code: 0,
+          message: "用户正在审核中,请联系管理员",
+        }
+      }
+
+    } else {
+      ctx.body = {
+        code: 0,
+        message: "用户名密码错误",
       }
     }
 
@@ -99,7 +103,6 @@ class RegisterController extends BaseController {
     let id = ctx.params.id
     let formData = ctx.request.body;
     let result = await ctx.service.wx.register.updateTeacher(id, formData);
-    // ctx.body = result
     if (result[0] == 0) {
       ctx.body = {
         code: 0,

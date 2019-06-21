@@ -4,10 +4,16 @@ module.exports = app => {
   const DataTypes = app.Sequelize;
 
   const Model = app.model.define('sysEquipment', {
+    typeIndex:{
+      type: DataTypes.INTEGER(4),
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement:true,
+      field: 'type_index'
+    },
     id: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      primaryKey: true,
       field: 'id'
     },
     type: {

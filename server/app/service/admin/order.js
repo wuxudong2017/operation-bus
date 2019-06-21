@@ -35,7 +35,7 @@ class OrderService extends Service {
                 ]
             },
             where:{
-                $and:[{status},keywords?{id:keywords}:null]
+                $and:[{status},keywords?{id:{$like:'%'+keywords+'%'}}:null]
             },
           
             raw: true,

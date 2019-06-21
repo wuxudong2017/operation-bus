@@ -139,7 +139,7 @@ module.exports = appInfo => {
   config.session = {
     key: 'EGG_SESSION',
     maxAge: 30 * 60 * 1000,
-    httpOnly: true,
+    httpOnly: false,
     renew: true,
     entrypt: true
   }
