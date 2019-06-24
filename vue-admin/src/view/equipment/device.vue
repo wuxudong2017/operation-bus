@@ -46,14 +46,14 @@
         >新加设备</el-button>
         <el-button
           type="danger"
-          v-if="hasPer('device:add')"
+          v-if="hasPer('device:delete')"
           icon="el-icon-delete"
           @click="deleteMany"
           size="mini"
         >批量删除</el-button>
         <el-button
           type="success"
-          v-if="hasPer('device:add')"
+          v-if="hasPer('device:creatQR')"
           icon="el-icon-s-ticket"
           @click="createQRcode"
           size="mini"
@@ -69,11 +69,11 @@
       @selection-change="handleSelectChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column prop="id" label="设备编号"></el-table-column>
+      <el-table-column prop="deviceId" label="设备编号"></el-table-column>
       <el-table-column prop="name" label="设备名称"></el-table-column>
       <el-table-column prop="type" label="设备类型"></el-table-column>
       <el-table-column prop="brand" label="设备品牌"></el-table-column>
-      <el-table-column label="设备状态">
+      <el-table-column label="状态" width="80">
         <template slot-scope="scope">
           <i
             v-if="scope.row.deviceStatus==0"
@@ -195,14 +195,14 @@
             <el-card shadow :body-style="{padding:'0'}">
               <div class="QRcode">
                 <div class="QRcodeIcon">
-                  <div :id="'QR'+item.id" class="QRcodeImg"></div>
+                  <div :id="'QR'+item.deviceId" class="QRcodeImg"></div>
                 </div>
                 <div class="text">
                   <img src="@/assets/tiye_logo.png" alt>
                   <p>请爱护设备,发生故障请联系学校管理员扫码报修</p>
                   <span class="sn">
                     <span style>设备编码:</span>
-                    <strong>{{item.id}}</strong>
+                    <strong>{{item.deviceId}}</strong>
                   </span>
                 </div>
               </div>
@@ -317,9 +317,10 @@ export default {
       } else {
         this.showQRcode = true;
         this.$nextTick(() => {
+          console.log(this.query)
           this.query.forEach(item => {
-            new QRCode(document.getElementById("QR" + item.id), {
-              text: "" + item.id,
+            new QRCode(document.getElementById("QR" + item.deviceId), {
+              text: "" + item.deviceId,
               width: 60,
               height: 60,
               colorDark: "#000000",

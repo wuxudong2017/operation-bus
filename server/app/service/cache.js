@@ -24,7 +24,6 @@ class CatchService extends Service {
       async remove(key){
         if(this.app.redis){
             var data = await this.app.redis.del(key);
-            console.log(data)
            return data
         }
       }

@@ -42,7 +42,8 @@ class PermissionService extends Service {
         let result = await model.SysPermission.findOne({
             where: {
                 id
-            }
+            },
+            raw:true,
         })
         return result
     }

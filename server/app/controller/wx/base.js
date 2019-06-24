@@ -12,6 +12,9 @@ const Jimp = require('jimp')
 const awaitWriteStream = require('await-stream-ready').write;
 //管道读入一个虫洞。
 const sendToWormhole = require('stream-wormhole');
+const sequelize = require('sequelize')
+
+
 
 class BaseController extends Controller {
     async upload() {
@@ -65,7 +68,6 @@ class BaseController extends Controller {
     async putGeo(){
         const {ctx,app} = this;
         let formData = ctx.request.body;
-        //console.log(`fromData----->${JSON.stringify(formData)}`);
         let userId = formData.userId
         await app.redis.get('geo').set(userId,JSON.stringify(formData),'ex',20)
         ctx.body = 'success'
@@ -90,8 +92,6 @@ class BaseController extends Controller {
     await mkDirp(dir)
     // 文件流加密生成文件名
     let md5S = md5(fileName);
-    console.log(stream)
-    console.log(md5S)
     let uploadDir = path.join(dir,md5S+path.extname(fileName));
     // 建立写入流
     let writStream = fs.createWriteStream(uploadDir);
@@ -101,6 +101,25 @@ class BaseController extends Controller {
       url: app.config.host+uploadDir.slice(3).replace(/\\/g,'/')
     }
   }
+
+  // 获取当前学校下的设备类型
+  async getSchoolEqu(){
+    const {ctx} = this;
+    let query = ctx.request.query;
+    ctx.validate({
+        schoolId:{required:true,type:'string'}
+    },query);
+    let schoolId = query.schoolId;
+    let reuslt = await ctx.service.wx.base.getSchoolEqu(schoolId);
+    ctx.body = reuslt
+  }
+  async test(){
+ 
+  }
+
+
+
+
  
 }
 module.exports = BaseController;

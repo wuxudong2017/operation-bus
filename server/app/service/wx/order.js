@@ -23,21 +23,32 @@ class OrderService extends Service {
     })
     return result;
   }
-  async create(equipmentId, schoolId, faultDesc, tagId, userId, picture) {
+  async create(formData) {
     let { model } = this.app;
     const t = await model.transaction({ autocommit: true });
     let id = await this.ctx.service.tools.setOrderId();
     let createTime = await this.ctx.service.tools.getTime()
     try {
       await model.SysOrder.create({
-        id, equipmentId, schoolId, faultDesc, tagId, userId, picture, createTime, updateTime: createTime,
-        status: '0'
+        id,
+        ...formData,
+        status: '0',
+        createTime
       })
       await model.SysOrderStatus.create({
         orderId: id,
         orderStatus: '0',
         updateTime: createTime
       })
+      if(formData.deviceId){
+        let data1 = await model.SysDevice.findOne({
+          where:{deviceId:formData.deviceId},
+          raw:true
+        })
+        await model.SysDevice.update({deviceStatus:0,numG:Number(data1.numG)+1},{
+          where:{deviceId:formData.deviceId}
+        },{ transaction: t });
+      }
 
       await t.commit()
       return true
@@ -63,6 +74,7 @@ class OrderService extends Service {
       where: {
         id
       },
+      raw:true,
       attributes: {
         include: [
           [
@@ -117,15 +129,22 @@ class OrderService extends Service {
             where: {
               orderId: id
             }
-          }, { transaction: t })
+          }, { transaction: t });
+          if(formData.deviceId){
+            let data1 = await model.SysDevice.findOne({
+              where:{deviceId:formData.deviceId},
+              raw:true
+            })
+            await model.SysDevice.update({deviceStatus:0,numG:Number(data1.numG)+1},{
+              where:{deviceId:formData.deviceId}
+            }, { transaction: t });
+          }
         await t.commit()
         return true
       } catch (e) {
-        console.log(e)
         await t.rollback();
         return false
       }
-
     }else{
      return  await model.SysOrder.update(formData, {
         where: {
@@ -154,7 +173,7 @@ class OrderService extends Service {
       await t.commit()
       return true;
     } catch (e) {
-      console.log(e)
+      
       await t.rollback()
       return false;
     }
@@ -162,7 +181,12 @@ class OrderService extends Service {
   // 维修人员工单获取
   async workOrder(jobNumber){
     let {model} = this.app;
-  
+  }
+  // 评价得分
+  async evaluate(orderId,fromData){
+    const {model} = this.app;
+    let result = await model.Evaluate.create({orderId,...fromData})  
+    return result;
   }
 }
 

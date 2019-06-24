@@ -73,38 +73,38 @@ class RegisterService extends Service {
         })
     }
     // 获取学校工单
-    // async teacherOrder(id) {
-    //     let { model } = this.app;
-    //     let result1 = await model.SysOrder.count({
-    //         where: {
-    //             userId: id,
-    //             $or: [{ status: '0' }, { status: '1' }]
-    //         }
-    //     })
-    //     let result2 = await model.SysOrder.count({
-    //         where: {
-    //             userId: id,
-    //             status: '2'
-    //         }
-    //     })
-    //     let result3 = await model.SysOrder.count({
-    //         where: {
-    //             userId: id,
-    //             status: '3'
-    //         }
-    //     })
-    //     let result = { wait: result1, start: result2, end: result3 };
-
-    //     return result;
-    // }
     async teacherOrder(id) {
-        const {model} = this.app;
-        let result = await model.SysOrder.count({
-            where:{userId:id},
-            group:'status',
+        let { model } = this.app;
+        let result1 = await model.SysOrder.count({
+            where: {
+                userId: id,
+                $or: [{ status: '0' }, { status: '1' }]
+            }
         })
+        let result2 = await model.SysOrder.count({
+            where: {
+                userId: id,
+                status: '2'
+            }
+        })
+        let result3 = await model.SysOrder.count({
+            where: {
+                userId: id,
+                status: '3'
+            }
+        })
+        let result = { wait: result1, start: result2, end: result3 };
+
         return result;
     }
+    // async teacherOrder(id) {
+    //     const {model} = this.app;
+    //     let result = await model.SysOrder.count({
+    //         where:{userId:id},
+    //         group:'status',
+    //     })
+    //     return result;
+    // }
     async teacherId(){
         const {app} = this;
         const {model} = this.app;

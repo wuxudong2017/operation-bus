@@ -1,46 +1,56 @@
 'use strict';
 
 const Service = require('egg').Service;
-const Sequelize=require('sequelize')
+const Sequelize = require('sequelize')
 class BaseService extends Service {
   async typeEquipment() {
-      let {model} = this.app
-     return model.SysEquipment.findAll({
-       where:{
-         status:1
-       },
-       order:[['createTime','ASC']]
+    let { model } = this.app
+    return model.SysEquipment.findAll({
+      where: {
+        status: 1
+      },
+      raw: true,
+      order: [['createTime', 'ASC']]
 
-     })
+    })
   }
-  async tagType(){
-    let {model} = this.app
-      return await model.SysTag.findAll({
-          
-      })
+  async tagType() {
+    let { model } = this.app
+    return await model.SysTag.findAll({
+      raw: true,
+    })
   }
-  async getOrderStatus(orderId){
-    const {model} = this.app;
+  async getOrderStatus(orderId) {
+    const { model } = this.app;
     let result = await model.SysOrderStatus.findAll({
-      include:[{
-        model:model.SysUserInfo,
-        attributes:[]
+      include: [{
+        model: model.SysUserInfo,
+        attributes: []
       }],
-      where:{
+      where: {
         orderId
       },
-      attributes:{
-        include:[
-          [Sequelize.col('sysUserInfo.name'),'name']
+      attributes: {
+        include: [
+          [Sequelize.col('sysUserInfo.name'), 'name']
         ],
-        exclude:['id','orderContent']
+        exclude: ['id', 'orderContent']
       },
-      raw:true,
-      order:[['updateTime','ASC']]
+      raw: true,
+      order: [['updateTime', 'ASC']]
     })
     return result
   }
- 
+  async getSchoolEqu(schoolId) {
+    const { model } = this.app;
+    let result = await model.SysDevice.findAll({
+      where: { schoolId },
+      group: 'equipmentId',
+      attributes: ['equipmentId', 'type', 'awatar',[Sequelize.fn('count', '*'), 'count']],
+      raw: true
+    })
+    return result
+  }
 
 }
 module.exports = BaseService;

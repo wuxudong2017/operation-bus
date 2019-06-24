@@ -120,9 +120,17 @@ module.exports = app => {
       type:DataTypes.STRING(255),
       allowNull: true,
       field: 'remarks'
-
     },
-    
+    deviceId:{
+      type:DataTypes.INTEGER(10),
+      allowNull: false,
+      field: 'device_id'
+    },
+    typeIndex:{
+      type:DataTypes.INTEGER(4),
+      allowNull: false,
+      field: 'type_index'
+    },
   }, {
     tableName: 'sys_device',
   });

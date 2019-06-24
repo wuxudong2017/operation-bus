@@ -207,14 +207,14 @@ export function deleteTeacher(data){
  * @param {故障标签管理} data 
  */
 
-// 获取教师列表
+// 获取故障标签列表
 export function getTagList(data){
     return request({
         url:'/api/admin/tag/new',
         method:'get',
     })
 }
-// 获取全部教师列表
+// 获取全部故障标签列表
 export function getTagListA(data){
     return request({
         url:'/api/admin/tag',
@@ -222,7 +222,7 @@ export function getTagListA(data){
         params:data,
     })
 }
-// 新加教师
+// 新加故障标签
 export function createTag(data){
     return request({
         url:'/api/admin/tag',
@@ -230,14 +230,14 @@ export function createTag(data){
         data
     })
 }
-// 根据教师id 获取教师
+// 根据故障标签id 获取故障标签
 export function getTag(data){
     return request({
         url:'/api/admin/tag/'+data+'/edit',
         method:'get',
     })
 }
-// 根据教师id 获取教师
+// 根据故障标签id 获取故障标签
 export function editTag(id,data){
     return request({
         url:'/api/admin/tag/'+id,
@@ -245,7 +245,7 @@ export function editTag(id,data){
         data
     })
 }
-// 根据id 删除教师
+// 根据id 删除故障标签
 
 export function deleteTag(data){
     return request({

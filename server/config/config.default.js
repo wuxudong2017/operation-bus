@@ -28,7 +28,7 @@ module.exports = appInfo => {
   }
   config.jwt = {
     enable: true,
-    ignore: ['/public/', '/api/admin/login','/api/admin/upload' ,'/api/wx'], // 哪些请求不需要认证
+    ignore: ['/public/', '/api/admin/login','/api/admin/upload','/api/admin/uploadFile' ,'/api/wx'], // 哪些请求不需要认证
 }
   // egg security
   config.security = {

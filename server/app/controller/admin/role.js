@@ -69,7 +69,6 @@ class RoleController extends baseController {
   // 根据id查询 
   async show() {
     const { ctx } = this;
-    console.log(this.ctx)
     let result = this.ctx.params.id
     this.ctx.body = {
       content: '查询',

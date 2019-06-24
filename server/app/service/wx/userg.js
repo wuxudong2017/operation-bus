@@ -12,7 +12,7 @@ class UsergService extends Service {
         attributes: [],
       },
       where: {
-        $or: [{ username }, { jobNumber: username }],
+        jobNumber: username,
         password
       },
       attributes: ['roleId', 'id', 'username', 'status', [
@@ -32,6 +32,11 @@ class UsergService extends Service {
         ]],
       raw: true
     })
+    let totalScore = await model.Evaluate.sum('totalScore',{
+      where:{ workerId: username}
+    })
+    result.totalScore = totalScore
+
     return result
   }
   async  index(userId, limit, offset, status) {

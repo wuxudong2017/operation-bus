@@ -18,7 +18,6 @@ class PermissionController extends baseController {
         // 正则验证
         let formData = ctx.request.body
         let result =await ctx.service.admin.permission.create(formData);
-        console.log(`result--->${JSON.stringify(result)}`)
         if(result){
             this.ctx.body={
                 code:1,
@@ -70,7 +69,6 @@ class PermissionController extends baseController {
     // 根据id查询 
     async show() {
         const { ctx } = this;
-        console.log(this.ctx)
         let id = this.ctx.params.id
         this.ctx.body = {
             content: '查询',

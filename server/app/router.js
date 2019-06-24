@@ -11,6 +11,7 @@ module.exports = app => {
   // 获取用户信息
   router.post('/api/admin/userInfo', controller.admin.login.userInfo);
   router.post('/api/admin/upload', controller.admin.base.upload)
+  router.post('/api/admin/uploadFile', controller.admin.base.uploadFile)
   router.get('/api/admin/schoolList', controller.admin.base.schoolList)
   /**
    * 微信小程序端
@@ -43,11 +44,21 @@ module.exports = app => {
 
   // 工单 接口
   router.resources('order', '/api/wx/order', controller.wx.order);
+  
+  // 工单评价接口
+  router.post( '/api/wx/evaluate/:id', controller.wx.order.evaluate)
+
   // 维修人员部分操作
   router.resources('userg', '/api/wx/userg', controller.wx.userg)
   router.post('/api/wx/loging', controller.wx.register.loginWorker);
   // 维修人员工单操作
   router.resources('workerOrder', '/api/wx/workerOrder', controller.wx.workerOrder)
+  // 设备管理接口
+  router.resources('device', '/api/wx/device', controller.wx.device)
+  // 获取当前学校下的设备id
+  router.get('/api/wx/getSchoolEqu',controller.wx.base.getSchoolEqu)
+
+  router.get('/api/wx/test',controller.wx.base.test)
 
   // 地理位置
 
@@ -96,6 +107,7 @@ module.exports = app => {
   router.post('/api/admin/device/deletes',controller.admin.device.deletes)
   // 获取所有设备
   router.get('/api/admin/getAllType',controller.admin.base.getAllType)
-
+  // 文档管理
+  router.resources('file', '/api/admin/file', controller.admin.file)
   // require('./router/swagger')(app)
 };

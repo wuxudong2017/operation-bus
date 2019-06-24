@@ -10,6 +10,11 @@ module.exports = app => {
       primaryKey: true,
       field: 'id'
     },
+    deviceId:{
+      type: DataTypes.INTEGER(10),
+      allowNull: true,
+      field: 'device_id'
+    },
     equipmentId: {
       type: DataTypes.STRING(255),
       allowNull: false,
@@ -58,6 +63,9 @@ module.exports = app => {
     updateTime:{
       type: DataTypes.BIGINT,
       allowNull: false,
+      defaultValue:function(){
+        return new Date().getTime()
+      },
       field: 'update_time'
     },
     workerId:{

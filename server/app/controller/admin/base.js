@@ -107,7 +107,6 @@ class BaseController extends Controller {
     let { ctx ,app} = this;
     // 文件上传 操作文件流
     const stream = await ctx.getFileStream();
-    console.log('1111')
     // 新建一个文件名 ,使用md5 加密
     const filename1 = md5(stream.filename + stream.length)
     const filename2 = path.extname(stream.filename).toLocaleLowerCase();
@@ -116,7 +115,6 @@ class BaseController extends Controller {
     let day = 'admin'
     await mkDirp(path.join(this.app.config.uploadDir, day))
     const target = path.join(this.app.config.uploadDir, day, filename);
-    console.log(`target---->${target}`)
     // 生成一个文件,写入文件流
     const writeStream = fs.createWriteStream(target);
     try {
@@ -138,6 +136,32 @@ class BaseController extends Controller {
     //文件响应
     ctx.response.type = "application/json"
     ctx.body =  imgUrlT
+  }
+  async uploadFile(){
+    let { ctx ,app} = this;
+    // 文件上传 操作文件流
+    const stream = await ctx.getFileStream();
+    // 新建一个文件名 ,使用md5 加密
+    const filename1 = md5(stream.filename + stream.length)
+    const filename2 = path.extname(stream.filename).toLocaleLowerCase();
+    const filename = filename1 + filename2
+    // 生成绝对文件路径,存储
+    let day = 'admin/file'
+    await mkDirp(path.join(this.app.config.uploadDir, day))
+    const target = path.join(this.app.config.uploadDir, day, filename);
+    // 生成一个文件,写入文件流
+    const writeStream = fs.createWriteStream(target);
+    try {
+        await awaitWriteStream(stream.pipe(writeStream));
+
+    } catch (error) {
+        await sendToWormhole(stream);
+        throw error;
+    }
+    let fileUrl = target.slice(3).replace(/\\/g, '/');
+    //文件响应
+    ctx.response.type = "application/json"
+    ctx.body =  fileUrl
   }
 }
 

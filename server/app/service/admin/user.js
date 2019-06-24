@@ -74,7 +74,6 @@ class UserService extends Service {
         await t.commit()
         return 2
       } catch (e) {
-        console.log(e)
         await t.rollback()
         return 3
       }
@@ -150,7 +149,6 @@ class UserService extends Service {
         await t.commit()
         return true
       } catch (e) {
-        console.log(e)
         await t.rollback()
         return false
       }
@@ -180,7 +178,6 @@ class UserService extends Service {
       await t.commit();
       return true;
     }catch(e){
-      console.log(e)
       await t.rollback();
       return false
     }

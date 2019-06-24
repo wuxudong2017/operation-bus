@@ -17,7 +17,6 @@ class ChatController extends Controller {
             res.push(JSON.parse(result));
            }
         }
-        console.log(res)
         ctx.socket.emit('message', res);
     }
     async online() {

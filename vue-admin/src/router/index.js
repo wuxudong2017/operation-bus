@@ -162,6 +162,14 @@ export const asyncRouterMap = [
         hidden:false
       },
       {
+        path: 'file',
+        name: '文档管理',
+       component:() =>  import('@/view/equipment/file'),
+        meta: { title: '文档管理', icon: 'icon-icon1' },
+        menu: 'device',
+        hidden:false
+      },
+      {
         path: 'list1',
         name: '故障清单',
        // component:() =>  import('@/view/equipment/equipment'),

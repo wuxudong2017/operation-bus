@@ -8,15 +8,15 @@ class RoleService extends Service {
     let result = await model.SysRole.findAll({
         where:{
             status:"1"
-        }
-
+        },
+        raw:true,
     })
     return result
   }
   async index() {
     let {model} = this.app
     let result = await model.SysRole.findAndCountAll({
-       
+      raw:true,
     })
     return result
   }
@@ -47,7 +47,6 @@ class RoleService extends Service {
   async update(id,formData){
     let {model} = this.app;
     let updateTime = await this.ctx.service.tools.getTime();
-    console.log(`formData--->${JSON.stringify(formData)}`);
     let arr = formData.permissionCheck
     const  t = await model.transaction({ autoCommit: true });
     let res = [];
@@ -79,7 +78,7 @@ class RoleService extends Service {
     await t.commit();
     return true
     }catch(e){
-      console.log(e)
+    
       await t.rollback();
       return false
     }
@@ -91,7 +90,8 @@ class RoleService extends Service {
     let has= await model.SysUser.findAll({
       where:{
         roleId: id
-      }
+      },
+      raw:true,
     });
     if(has){
       return result = 2

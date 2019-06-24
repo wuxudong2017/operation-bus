@@ -218,9 +218,8 @@ export default {
               type: res.code == 1 ? "success" : "error",
               message: res.message
             });
-            // this.dialogVisible = false;
-            // this.getList({ limit: this.limit, offset: this.offset });
-            // this.resetForm(formName);
+            this.dialogVisible = false;
+            this.getList({ limit: this.limit, offset: this.offset });
           });
         } else {
           console.log("error submit!!");

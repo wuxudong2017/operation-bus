@@ -14,7 +14,6 @@ const md5 = require('md5');
 class LoginController extends baseController {
   async doLogin() {
     const { ctx, app } = this;
-    //console.log(JSON.stringify(ctx.request.headers))
     let formData = ctx.request.body;
     let username = formData.username;
     let password = formData.password;

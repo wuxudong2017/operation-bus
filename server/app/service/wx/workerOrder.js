@@ -69,7 +69,7 @@ async create() {
         await t.commit();
         return true
       }catch(e){
-        console.log(e);
+       
         await t.rollback()
         return false
       }
@@ -103,7 +103,7 @@ async create() {
         await t.commit();
         return true
       }catch(e){
-        console.log(e);
+       
         await t.rollback()
         return false
       }

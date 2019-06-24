@@ -20,7 +20,8 @@ class TagService extends Service {
     let result = await model.SysTag.findOne({
       where: {
         name
-      }
+      },
+      raw:true,
     });
     if (result) {
       return false
@@ -67,7 +68,8 @@ class TagService extends Service {
     let result = await model.SysTag.findOne({
       where: {
         id
-      }
+      },
+      raw:true,
     })
 
     return result;

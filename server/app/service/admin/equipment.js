@@ -35,7 +35,8 @@ class EquipmentService extends Service {
     let result = await model.SysEquipment.findOne({
       where:{
         id
-      }
+      },
+      raw:true,
     })
     return result
   }

@@ -194,3 +194,52 @@ export function deleteDeviceS(data){
     })
 }
 
+//------------------------文档管理---------------------------///
+
+/**
+ * 
+ * @param {故障标签管理} data 
+ */
+
+// 获取全部故障标签列表
+export function getFileList(data){
+    return request({
+        url:'/api/admin/file',
+        method:'get',
+        params:data,
+    })
+}
+// 新加故障标签
+export function createFile(data){
+    return request({
+        url:'/api/admin/file',
+        method:'post',
+        data
+    })
+}
+// 根据故障标签id 获取故障标签
+export function getFile(data){
+    return request({
+        url:'/api/admin/file/'+data+'/edit',
+        method:'get',
+    })
+}
+// 根据故障标签id 获取故障标签
+export function editFile(id,data){
+    return request({
+        url:'/api/admin/file/'+id,
+        method:'put',
+        data
+    })
+}
+// 根据id 删除故障标签
+
+export function deleteFile(data){
+    return request({
+        url:'/api/admin/file/'+data,
+        method:'delete',
+    })
+}
+
+
+

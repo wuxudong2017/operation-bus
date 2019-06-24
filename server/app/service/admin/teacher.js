@@ -37,7 +37,8 @@ class TeacherService extends Service {
     let result = await model.SysSchoolUser.findOne({
         where:{
             username
-        }
+        },
+        raw:true,
     })
     if(!result){
         try{
@@ -65,7 +66,8 @@ class TeacherService extends Service {
       let result = await model.SysSchoolUser.findOne({
           where:{
               id
-          }
+          },
+          raw:true,
       })
       return result 
   }

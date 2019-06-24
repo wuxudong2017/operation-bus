@@ -79,7 +79,7 @@ class OrderService extends Service {
             await t.commit();
             return true
         } catch (e) {
-            console.log(e);
+          
             await t.rollback()
         }
 
@@ -101,7 +101,6 @@ class OrderService extends Service {
             await t.commit();
             return true
         } catch (e) {
-            console.log(e)
             await t.rollback();
             return false
         }
