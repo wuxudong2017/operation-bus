@@ -16,12 +16,12 @@ module.exports = app => {
       field: 'order_id'
     },
     serviceAttr: {
-      type: DataTypes.INTEGER(2),
+      type: "DOUBLE(4,2)",
       allowNull: false,
       field: 'service_attr'
     },
     requireSpeed: {
-      type: DataTypes.INTEGER(2),
+      type: "DOUBLE(4,2)",
       allowNull: false,
       field: 'require_speed'
     },
@@ -31,7 +31,7 @@ module.exports = app => {
       field: 'description'
     },
     totalScore: {
-      type: DataTypes.INTEGER(3),
+      type: "DOUBLE(5,2)",
       allowNull: false,
       field: 'total_score'
     },
@@ -39,13 +39,22 @@ module.exports = app => {
       type: DataTypes.INTEGER(10),
       allowNull: false,
       field: 'worker_id'
+    },
+    createTime:{
+      type: DataTypes.BIGINT,
+      allowNull: false,
+      defaultValue:function(){
+        return new Date().getTime()
+      },
+      field:'create_time'
     }
   }, {
     tableName: 'evaluate'
   });
 
   Model.associate = function() {
-
+    app.model.Evaluate.belongsTo(app.model.SysUserInfo,{foreignKey:'worker_id',targetKey:'id'})
+    app.model.Evaluate.hasOne(app.model.SysOrder,{foreignKey:'id',targetKey:'orderId'})
   }
 
   return Model;

@@ -39,7 +39,7 @@ class RegisterService extends Service {
                 attributes: []
             },
             where: {
-                $or: [{ username }, { jobNumber: username }],
+                jobNumber: username ,
                 password
             },
             attributes: ['id', 'jobNumber', [
@@ -52,6 +52,21 @@ class RegisterService extends Service {
             raw: true
         })
     }
+    // 根据工号获取工人积分
+    async getWorkerIntegral(workerId){
+        const {model} = this.app;
+        let result = await model.Evaluate.findAll({
+            where:{workerId},
+             attributes:[[sequelzie.fn('sum',sequelzie.col('total_score')),'totalScore'],
+            [sequelzie.fn('sum',sequelzie.col('require_speed')),'requireSpeed'],
+            [sequelzie.fn('sum',sequelzie.col('service_attr')),'serviceAttr']
+            ],
+            raw:true
+        })
+        return result[0]
+    }
+
+
     async login(phone, password) {
         let { model } = this.app;
         return await model.SysSchoolUser.findOne({

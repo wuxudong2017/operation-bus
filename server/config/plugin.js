@@ -33,8 +33,9 @@ module.exports = {
   io:{
     enable:true,
     package:'egg-socket.io'
+  },
+  swaggerdoc :{
+    enable: true,
+    package: 'egg-swagger-doc',
   }
-
-
-
 };

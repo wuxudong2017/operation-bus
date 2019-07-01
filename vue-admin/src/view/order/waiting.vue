@@ -12,7 +12,7 @@
     <!-- 搜索 -->
     <el-row>
       <el-col :span="6">
-        <el-input size="small" type="number"  clearable v-model="formData.keywords" placeholder="请输工单号">
+        <el-input  size="mini"  type="number"  clearable v-model="formData.keywords" placeholder="请输工单号">
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>

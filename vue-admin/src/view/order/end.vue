@@ -13,7 +13,7 @@
     <el-row>
       <el-col :span="6">
         <el-input
-          size="small"
+          size="mini"
           type="number"
           clearable
           v-model="formData.keywords"
@@ -71,7 +71,13 @@
       ></el-pagination>
     </div>
 
-    <el-dialog :close-on-click-modal="false" title="查看维修详情" :visible="dialogVisible" :before-close="handleClosed" width="60%">
+    <el-dialog
+      :close-on-click-modal="false"
+      title="查看维修详情"
+      :visible="dialogVisible"
+      :before-close="handleClosed"
+      width="60%"
+    >
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form label-width="80px">
@@ -97,6 +103,7 @@
 
         <el-col :span="12">
           <el-form label-width="80px">
+            <el-form-item label="设备编号">{{listData.deviceId}}</el-form-item>
             <el-form-item label="维修人">{{listData.workername}}</el-form-item>
             <el-form-item label="工号">{{listData.workerId}}</el-form-item>
 
@@ -260,8 +267,8 @@ export default {
       getOrderList(data)
         .then(res => {
           this.tableData = res.data.rows;
-           if(this.tableData.length<1){
-            this.offset = this.offset-1>1?this.offset-1:1
+          if (this.tableData.length < 1) {
+            this.offset = this.offset - 1 > 1 ? this.offset - 1 : 1;
           }
           this.total = res.data.count;
         })
@@ -310,7 +317,7 @@ export default {
     },
     offset(res) {
       this.getList({ limit: this.limit, offset: res, status: this.status });
-    },
+    }
   }
 };
 </script>

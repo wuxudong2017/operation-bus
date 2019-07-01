@@ -29,6 +29,9 @@ module.exports = app => {
     createTime: {
       type: DataTypes.BIGINT,
       allowNull: false,
+      defaultValue:function(){
+        return new Date().getTime()
+      },
       field: 'create_time'
     },
     status: {
@@ -40,7 +43,12 @@ module.exports = app => {
       type: DataTypes.INTEGER(2),
       allowNull: false,
       field: 'type'
-    }
+    },
+    suffix: {
+      type: DataTypes.STRING(10),
+      allowNull: false,
+      field: 'suffix'
+    },
   }, {
     tableName: 'sys_file'
   });

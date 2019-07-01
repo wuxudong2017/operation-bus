@@ -41,7 +41,13 @@ class RegisterController extends BaseController {
     let formData = ctx.request.body;
     let username = formData.username;
     let password = formData.password;
+    ctx.validate({
+      username:{type:'string',required:true},
+      password:{type:'string',required:true}
+    },formData)
     let result = await ctx.service.wx.register.loginWorker(username, password);
+    let wokerF = await ctx.service.wx.register.getWorkerIntegral(username);
+    result = Object.assign(result,wokerF)
     if (result) {
       let token = await ctx.service.tools.uuid();
       ctx.body = {
@@ -74,7 +80,7 @@ class RegisterController extends BaseController {
       } else {
         ctx.body = {
           code: 0,
-          message: "用户正在审核中,请联系管理员",
+          message: "审核中,请联系管理员",
         }
       }
 

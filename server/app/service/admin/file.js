@@ -13,19 +13,23 @@ class FileService extends Service {
         })
         return result
     }
-    async create() {
+    async create(formData) {
         const { model } = this.app
-        let result = "创建"
+        let result =await model.SysFile.create(formData)
         return result
     }
     async destroy() {
         const { model } = this.app;
-        let result = "删除"
+        let result = await model.SysFile.destroy({
+            where:{id}
+        })
         return result
     }
-    async update() {
+    async update(id,formData) {
         const { model } = this.app;
-        let result = "修改"
+        let result = await model.SysFile.update(formData,{
+            where:{id}
+        })
         return result
     }
     async show() {
@@ -39,9 +43,12 @@ class FileService extends Service {
         let result = '创建页面';
         return result
     }
-    async edit() {
+    async edit(id) {
         const { model } = this.app;
-        let result = "修改页面"
+        let result = await model.SysFile.findOne({
+            where:{id},
+            raw:true
+        })
         return result
     }
 }

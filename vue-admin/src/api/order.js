@@ -124,7 +124,13 @@ export function deleteEquipment(data){
         method:'delete',
     })
 }
-
+// 获取所有正常设备类型
+export function getEquipmentAll(data){
+    return request({
+        url:'/api/admin/getAll',
+        method:'get',
+    })
+}
 
 
 
@@ -241,5 +247,30 @@ export function deleteFile(data){
     })
 }
 
+//---------------------故障清单-----------------------//
+export function getFaultList(data){
+    return request({
+        url:'/api/admin/getFaultList',
+        method:'get',
+        params:data
+    })
+}
+// 故障清单表
+export function deviceTable(data){
+    return request({
+        url:'/api/admin/getdeviceTable',
+        method:'get',
+        params:data
+    })
+     
+}
+// 维修人员考核
+export function assessment(data){
+    return request({
+        url:'/api/admin/assessment',
+        method:'get',
+        params:data
+    })
+}
 
 

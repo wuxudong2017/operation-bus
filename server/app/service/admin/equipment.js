@@ -49,6 +49,15 @@ class EquipmentService extends Service {
       }
     })
   }
+  async getAll(){
+    const {model} = this.app;
+    let result =await model.SysEquipment.findAll({
+      where:{status:1},
+      raw:true
+    })
+    return result;
+
+  }
 }
 
 module.exports = EquipmentService;

@@ -170,19 +170,19 @@ export const asyncRouterMap = [
         hidden:false
       },
       {
-        path: 'list1',
+        path: 'faultList',
         name: '故障清单',
-       // component:() =>  import('@/view/equipment/equipment'),
+       component:() =>  import('@/view/equipment/faultList'),
         meta: { title: '故障清单', icon: 'icon-guzhangleixing' },
-        menu: 'equipmentList',
+        menu: 'faultList',
         hidden:false
       },
       {
-        path: 'list2',
+        path: 'table',
         name: '数据分析',
-       // component:() =>  import('@/view/equipment/equipment'),
+       component:() =>  import('@/view/equipment/table'),
         meta: { title: '数据分析', icon: 'icon-icon-' },
-        menu: 'equipmentList',
+        menu: 'dataTable',
         hidden:false
       },
     ]

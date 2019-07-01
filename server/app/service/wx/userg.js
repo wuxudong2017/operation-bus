@@ -50,6 +50,10 @@ class UsergService extends Service {
         model: model.SysTag,
         raw: true,
         attributes: []
+      },{
+        model:model.Evaluate,
+        raw: true,
+        attributes: []
       }],
       where: {
         userId,
@@ -66,7 +70,9 @@ class UsergService extends Service {
           ],
           [
             sequelize.col('sysTag.name'), 'tagName'
-          ]
+          ],
+          [sequelize.col('evaluate.total_score'),'totalScore'],
+          [sequelize.col('evaluate.id'),'hasEvaluate']
         ]
       },
       limit: limit,

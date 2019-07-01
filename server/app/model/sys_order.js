@@ -77,6 +77,11 @@ module.exports = app => {
       type: DataTypes.STRING(255),
       allowNull: true,
       field: 'workername'
+    },
+    phone:{
+      type: DataTypes.STRING(255),
+      allowNull: true,
+      field: 'phone'
     }
     
   }, {
@@ -89,6 +94,7 @@ module.exports = app => {
     app.model.SysOrder.belongsTo(app.model.SysTag,{foreignKey:'tagId',targetKey:'id'})
     app.model.SysOrder.belongsTo(app.model.SysEquipment,{foreignKey:'equipmentId',targetKey:'id'})
     app.model.SysOrder.hasOne(app.model.SysOrderStatus,{foreignKey:'orderId',targetKey:'id'})
+    app.model.SysOrder.hasOne(app.model.Evaluate,{foreignKey:'orderId',targetKey:'id'})
   }
 
   return Model;

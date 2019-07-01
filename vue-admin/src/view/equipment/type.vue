@@ -105,7 +105,7 @@
                     type="date"
                     format="yyyy-MM-dd"
                     value-format="timestamp"
-                    size="small"
+                     size="mini" 
                   ></el-date-picker>
           
         </el-form-item>
@@ -115,7 +115,7 @@
                     type="date"
                     format="yyyy-MM-dd"
                     value-format="timestamp"
-                    size="small"
+                     size="mini" 
                   ></el-date-picker>
         </el-form-item>
         <el-form-item label="类型状态" prop="status">
@@ -262,6 +262,7 @@ export default {
       this.dialogVisible = false;
       this.add = true;
       this.imageUrl = null;
+      this.formData.typeIndex =null
       this.uploadS = false;
       this.resetForm("ruleForm");
     },

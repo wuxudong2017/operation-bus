@@ -51,6 +51,39 @@ class BaseService extends Service {
     })
     return result
   }
+  // 获取文档
+  async getFile(type){
+    const {model} = this.app;
+    let result = await model.SysFile.findAll({
+      where:{type},
+      raw:true,
+    })
+    return result;
+  }
+  // test 
+  async test(month){
+    const {model} = this.app;
+    // 设备数量和设备故障总数
+    let result = await model.Evaluate.count({
+      group:'worker_id',
+      attributes:['workerId',[Sequelize.fn('sum',Sequelize.col('service_attr')),'serviceAttr'],
+      [Sequelize.fn('sum',Sequelize.col('require_speed')),'requireSpeed'],
+      [Sequelize.fn('sum',Sequelize.col('total_score')),'totalScore'],
+      [Sequelize.col('sysUserInfo.name'),'name']],
+      where:{
+        createTime:{
+          $between:month
+        }
+      },
+      include:[{
+        model:model.SysUserInfo,
+        raw:true,
+        attributes:[]
+      }]  
+    })
+    return result
+  }
+
 
 }
 module.exports = BaseService;

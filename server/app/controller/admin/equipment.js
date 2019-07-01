@@ -58,9 +58,9 @@ async create() {
     ctx.body = '查询'+id;
   }
 
-  async new() {
+  async getAll() {
     const { ctx } = this;
-    ctx.body = '创建页面';
+    ctx.body =await ctx.service.admin.equipment.getAll()
   }
   async edit() {
     const { ctx } = this;

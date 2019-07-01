@@ -4,7 +4,7 @@
       <div style="margin-bottom:20px;">
         <el-row :gutter="20">
           <el-col :span="4">
-            <el-select size="small" v-model="search.schoolId" filterable placeholder="查询学校">
+            <el-select  size="mini"  v-model="search.schoolId" filterable placeholder="查询学校">
               <el-option
                 v-for="(item,index) in schoolList"
                 :key="index"
@@ -22,18 +22,18 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               align="right"
-              size="small"
+               size="mini" 
               value-format="timestamp"
             ></el-date-picker>
           </el-col>
           <el-col :span="4">
-            <el-select v-model="search.deviceStatus" size="small">
+            <el-select v-model="search.deviceStatus"  size="mini" >
               <el-option label="正常" :value="1"></el-option>
               <el-option label="故障" :value="0"></el-option>
             </el-select>
           </el-col>
-          <el-button type="primary" @click="searchFn" size="small">查询</el-button>
-          <el-button type="success" @click="resetFn" size="small">重置</el-button>
+          <el-button type="primary" @click="searchFn"  size="mini" >查询</el-button>
+          <el-button type="success" @click="resetFn"  size="mini" >重置</el-button>
         </el-row>
       </div>
       <div>
@@ -147,7 +147,7 @@
               <el-card class="box-card">
                 <el-form-item :label="item.type">
                   <el-input-number
-                    size="small"
+                     size="mini" 
                     :min="0"
                     :max="200"
                     placeholder="输入0-200整数"
@@ -188,7 +188,7 @@
       :close-on-click-modal="false"
       @closed="handleClosedQR"
     >
-      <div style="margin-bottom:20px;"> <el-button size="small" v-print="'#QRbox'">打印二维码</el-button></div>
+      <div style="margin-bottom:20px;"> <el-button  size="mini"  v-print="'#QRbox'">打印二维码</el-button></div>
       <el-row id="QRbox">
         <template v-for="(item,index) in query">
           <el-col :span="6" :key="index">

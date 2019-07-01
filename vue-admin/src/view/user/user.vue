@@ -25,7 +25,7 @@
       </el-table-column>
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
-          <el-tag size="small" :type="scope.row.status==1?'success':'danger'" >{{scope.row.status==1?'正常':'休息'}}</el-tag>
+          <el-tag  size="mini"  :type="scope.row.status==1?'success':'danger'" >{{scope.row.status==1?'正常':'休息'}}</el-tag>
         </template>
 
 

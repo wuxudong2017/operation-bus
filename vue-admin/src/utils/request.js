@@ -23,7 +23,6 @@ request.interceptors.request.use(config =>{
 request.interceptors.response.use(res =>{
     if(res.data.code==99){
         store.commit('REST_USER');
-      
         MessageBox({
             type:'warning',
             title:'提示',
@@ -32,8 +31,6 @@ request.interceptors.response.use(res =>{
             removeToken();
             router.push({path:'/login'})
         })
-           
-       
     }
     setTimeout(()=>{
         store.commit('TABLOADING',false)

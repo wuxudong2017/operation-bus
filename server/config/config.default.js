@@ -17,18 +17,15 @@ module.exports = appInfo => {
   config.keys = appInfo.name + '_1550481095395_9496';
 
   // add your middleware config here
-  config.middleware = ['authWechat' ,'jwt', 'errorHeader'];
+  config.middleware = ['jwt', 'errorHeader'];
   config.errorHeader = {
     enable: true,
     match: '/api'
   }
-  config.authWechat={
-    enable: true,
-    match: '/api/wx'
-  }
+  //ignore: [/(swagger|pub)/,'/public/', '/api/admin/login','/api/admin/upload','/api/admin/uploadFile' ,'/api/wx'], // 哪些请求不需要认证
   config.jwt = {
     enable: true,
-    ignore: ['/public/', '/api/admin/login','/api/admin/upload','/api/admin/uploadFile' ,'/api/wx'], // 哪些请求不需要认证
+    ignore: [/(swagger|public|login|upload)/,'/api/wx'], // 哪些请求不需要认证
 }
   // egg security
   config.security = {
@@ -74,7 +71,6 @@ module.exports = appInfo => {
     origin: "*"
   }
   
-  // socket
 
    // websocket
 
@@ -87,54 +83,52 @@ module.exports = appInfo => {
       },
     },
   }
+  // 文件上传配置
+  config.multipart={
+    fileExtensions : [
+      // text
+     '.ppt','.pptx','.doc','.docx','.pdf',
+      // picture
+      '.jpg','.jpeg','.png','.gif'
+    
+    ]
+  }
+
+
+
 
   // swagger 配置
-  // config.swagger = {
-  //   enable: false, // disable swagger , default true
-  //   base: {
-  //     /* default config,support cover  
-  //     schemes: [
-  //         'http',
-  //     ],
-  //     host: '127.0.0.1:7001',
-  //     basePath: '/',
-  //     consumes: [
-  //     'application/json',
-  //     ],
-  //     produces: [
-  //     'application/json',
-  //     ],
-  //     */
-  //     info: {
-  //       description: 'This is a test swagger-ui html',
-  //       version: '1.0.0',
-  //       title: 'TEST',
-  //       contact: {
-  //         email: 'caandoll@aliyun.com',
-  //       },
-  //       license: {
-  //         name: 'Apache 2.0',
-  //         url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
-  //       },
-  //     },
-  //     tags: [
-  //       {
-  //         name: 'admin',
-  //         description: 'Admin desc',
-  //       },
-  //       {
-  //         name: 'role',
-  //         description: 'Role desc',
-  //       },
-  //     ],
-  //     definitions: {
-  //       // model definitions
-  //     },
-  //     securityDefinitions: {
-  //       // security definitions
-  //     }
-  //   },
-  // }
+  config.swaggerdoc={
+    dirScanner: './app/controller/wx',
+    apiInfo: {
+      title: '运维助手API文档',
+      description: 'swagger-ui for 运维助手',
+      version: '1.0.0',
+    },
+    schemes: ['http', 'https'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    securityDefinitions: {
+      // apikey: {
+      //   type: 'apiKey',
+      //   name: 'clientkey',
+      //   in: 'header',
+      // },
+      // oauth2: {
+      //   type: 'oauth2',
+      //   tokenUrl: 'http://petstore.swagger.io/oauth/dialog',
+      //   flow: 'password',
+      //   scopes: {
+      //     'write:access_token': 'write access_token',
+      //     'read:access_token': 'read access_token',
+      //   },
+      // },
+    },
+    enableSecurity: false,
+    // enableValidate: true,
+    routerMap: false,
+    enable: true,
+  };
   //  session 配置
   config.session = {
     key: 'EGG_SESSION',

@@ -214,7 +214,14 @@ class UserService extends Service {
     })
     return result
     }
-
+    async getAllUser(){
+      const {model} = this.app;
+      let result = await model.SysUserInfo.findAll({
+        attributes:['id','name'],
+        raw:true
+      })
+      return result;
+    }
 
 }
 

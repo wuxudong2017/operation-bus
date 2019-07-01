@@ -32,17 +32,23 @@ class WorkerOrderController extends Controller {
         let formData = ctx.request.body;
         let status = formData.status;
         let workerId = formData.workerId;
+     
         ctx.validate({
           status:{required:true,type:'string'},
           workerId:{required:true,type:'string'},
         },formData);
+        console.log(formData)
         let result
         if(formData.status!='3'){
           result = await ctx.service.wx.workerOrder.update(id,status,workerId)
         }else{
           let filelist=formData.filelist
-          let remark=formData.remark
-          result = await ctx.service.wx.workerOrder.update1(id,status,workerId,filelist,remark)
+          let remark=formData.remark;
+          ctx.validate({
+            deviceId:{required:true,type:'string'}
+          },formData)
+          let deviceId = formData.deviceId;
+          result = await ctx.service.wx.workerOrder.update1(id,status,workerId,filelist,remark,deviceId)
         }
       
         if(result){

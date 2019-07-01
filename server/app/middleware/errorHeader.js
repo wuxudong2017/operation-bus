@@ -1,3 +1,5 @@
+'use strict'
+
 // app/middleware/error_handler.js
 module.exports = () => {
     return async function responseHeader(ctx, next) {

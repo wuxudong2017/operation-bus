@@ -4,7 +4,7 @@
     <el-row class="nav">
       <el-col :span="6">
         <el-input
-          size="small"
+           size="mini" 
           type="number"
           clearable
           v-model="formData.keywords"
@@ -94,6 +94,7 @@
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="80px">
         <el-form-item label="派送学校">{{formData.xxmc}}</el-form-item>
         <el-form-item label="报修人">{{formData.name}}</el-form-item>
+        <el-form-item label="设备编号" v-if="formData.deviceId">{{formData.deviceId}}</el-form-item>
         <el-form-item label="设备类型">{{formData.equipmentType}}</el-form-item>
         <el-form-item label="故障描述">{{formData.faultDesc}}</el-form-item>
         <el-form-item label="故障图片">

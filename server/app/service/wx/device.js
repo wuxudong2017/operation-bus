@@ -1,14 +1,12 @@
 'use strict';
 
 const Service = require('egg').Service;
-
+const sequelize = require('sequelize')
 class DeviceService extends Service {
-    async index(offset,limit,schoolId) {
+    async index(schoolId,equipmentId) {
         const { model } = this.app;
-        let result = await model.SysDevice.findAndCountAll({
-            where:{schoolId},
-            limit,
-            offset:(offset-1)*limit,
+        let result = await model.SysDevice.findAll({
+            where:{$and:[{schoolId},equipmentId?{equipmentId}:null]},
             order:[['deviceId','DESC']],
             raw:true
         })
@@ -24,15 +22,73 @@ class DeviceService extends Service {
         let result = "删除"
         return result
     }
-    async update() {
+    async update(deviceId,formData) {
         const { model } = this.app;
-        let result = "修改"
+        let result = await model.SysDevice.update(formData,{
+          where:{deviceId}
+        })
         return result
     }
-    async show() {
-        const { model } = this.app;
-        let result = "查询"
-        return result
+    async show(deviceId,status) {
+        let { model } = this.app;
+    let result = await model.SysOrder.findOne({
+      include: [{
+        model: model.SysEquipment,
+        attributes: [],
+        raw:true
+
+      },{
+        model: model.SysTag,
+        attributes: [],
+        raw:true
+      },{
+        model: model.XxJbxx,
+        attributes: [],
+        raw:true
+      }],
+      where: {
+        $and:[{deviceId},status==3?{status}:{status:{$lt:3}}]
+      },
+      raw:true,
+      attributes: {
+        include: [
+          [
+            sequelize.col('sysEquipment.type'), 'typeName'
+          ],
+          [
+            sequelize.col('sysEquipment.name'), 'name1'
+          ],
+          [
+            sequelize.col('sysTag.name'), 'tagName'
+          ],
+          [
+            sequelize.col('xxJbxx.xxmc'), 'xxmc'
+          ],
+        ]
+      }
+    })
+    let orderId = result.id
+    let t = await model.SysOrderStatus.findAll({
+      include: [{
+        model: model.SysUserInfo,
+        raw: true,
+        attributes: []
+      }],
+      where: {
+        orderId
+      },
+      raw: true,
+      attributes: {
+        include: [
+          [sequelize.col('sysUserInfo.name'), 'name'],
+          [sequelize.col('sysUserInfo.phone'), 'phone'],
+          [sequelize.col('sysUserInfo.avatar'), 'avatar'],
+
+        ]
+      }
+    })
+    result.remark = t
+    return result
     }
   
     async new() {
