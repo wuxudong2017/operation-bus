@@ -34,12 +34,21 @@ class OrderController extends baseController {
         }
       }
       async update() {
-        const { ctx } = this;
+        const { ctx,app } = this;
         let id = ctx.params.id
         let formData = ctx.request.body;
         let workerId = formData.workerId;
-        await ctx.service.admin.order.update(id,workerId)
-        ctx.body = '修改';
+        let result = await ctx.service.admin.order.update(id,workerId);
+        if(result){
+          await app.redis.get('msg').lpush(workerId,id);
+          ctx.body = '修改';
+        }else{
+          ctx.body ={
+            code:0,
+            message:'派单失败'
+          }
+        }
+       
       }
       async show() {
         const { ctx } = this;

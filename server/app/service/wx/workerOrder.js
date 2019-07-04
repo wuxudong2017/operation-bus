@@ -183,8 +183,8 @@ class WorkerOrderService extends Service {
       },
       order: [['orderStatus', 'ASC']],
       raw: true
-    })
-    result.remark = orderList
+    });
+    result? result.remark = orderList:null
     return result;
   }
 }

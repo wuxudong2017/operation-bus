@@ -47,9 +47,9 @@ class RegisterController extends BaseController {
     },formData)
     let result = await ctx.service.wx.register.loginWorker(username, password);
     let wokerF = await ctx.service.wx.register.getWorkerIntegral(username);
-    result = Object.assign(result,wokerF)
     if (result) {
-      let token = await ctx.service.tools.uuid();
+      let token = result.jobNumber;
+      result = Object.assign(result,wokerF)
       ctx.body = {
         token,
         result

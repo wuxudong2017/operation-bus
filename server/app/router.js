@@ -4,7 +4,7 @@
  * @param {Egg.Application} app - egg application
  */
 module.exports = app => {
-  const { router, controller } = app;
+  const { router, controller,io } = app;
   // 中间件  
   const authWechat = app.middleware.authWechat()
 
@@ -73,6 +73,10 @@ module.exports = app => {
   // app.io.route('chat', app.io.controller.chat.index);
   // app.io.route('message', app.io.controller.chat.message);
   // app.io.route('user:online', app.io.controller.chat.online);
+
+  io.route('chat',io.controller.chat.index)
+
+
 
 
   /**

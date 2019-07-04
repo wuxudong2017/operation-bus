@@ -23,6 +23,7 @@
             :data="deviceData"
             stripe
             style="width:100%;"
+            show-summary
           >
             <el-table-column type="index" label="ID"></el-table-column>
             <el-table-column prop="type" label="设备类型"></el-table-column>

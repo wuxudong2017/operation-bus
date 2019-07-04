@@ -3,14 +3,14 @@ const Subscription = require('egg').Subscription
 class UpdateOrder extends Subscription {
     static get schedule() {
         return {
-            cron: '* * * 3 * *',
-            // interval: '30s',
+            // cron: '* * * */3 * *',
+            interval: '3d',
             type: 'all'
         }
     }
     async subscribe() {
         const { ctx } = this;
-        console.log('-------------------计时器------------------------')
+        console.log(`----------------------计时器-----------------------------------`)
         let arr = await ctx.service.wx.order.findUnEvaluate();
         if (arr.length > 0) {
             arr.map(async (item) => {

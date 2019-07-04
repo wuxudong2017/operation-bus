@@ -9,7 +9,8 @@ module.exports = app => {
       allowNull: true,
       autoIncrement:true,
       primaryKey: true,
-      field: 'id'
+      field: 'id',
+      unique:true,
     },
     name: {
       type: DataTypes.STRING(255),
@@ -124,7 +125,8 @@ module.exports = app => {
     deviceId:{
       type:DataTypes.INTEGER(10),
       allowNull: false,
-      field: 'device_id'
+      field: 'device_id',
+      unique:true,
     },
     typeIndex:{
       type:DataTypes.INTEGER(4),

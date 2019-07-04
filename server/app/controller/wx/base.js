@@ -155,13 +155,11 @@ class BaseController extends Controller {
         ctx.body = { result1, result2 };
     }
 
-
-
     async test() {
-        const { ctx } = this;
-        let id = ctx.request.query.id
-        ctx.body = await ctx.service.wx.register.getWorkerIntegral(id)
-
+        const { ctx ,app} = this;
+        let workerId = '101002',id = "123456"
+        await app.redis.get('msg').lpush(workerId,id);
+        ctx.body= "fff"
     }
 }
 module.exports = BaseController;

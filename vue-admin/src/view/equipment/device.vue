@@ -115,8 +115,8 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :page-sizes="[10, 20, 30, 50]"
-        :page-size="10"
+        :page-sizes="[20, 30, 50,100]"
+        :page-size="20"
         layout="total, sizes, prev, pager, next, jumper"
         :current-page.sync="offset"
         :total="total"
@@ -198,7 +198,7 @@
                   <div :id="'QR'+item.deviceId" class="QRcodeImg"></div>
                 </div>
                 <div class="text">
-                  <img src="@/assets/tiye_logo.png" alt>
+                  <img src="@/assets/QR-logo.png" class="logo2" alt>
                   <p>请爱护设备,发生故障请联系学校管理员扫码报修</p>
                   <span class="sn">
                     <span style>设备编码:</span>
@@ -237,7 +237,7 @@ export default {
       showQRcode: false,
       tableData: [],
       total: 0,
-      limit: 10,
+      limit: 20,
       offset: 1,
       service: service,
       imageUrl: "",
@@ -581,7 +581,7 @@ export default {
     height: 100px;
     float: left;
     padding: 10px;
-    background-color: #02a0ea;
+    background-color: #E60012;
     .QRcodeImg {
       width: 80px;
       height: 80px;
@@ -595,10 +595,18 @@ export default {
     text-align: left;
     padding: 5px 0 5px 10px;
     font-size: 12px;
-    img {
+    .logo1 {
       display: block;
       margin: 0 auto;
       width: 64px;
+      height: 40px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .logo2{
+        display: block;
+      margin: 0 auto;
+      width: 120;
       height: 40px;
       position: relative;
       margin-bottom: 6px;
