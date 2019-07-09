@@ -15,7 +15,7 @@
       <el-col :span="20" :offset="2">
         <el-card>
           <div class="title">
-            <h2>{{year}}年{{month}}~{{month+1}}月份设备故障清单</h2>
+            <h2>{{year}}年{{month}}月份设备故障清单</h2>
           </div>
           <el-table
             id="tableDemo"
@@ -40,7 +40,7 @@
       <el-col :span="20" :offset="2">
         <el-card>
           <div class="title">
-            <h2>{{year}}年{{month}}~{{month+1}}月份维修人员考核表</h2>
+            <h2>{{year}}年{{month}}月份维修人员考核表</h2>
           </div>
           <el-table
             id="tableDemo"

@@ -10,16 +10,19 @@ import request from './utils/request'
 // element-ui
 import elementUi from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-// animate.css
-import './assets/animate.min.css'
-// babel-polyfill 兼容ie11
-import 'babel-polyfill'
+Vue.use(elementUi)
+// element ui 公共方法
+import './utils/element'
 // v-charts
 import Vcharts from 'v-charts'
 Vue.use(Vcharts)
 import Print from 'vue-print-nb'
-Vue.use(Print); //注册
+Vue.use(Print); //打印
 
+// socker
+import socket from 'weapp.socket.io'
+import service from './utils/service'
+Vue.prototype.$socket = socket(service.api+'/vue')
 
 
 // 用户权限
@@ -43,20 +46,10 @@ createMap().then(res=>{
 }).catch(err=>{
   console.log(err)
 })
-import service from './utils/service'
-
-// websocket 
-
-// import VueSocketio from 'vue-socket.io';
-// import socketio from 'socket.io-client';
-
-// Vue.use(VueSocketio, socketio(service.api));
 
 Vue.config.productionTip = false
 Vue.prototype.$http = request
-Vue.use(elementUi)
-// element ui 公共方法
-import './utils/element'
+
 
 // websocket 
 

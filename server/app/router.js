@@ -69,13 +69,10 @@ module.exports = app => {
 
 
   // socket server api
-
-  // app.io.route('chat', app.io.controller.chat.index);
-  // app.io.route('message', app.io.controller.chat.message);
-  // app.io.route('user:online', app.io.controller.chat.online);
-
-  io.route('chat',io.controller.chat.index)
-
+  io.of('/wx').route('wx',io.controller.wx.index)
+  io.of('/sureOrder').route('wx',io.controller.wx.sureOrder)
+  io.of('/vue').route('vue',io.controller.vue.index)
+  
 
 
 

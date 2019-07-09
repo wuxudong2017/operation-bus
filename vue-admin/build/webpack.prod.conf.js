@@ -14,8 +14,11 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
   : require('../config/prod.env')
-
+  // 打包的时候获取cdn配置
+  const externalConfig = JSON.parse(JSON.stringify(utils.externalConfig)); // 读取配置
+  const externalModules = utils.getExternalModules(externalConfig); // 获取到合适路径和忽略模块
 const webpackConfig = merge(baseWebpackConfig, {
+  externals: externalModules, // 构建时忽略的资源
   module: {
     rules: utils.styleLoaders({
       sourceMap: config.build.productionSourceMap,
@@ -76,7 +79,9 @@ const webpackConfig = merge(baseWebpackConfig, {
         // https://github.com/kangax/html-minifier#options-quick-reference
       },
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
+      chunksSortMode: 'dependency',
+      cdnConfig: externalConfig, // cdn配置
+      onlyCss: false, //加载css
     }),
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),

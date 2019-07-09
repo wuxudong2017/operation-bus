@@ -22,6 +22,7 @@
         @click="dialogVisible = true"
         size="mini"
       >新加工单</el-button>
+      <!-- <el-button  type="danger" @click="getS">socket 测试按钮</el-button> -->
     </div>
     <el-table :data="tableData" stripe style="width: 100%;min-height:520px;" v-loading="tabLoading">
       <el-table-column type="index"></el-table-column>
@@ -147,6 +148,10 @@ export default {
       status: this.status
     });
     this.getUserList();
+    // socket
+     this.$socket.on("connect", function() {
+      console.log("connected  websocket");
+    });
   },
   data() {
     return {
@@ -182,6 +187,9 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
+    getS() {
+     this.$socket.emit('vue',{workerId:'101002',orderId:'11111111'})
+    },
     showCarousel() {
       this.showC = true;
     },
@@ -212,6 +220,7 @@ export default {
               type: res.code == 1 ? "success" : "error",
               message: res.message
             });
+            this.$socket.emit('vue',{workerId:this.formData.workerId,orderId:this.formData.id})
             this.dialogVisible = false;
             this.getList({
               limit: this.limit,

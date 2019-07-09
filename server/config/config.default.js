@@ -25,8 +25,8 @@ module.exports = appInfo => {
   //ignore: [/(swagger|pub)/,'/public/', '/api/admin/login','/api/admin/upload','/api/admin/uploadFile' ,'/api/wx'], // 哪些请求不需要认证
   config.jwt = {
     enable: true,
-    ignore: [/(swagger|public|login|upload)/,'/api/wx'], // 哪些请求不需要认证
-}
+    ignore: [/(swagger|public|login|upload)/, '/api/wx'], // 哪些请求不需要认证
+  }
   // egg security
   config.security = {
     csrf: {
@@ -41,31 +41,31 @@ module.exports = appInfo => {
   }
   // 上传文件地址
   config.uploadDir = 'app/public'
-  config.host ='http://apiwxd.club:7001'
-// jwt 过期时间设置
-  config.jwtTime = 1000*60*60*8 // 过期时间,八个小时
+  config.host = 'http://apiwxd.club:7001'
+  // jwt 过期时间设置
+  config.jwtTime = 1000 * 60 * 60 * 8 // 过期时间,八个小时
 
   // mysql config
   config.sequelize = sequelize
   //redis config
   config.redis = {
-    clients:{
-      foo:{
-        host:'127.0.0.1',
-        port:'6379',
-        db:1,
+    clients: {
+      foo: {
+        host: '127.0.0.1',
+        port: '6379',
+        db: 1,
         password: ''
       },
-      geo:{
-        host:'127.0.0.1',
-        port:'6379',
-        db:2,
+      geo: {
+        host: '127.0.0.1',
+        port: '6379',
+        db: 2,
         password: ''
       },
-      msg:{
-        host:'127.0.0.1',
-        port:'6379',
-        db:3,
+      msg: {
+        host: '127.0.0.1',
+        port: '6379',
+        db: 3,
         password: ''
       }
     }
@@ -76,35 +76,40 @@ module.exports = appInfo => {
   config.cors = {
     origin: "*"
   }
-  
 
-   // websocket
 
-   config.io = {
-    init: {},
+  // websocket
+  config.io = {
+    init: { wsEngine: 'ws' },
     namespace: {
-      '/': {
-        connectionMiddleware: ['auth'],
-        packetMiddleware: ['filter'],
+      '/wx': {
+        connectionMiddleware: ['authWx'],
+        packetMiddleware: ['filterWx']
       },
+      '/vue': {
+        connectionMiddleware: ['authVue'],
+        packetMiddleware: ['filterVue']
+      }
     },
+    redis: {
+      host: '127.0.0.1',
+      port: 6379,
+      password: '',
+      db: 3,
+    }
   }
   // 文件上传配置
-  config.multipart={
-    fileExtensions : [
+  config.multipart = {
+    fileExtensions: [
       // text
-     '.ppt','.pptx','.doc','.docx','.pdf',
+      '.ppt', '.pptx', '.doc', '.docx', '.pdf',
       // picture
-      '.jpg','.jpeg','.png','.gif'
-    
+      '.jpg', '.jpeg', '.png', '.gif'
+
     ]
   }
-
-
-
-
   // swagger 配置
-  config.swaggerdoc={
+  config.swaggerdoc = {
     dirScanner: './app/controller/wx',
     apiInfo: {
       title: '运维助手API文档',

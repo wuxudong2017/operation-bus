@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta name="keywords" content="非营利性网站,学习,工作">
     <meta name="descript" content="非经营性网站，主要是在生活上、学习上、工作上的个人分享，希望大家快乐学习,快乐工作">
+    <link rel="stylesheet" href="https://cdn.bootcss.com/animate.css/3.7.2/animate.css">
     <title>学习,工作</title>
+ 
+    <% htmlWebpackPlugin.options.cdnConfig.forEach(function(item){ if(item.css){ %>
+      <link href="<%= item.css %>" rel="stylesheet" />
+      <% }}) %>
+      <% htmlWebpackPlugin.options.cdnConfig.forEach(function(item){ if(item.js && !htmlWebpackPlugin.options.onlyCss){ %>
+        <script type="text/javascript" src="<%= item.js %>"></script>
+        <% }}) %>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+ 
 </html>
