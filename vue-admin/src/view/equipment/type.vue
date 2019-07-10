@@ -15,6 +15,12 @@
       <el-table-column prop="type" label="设备类型"></el-table-column>
       <el-table-column prop="brand" label="设备品牌"></el-table-column>
       <el-table-column prop="utilPrice" label="设备价格"></el-table-column>
+      <el-table-column prop="status" label="状态">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.status==1" type="success">正常</el-tag>  
+          <el-tag v-else type="danger">警用</el-tag>  
+        </template>  
+      </el-table-column>
       <el-table-column prop="provider" label="设备提供商"></el-table-column>
       <el-table-column prop="createTime" :formatter="formatDateA" label="创建时间"></el-table-column>
       <el-table-column

@@ -18,6 +18,7 @@
           clearable
           v-model="formData.keywords"
           placeholder="请输工单号"
+           @keyup.enter.native="search"
         >
           <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>

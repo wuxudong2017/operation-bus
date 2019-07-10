@@ -55,7 +55,7 @@ class BaseService extends Service {
   async getFile(type){
     const {model} = this.app;
     let result = await model.SysFile.findAll({
-      where:{type},
+      where:{type,status:1},
       raw:true,
     })
     return result;

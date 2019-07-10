@@ -9,7 +9,7 @@
     <title>学习,工作</title>
  
     <% htmlWebpackPlugin.options.cdnConfig.forEach(function(item){ if(item.css){ %>
-      <link href="<%= item.css %>" rel="stylesheet" />
+      <link  rel="stylesheet"  href="<%= item.css %>"/>
       <% }}) %>
       <% htmlWebpackPlugin.options.cdnConfig.forEach(function(item){ if(item.js && !htmlWebpackPlugin.options.onlyCss){ %>
         <script type="text/javascript" src="<%= item.js %>"></script>

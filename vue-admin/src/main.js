@@ -16,14 +16,12 @@ import './utils/element'
 // v-charts
 import Vcharts from 'v-charts'
 Vue.use(Vcharts)
-import Print from 'vue-print-nb'
-Vue.use(Print); //打印
-
 // socker
 import socket from 'weapp.socket.io'
 import service from './utils/service'
 Vue.prototype.$socket = socket(service.api+'/vue')
-
+import print from '@/assets/print.js'
+Vue.use(print)
 
 // 用户权限
 import './permission'

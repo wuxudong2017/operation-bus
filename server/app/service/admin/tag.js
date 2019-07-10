@@ -17,21 +17,14 @@ class TagService extends Service {
   async create(name) {
     const { model } = this.app;
     let createTime = await this.ctx.service.tools.getTime();
-    let result = await model.SysTag.findOne({
-      where: {
-        name
-      },
-      raw:true,
-    });
-    if (result) {
+    let a = await model.SysTag.findOne({where:{name}});
+    if(a){
       return false
-    } else {
-      await model.SysTag.create({
-        createTime,
-        name
-      })
-      return true
+    }else{
+      let result = await model.SysTag.create({name,createTime});
+      return result
     }
+   
 
   }
   async destroy(id) {

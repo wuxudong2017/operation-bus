@@ -15,7 +15,7 @@ class TagController extends baseController {
         const { ctx } = this;
         let formData = ctx.request.body;
         let name  = formData.name;
-        let result = await ctx.service.admin.tag.create(name)
+        let result = await ctx.service.admin.tag.create(name);
         if(result){
           ctx.body = {
             code:1,

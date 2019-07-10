@@ -4,7 +4,7 @@
       <div style="margin-bottom:20px;">
         <el-row :gutter="20">
           <el-col :span="4">
-            <el-select  size="mini"  v-model="search.schoolId" filterable placeholder="查询学校">
+            <el-select size="mini" v-model="search.schoolId" filterable placeholder="查询学校">
               <el-option
                 v-for="(item,index) in schoolList"
                 :key="index"
@@ -22,18 +22,18 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               align="right"
-               size="mini" 
+              size="mini"
               value-format="timestamp"
             ></el-date-picker>
           </el-col>
           <el-col :span="4">
-            <el-select v-model="search.deviceStatus"  size="mini" >
+            <el-select v-model="search.deviceStatus" size="mini">
               <el-option label="正常" :value="1"></el-option>
               <el-option label="故障" :value="0"></el-option>
             </el-select>
           </el-col>
-          <el-button type="primary" @click="searchFn"  size="mini" >查询</el-button>
-          <el-button type="success" @click="resetFn"  size="mini" >重置</el-button>
+          <el-button type="primary" @click="searchFn" size="mini">查询</el-button>
+          <el-button type="success" @click="resetFn" size="mini">重置</el-button>
         </el-row>
       </div>
       <div>
@@ -145,9 +145,9 @@
           <template v-for="(item,index) in allTypes">
             <el-col :span="8" :key="index" border>
               <el-card class="box-card">
-                <el-form-item :label="item.type">
+                <el-form-item :label="item.type" :title="item.type">
                   <el-input-number
-                     size="mini" 
+                    size="mini"
                     :min="0"
                     :max="200"
                     placeholder="输入0-200整数"
@@ -188,17 +188,19 @@
       :close-on-click-modal="false"
       @closed="handleClosedQR"
     >
-      <div style="margin-bottom:20px;"> <el-button  size="mini"  v-print="'#QRbox'">打印二维码</el-button></div>
-      <el-row id="QRbox">
+      <div style="margin-bottom:20px;">
+        <el-button size="mini" @click="printFun">打印二维码</el-button>
+      </div>
+      <el-row id="QRbox" ref="QRbox">
         <template v-for="(item,index) in query">
           <el-col :span="6" :key="index">
-            <el-card shadow :body-style="{padding:'0'}">
+            <el-card shadow class="card" :body-style="{padding:0}">
               <div class="QRcode">
                 <div class="QRcodeIcon">
                   <div :id="'QR'+item.deviceId" class="QRcodeImg"></div>
                 </div>
                 <div class="text">
-                  <img src="@/assets/QR-logo.png" class="logo2" alt>
+                  <img src="@/assets/QR-logo.png" class="logo2" alt />
                   <p>请爱护设备,发生故障请联系学校管理员扫码报修</p>
                   <span class="sn">
                     <span style>设备编码:</span>
@@ -217,6 +219,7 @@
 import { mapGetters } from "vuex";
 import service from "@/utils/service";
 import QRCode from "qrcodejs2";
+
 import {
   getDeviceList,
   createDevice,
@@ -231,6 +234,11 @@ export default {
   name: "v-device",
   data() {
     return {
+      printObj: {
+        id: "QRbox",
+        popTitle: "设备二维码",
+        extraCss: ""
+      },
       add: true, //判断是否是添加
       dialogVisible: false, //弹窗
       dialogTag: false,
@@ -301,6 +309,10 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
+    printFun() {
+    this.$print(this.$refs['QRbox'])
+    },
+
     handleClosedQR() {
       this.$refs.multipleTable.clearSelection();
       this.query = [];
@@ -317,7 +329,6 @@ export default {
       } else {
         this.showQRcode = true;
         this.$nextTick(() => {
-          console.log(this.query)
           this.query.forEach(item => {
             new QRCode(document.getElementById("QR" + item.deviceId), {
               text: "" + item.deviceId,
@@ -546,42 +557,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatar-uploader {
-  .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .el-upload:hover {
-    border-color: #409eff;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-  }
-  .avatar {
-    width: 100px;
-    height: 100px;
-    display: block;
-  }
-}
+
 .QRcode {
   position: relative;
   overflow: hidden;
   height: 100px;
   width: 260px;
+
+  .card {
+    padding: 0;
+  }
   .QRcodeIcon {
     width: 100px;
     height: 100px;
     float: left;
     padding: 10px;
-    background-color: #E60012;
+    background-color: #e60012;
     .QRcodeImg {
       width: 80px;
       height: 80px;
@@ -603,8 +594,8 @@ export default {
       position: relative;
       margin-bottom: 6px;
     }
-    .logo2{
-        display: block;
+    .logo2 {
+      display: block;
       margin: 0 auto;
       width: 120;
       height: 40px;
@@ -614,7 +605,7 @@ export default {
     .sn {
       text-indent: 0;
       margin-top: 6px;
-      display: inline-block
+      display: inline-block;
     }
     p {
       display: inline-block;

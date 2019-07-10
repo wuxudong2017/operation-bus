@@ -76,7 +76,9 @@ export default {
         name:''
       },
       rules: {
-        name: [{ required: true, message: "不能为空", trigger: "blur" }],
+        name: [
+        { required: true, message: "不能为空", trigger: "blur" },
+        {pattern:/\S/ ,message:'不能包含空字符'}],
       }
     };
   },

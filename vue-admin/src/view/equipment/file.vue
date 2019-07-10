@@ -70,7 +70,7 @@
             placeholder="文档简介"
           ></el-input>
         </el-form-item>
-        <el-form-item label="文档名称" prop="type">
+        <el-form-item label="文档类型" prop="type">
           <el-select v-model="formData.type">
             <el-option
               v-for="(item,index) in typeList"
@@ -80,7 +80,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="上传文件" prop="file" v-if="fileUpload">
+        <el-form-item label="上传文件" prop="url" v-if="fileUpload">
           <el-upload
             :action="service.api+'/api/admin/uploadFile'"
             :file-list="fileList"
@@ -91,7 +91,7 @@
             <div slot="tip" class="el-upload__tip">只能上传word,ppt,pdf文件</div>
           </el-upload>
         </el-form-item>
-        <el-form-item label="文档名称">
+        <el-form-item label="文档状态">
           <el-radio v-model="formData.status" :label="1">使用</el-radio>
           <el-radio v-model="formData.status" :label="0">禁用</el-radio>
         </el-form-item>
@@ -146,7 +146,8 @@ export default {
       },
       rules: {
         name: [{ required: true, message: "不能为空", trigger: "blur" }],
-        type: [{ required: true, message: "不能为空", trigger: "blur" }]
+        type: [{ required: true, message: "不能为空", trigger: "blur" }],
+        url:[{ required: true, message: "不能为空", trigger: "blur" }],
       }
     };
   },
@@ -171,7 +172,6 @@ export default {
     },
     // 上传文件成功
     uploadSuccess(res, file, list) {
-      console.log(res);
       this.formData.url = res.data;
     },
     // 新加数据

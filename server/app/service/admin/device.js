@@ -15,7 +15,7 @@ class DeviceService extends Service {
       },
       raw: true,
       limit: limit,
-      offset: (offset - 1) * 10,
+      offset: (offset - 1) * 20,
       order: [['id', 'DESC']]
     });
     return result

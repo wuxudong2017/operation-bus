@@ -6,9 +6,6 @@ class EquipmentService extends Service {
   async index(limit,offset) {
     let {model} = this.app;
     let result =await model.SysEquipment.findAndCountAll({
-      where:{
-        status:1
-      },
       raw:true,
         limit: limit,
         offset: (offset - 1) * 10,

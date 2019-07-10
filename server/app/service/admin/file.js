@@ -18,7 +18,7 @@ class FileService extends Service {
         let result =await model.SysFile.create(formData)
         return result
     }
-    async destroy() {
+    async destroy(id) {
         const { model } = this.app;
         let result = await model.SysFile.destroy({
             where:{id}

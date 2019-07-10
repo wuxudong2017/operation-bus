@@ -12,7 +12,7 @@
           >新加用户</el-button>
         </el-col>
         <el-col :span="4">
-          <el-select v-model="search.xxJbxxId" size="mini" filterable placeholder="查询学校">
+          <el-select v-model="search.xxJbxxId"  size="mini" filterable placeholder="查询学校">
             <el-option
               v-for="(item,index) in schoolList"
               :key="index"
@@ -22,7 +22,7 @@
           </el-select>
         </el-col>
         <el-col :span="4">
-          <el-input size="mini" placeholder="老师姓名" v-model="search.name"></el-input>
+          <el-input size="mini" placeholder="老师姓名" v-model="search.name" @keyup.enter.native="serach"></el-input>
         </el-col>
         <el-col :span="4">
           <el-button type="primary" @click="serach" size="mini">查询</el-button>
@@ -172,6 +172,7 @@ export default {
     },
     // 根据学校id 查询信息
     serach() {
+      console.log('kkk')
       this.getList({...this.search, limit: 10, offset: 1 });
     },
     // 获取学校信息
