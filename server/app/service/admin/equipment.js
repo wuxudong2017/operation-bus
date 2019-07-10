@@ -9,7 +9,7 @@ class EquipmentService extends Service {
       raw:true,
         limit: limit,
         offset: (offset - 1) * 10,
-        order:[['createTime','DESC']]
+        order:[['status','DESC'],['createTime','DESC']]
     });
     return result
   }

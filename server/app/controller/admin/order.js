@@ -40,7 +40,7 @@ class OrderController extends baseController {
         let workerId = formData.workerId;
         let result = await ctx.service.admin.order.update(id,workerId);
         if(result){
-          await app.redis.get('msg').lpush(workerId,id);
+          // await app.redis.get('msg').lpush(workerId,id);
           ctx.body = '修改';
         }else{
           ctx.body ={

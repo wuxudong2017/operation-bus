@@ -18,7 +18,7 @@
       <el-table-column prop="status" label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.status==1" type="success">正常</el-tag>  
-          <el-tag v-else type="danger">警用</el-tag>  
+          <el-tag v-else type="danger">禁用</el-tag>  
         </template>  
       </el-table-column>
       <el-table-column prop="provider" label="设备提供商"></el-table-column>

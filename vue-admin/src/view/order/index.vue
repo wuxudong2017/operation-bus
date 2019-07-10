@@ -188,9 +188,9 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
-    getS() {
-     this.$socket.emit('vue',{workerId:'101002',orderId:'11111111'})
-    },
+    // getS() {
+    //  this.$socket.emit('vue',{workerId:'101002',orderId:'11111111'})
+    // },
     showCarousel() {
       this.showC = true;
     },
@@ -221,7 +221,7 @@ export default {
               type: res.code == 1 ? "success" : "error",
               message: res.message
             });
-            this.$socket.emit('vue',{workerId:this.formData.workerId,orderId:this.formData.id})
+            if(res.code == 1){  this.$socket.emit('vue',{workerId:this.formData.workerId,orderId:this.formData.id})}
             this.dialogVisible = false;
             this.getList({
               limit: this.limit,
