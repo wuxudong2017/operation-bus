@@ -181,7 +181,7 @@ class WorkerOrderService extends Service {
           [sequelize.col('sysUserInfo.name'), 'name']
         ]
       },
-      order: [['orderStatus', 'ASC']],
+      order: [['createTime', 'ASC']],
       raw: true
     });
     result? result.remark = orderList:null

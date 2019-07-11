@@ -20,7 +20,7 @@ class EquipmentService extends Service {
   // 删除元素
   async delete(id){
     let {model} = this.app;
-    return await model.SysEquipment.update({status:0},{
+    return await model.SysEquipment.destroy({
       where:{
         id
       }
