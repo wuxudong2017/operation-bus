@@ -10,8 +10,9 @@ class DeviceController extends Controller {
     let offset = Number(query.offset);
     let schoolId = query.schoolId
     let timeRange = query.timeRange;
-    let deviceStatus = query.deviceStatus != null ? query.deviceStatus : null
-    let result = await ctx.service.admin.device.index(limit, offset, schoolId, timeRange, deviceStatus)
+    let deviceStatus = query.deviceStatus != null ? query.deviceStatus : null;
+    let equipmentId = query.equipmentId != null ? query.equipmentId : null
+    let result = await ctx.service.admin.device.index(limit, offset, schoolId, timeRange, deviceStatus,equipmentId)
     ctx.body = result
   }
   async create() {

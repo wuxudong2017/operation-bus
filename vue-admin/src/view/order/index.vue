@@ -23,7 +23,7 @@
         @click="dialogVisible = true"
         size="mini"
       >新加工单</el-button>
-      <el-button  type="danger" @click="getS">socket 测试按钮</el-button>
+      <!-- <el-button  type="danger" @click="getS">socket 测试按钮</el-button> -->
     </div>
     <el-table :data="tableData" stripe style="width: 100%;min-height:520px;" v-loading="tabLoading">
       <el-table-column type="index"></el-table-column>

@@ -138,11 +138,11 @@ class WorkerOrderService extends Service {
         model: model.XxJbxx,
         attributes: [],
         raw: true,
-      }, {
+      },{
         model: model.SysSchoolUser,
         attributes: [],
         raw: true,
-      }, {
+      },{
         model: model.Evaluate,
         attributes: [],
         raw: true,

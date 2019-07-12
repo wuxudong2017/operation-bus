@@ -41,7 +41,7 @@
      
       <el-form ref="ruleForm" :model="formData" :rules="rules" label-width="80px">
          <el-form-item label="标签名" prop="name">
-          <el-input type="text"  v-model="formData.name" placeholder="请输入密码"></el-input>
+          <el-input type="text"  v-model="formData.name" placeholder="请输入故障标签"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button v-if="add" type="primary" size="mini" @click="submitForm('ruleForm')">提交</el-button>

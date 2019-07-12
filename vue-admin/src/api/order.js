@@ -272,5 +272,3 @@ export function assessment(data){
         params:data
     })
 }
-
-

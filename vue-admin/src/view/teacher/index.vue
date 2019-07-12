@@ -168,11 +168,11 @@ export default {
     },
     resetSearch() {
       this.search.xxJbxxId = "";
+      this.search.name = "";
       this.getList({ limit: 10, offset: 1 });
     },
     // 根据学校id 查询信息
     serach() {
-      console.log('kkk')
       this.getList({...this.search, limit: 10, offset: 1 });
     },
     // 获取学校信息

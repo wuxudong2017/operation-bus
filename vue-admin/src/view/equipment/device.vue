@@ -13,6 +13,16 @@
               ></el-option>
             </el-select>
           </el-col>
+          <el-col :span="4">
+            <el-select v-model="search.equipmentId" placeholder="设备类型" size="mini">
+              <el-option
+                v-for="(item,index) in equipList"
+                :label="item.type"
+                :value="item.id"
+                :key="index"
+              ></el-option>
+            </el-select>
+          </el-col>
           <el-col :span="8">
             <el-date-picker
               type="daterange"
@@ -26,8 +36,9 @@
               value-format="timestamp"
             ></el-date-picker>
           </el-col>
+
           <el-col :span="4">
-            <el-select v-model="search.deviceStatus" size="mini">
+            <el-select v-model="search.deviceStatus" placeholder="设备状态" size="mini">
               <el-option label="正常" :value="1"></el-option>
               <el-option label="故障" :value="0"></el-option>
             </el-select>
@@ -70,9 +81,7 @@
     >
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="deviceId" label="设备编号"></el-table-column>
-      <el-table-column prop="name" label="设备名称"></el-table-column>
       <el-table-column prop="type" label="设备类型"></el-table-column>
-      <el-table-column prop="brand" label="设备品牌"></el-table-column>
       <el-table-column label="状态" width="80">
         <template slot-scope="scope">
           <i
@@ -83,8 +92,9 @@
           <i v-else class="el-icon-success" style="color:#67C23A;font-size:24px;"></i>
         </template>
       </el-table-column>
-      <el-table-column prop="position" label="设备安装位置"></el-table-column>
-      <el-table-column prop="numG" label="设备故障次数"></el-table-column>
+      <el-table-column prop="position" label="安装位置"></el-table-column>
+      <el-table-column prop="numG" label="故障次数"></el-table-column>
+      <el-table-column prop="createTime" :formatter="formatDateA" label="导入时间"></el-table-column>
       <el-table-column
         fixed="right"
         label="操作"
@@ -227,7 +237,8 @@ import {
   getDevice,
   deleteDevice,
   getAllType,
-  deleteDeviceS
+  deleteDeviceS,
+  getEquipmentAll
 } from "@/api/order";
 import { getSchoolList } from "@/api/userRole";
 export default {
@@ -249,6 +260,7 @@ export default {
       offset: 1,
       service: service,
       imageUrl: "",
+      equipList: [],
       formData: {
         position: "",
         schoolId: ""
@@ -257,7 +269,8 @@ export default {
       search: {
         schoolId: "",
         timeRange: "",
-        deviceStatus: null
+        deviceStatus: null,
+        equipmentId: null
       },
       pickerOptions: {
         shortcuts: [
@@ -304,13 +317,21 @@ export default {
     this.getList({ limit: this.limit, offset: this.offset });
     this.getAllTypeFn();
     this.getSchoolList();
+    this.getEquipmentAll();
   },
   computed: {
     ...mapGetters(["tabLoading"])
   },
   methods: {
+    // 获取所有设备类型
+    getEquipmentAll() {
+      getEquipmentAll().then(res => {
+        this.equipList = res.data ? res.data : [];
+      });
+    },
+    // 打印方法
     printFun() {
-    this.$print(this.$refs['QRbox'])
+      this.$print(this.$refs["QRbox"]);
     },
 
     handleClosedQR() {
@@ -380,6 +401,7 @@ export default {
       this.search.schoolId = "";
       this.search.timeRange = "";
       this.search.deviceStatus = null;
+      this.search.equipmentId = null;
       this.getList({ limit: 10, offset: 1 });
     },
     // 查询函数
@@ -391,7 +413,8 @@ export default {
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
         deviceStatus:
-          this.search.deviceStatus != null ? this.search.deviceStatus : null
+          this.search.deviceStatus != null ? this.search.deviceStatus : null,
+        equipmentId: this.search.equipmentId ? this.search.equipmentId : null
       });
     },
     // 获取学校信息
@@ -539,7 +562,8 @@ export default {
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
         deviceStatus:
-          this.search.deviceStatus != null ? this.search.deviceStatus : null
+          this.search.deviceStatus != null ? this.search.deviceStatus : null,
+        equipmentId: this.search.equipmentId ? this.search.equipmentId : null
       });
     },
     offset(res) {
@@ -549,7 +573,8 @@ export default {
         schoolId: this.search.schoolId ? this.search.schoolId : "",
         timeRange: this.search.timeRange ? this.search.timeRange.join(",") : "",
         deviceStatus:
-          this.search.deviceStatus != null ? this.search.deviceStatus : null
+          this.search.deviceStatus != null ? this.search.deviceStatus : null,
+        equipmentId: this.search.equipmentId ? this.search.equipmentId : null
       });
     }
   }
@@ -557,7 +582,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .QRcode {
   position: relative;
   overflow: hidden;

@@ -3,7 +3,7 @@
 const Service = require('egg').Service;
 
 class DeviceService extends Service {
-  async index(limit, offset, schoolId, timeRange, deviceStatus) {
+  async index(limit, offset, schoolId, timeRange, deviceStatus,equipmentId) {
     const { model } = this.app;
     let result = await model.SysDevice.findAndCountAll({
       where: {
@@ -11,7 +11,7 @@ class DeviceService extends Service {
           createTime: {
             $between: timeRange.split(',')
           }
-        } : null]
+        } : null,equipmentId?{equipmentId}:null]
       },
       raw: true,
       limit: limit,
