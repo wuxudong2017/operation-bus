@@ -140,7 +140,7 @@
       @closed="handleClosed"
       :close-on-click-modal="false"
     >
-      <el-form ref="ruleForm" :rules="rules" :model="formData" label-width="100px">
+      <el-form ref="ruleForm" :rules="rules" :model="formData" label-width="120px">
         <el-form-item label="设备位置" prop="schoolId">
           <el-select v-model="formData.schoolId" filterable placeholder="查询学校">
             <el-option
@@ -155,7 +155,10 @@
           <template v-for="(item,index) in allTypes">
             <el-col :span="8" :key="index" border>
               <el-card class="box-card">
-                <el-form-item :label="item.type" :title="item.type">
+                <el-form-item  :title="item.type">
+                  <div slot="label" style="overflow:hidden;white-space: nowrap;text-overflow: ellipsis;">
+                    {{item.type}}
+                  </div>
                   <el-input-number
                     size="mini"
                     :min="0"
@@ -582,6 +585,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .QRcode {
   position: relative;
   overflow: hidden;
@@ -637,5 +641,9 @@ export default {
       line-height: 14px;
     }
   }
+}
+.el-form-item{
+  color:#000
+ 
 }
 </style>

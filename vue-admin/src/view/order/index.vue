@@ -1,19 +1,39 @@
 <template>
   <div class="data-table">
     <!-- 搜索 -->
-    <el-row class="nav">
+    <el-row class="nav" :gutter="10">
       <el-col :span="6">
         <el-input
-           size="mini" 
+          size="mini"
           type="number"
           clearable
           v-model="formData.keywords"
           placeholder="请输工单号"
-          @keyup.enter.native="search"
+          @keyup.enter.native="searchFun"
         >
-          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+          <el-button slot="append" icon="el-icon-search" @click="searchFun"></el-button>
         </el-input>
       </el-col>
+      <!-- <el-col :span="3">
+        <el-select size="mini" v-model="search.schoolId" filterable placeholder="查询学校">
+          <el-option
+            v-for="(item,index) in schoolList"
+            :key="index"
+            :label="item.xxmc"
+            :value="item.xxJbxxId"
+          ></el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="3">
+        <el-select v-model="search.equipmentId" placeholder="设备类型" size="mini">
+          <el-option
+            v-for="(item,index) in equipList"
+            :label="item.type"
+            :value="item.id"
+            :key="index"
+          ></el-option>
+        </el-select>
+      </el-col> -->
     </el-row>
     <div class="nav">
       <el-button
@@ -101,7 +121,7 @@
         <el-form-item label="故障描述">{{formData.faultDesc}}</el-form-item>
         <el-form-item label="故障图片">
           <template v-for="(item,index) in  picture">
-            <img :src="item" :key="index" alt="No Image" @click="showCarousel">
+            <img :src="item" :key="index" alt="No Image" @click="showCarousel" />
           </template>
         </el-form-item>
         <el-form-item label="接单人员 " prop="workerId">
@@ -122,7 +142,7 @@
       <el-dialog :visible.sync="showC" append-to-body title="查看详情" :close-on-click-modal="false">
         <el-carousel :autoplay="false" :interval="4000" type="card" height="600px">
           <el-carousel-item v-for="(item,index) in pictureS" :key="item">
-            <img width="400" :src="item" :key="index" alt="No Image" @click="showCarousel">
+            <img width="400" :src="item" :key="index" alt="No Image" @click="showCarousel" />
           </el-carousel-item>
         </el-carousel>
       </el-dialog>
@@ -135,14 +155,14 @@ import {
   createOrder, //新加工单
   editOrder,
   getOrder,
-  deleteOrder
+  deleteOrder,
+  getEquipmentAll
 } from "@/api/order";
 import { mapGetters } from "vuex";
-import { getUserListTrue } from "@/api/userRole";
+import { getUserListTrue, getSchoolList } from "@/api/userRole";
 export default {
   name: "v-order",
   created() {
-    console.log(this.$data);
     this.getList({
       limit: this.limit,
       offset: this.offset,
@@ -150,9 +170,11 @@ export default {
     });
     this.getUserList();
     // socket
-     this.$socket.on("connect", function() {
+    this.$socket.on("connect", function() {
       console.log("connected  websocket");
     });
+    // this.getSchoolList();
+    // this.getEquipmentAll();
   },
   data() {
     return {
@@ -168,6 +190,12 @@ export default {
         xxmc: "",
         workerId: "", // 状态
         keywords: ""
+      },
+      schoolList: [],
+      equipList: [],
+      search: {
+        equipmentId: "",
+        schoolId: ""
       },
       picture: [],
       pictureS: [],
@@ -188,14 +216,26 @@ export default {
     ...mapGetters(["tabLoading"])
   },
   methods: {
+    // 获取所有设备类型
+    getEquipmentAll() {
+      getEquipmentAll().then(res => {
+        this.equipList = res.data ? res.data : [];
+      });
+    },
+    // 获取学校信息
+    getSchoolList() {
+      getSchoolList().then(res => {
+        this.schoolList = res.data ? res.data : [];
+      });
+    },
     getS() {
-     this.$socket.emit('vue',{workerId:'101002',orderId:'11111111'})
+      this.$socket.emit("vue", { workerId: "101002", orderId: "11111111" });
     },
     showCarousel() {
       this.showC = true;
     },
     // 搜索功能
-    search() {
+    searchFun() {
       let data = {
         keywords: this.formData.keywords,
         status: this.status,
@@ -221,7 +261,12 @@ export default {
               type: res.code == 1 ? "success" : "error",
               message: res.message
             });
-            if(res.code == 1){  this.$socket.emit('vue',{workerId:this.formData.workerId,orderId:this.formData.id})}
+            if (res.code == 1) {
+              this.$socket.emit("vue", {
+                workerId: this.formData.workerId,
+                orderId: this.formData.id
+              });
+            }
             this.dialogVisible = false;
             this.getList({
               limit: this.limit,

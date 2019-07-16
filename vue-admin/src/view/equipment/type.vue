@@ -92,7 +92,8 @@
             </template>
             <template v-else>
               <img v-if="imageUrl" :src="imageUrl" class="avatar">
-              <img v-else :src="formData.awatar" class="avatar">
+              <img v-else-if="formData.awatar" :src="formData.awatar" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </template>
           </el-upload>
         </el-form-item>
